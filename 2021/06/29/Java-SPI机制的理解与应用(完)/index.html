@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/xiaoyue/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/xiaoyue/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/xiaoyue/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/xiaoyue/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/xiaoyue/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;771592594.github.io&quot;,&quot;root&quot;:&quot;&#x2F;xiaoyue&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;xiaoyue&#x2F;images&quot;,&quot;scheme&quot;:&quot;Mist&quot;,&quot;version&quot;:&quot;8.5.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;width&quot;:300,&quot;display&quot;:&quot;always&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:true,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;}}</script><script src="/xiaoyue/js/config.js"></script>
+<meta name="description" content="前言SPI (Service Provider Interface) 是一种服务发现机制。它会在运行时从 ClassPath 路径下的 META-INF&#x2F;services 目录查找服务配置文件，并根据文件中配置的类名加载类。这一机制实现了组件之间的解耦，为系统的扩展提供了可能，在 JDBC、SLF4J、Dubbo 都有应用。   如何使用 SPI">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java-SPI机制的理解与应用">
+<meta property="og:url" content="https://771592594.github.io/xiaoyue/2021/06/29/Java-SPI%E6%9C%BA%E5%88%B6%E7%9A%84%E7%90%86%E8%A7%A3%E4%B8%8E%E5%BA%94%E7%94%A8(%E5%AE%8C)/index.html">
+<meta property="og:site_name" content="宵月的书房">
+<meta property="og:description" content="前言SPI (Service Provider Interface) 是一种服务发现机制。它会在运行时从 ClassPath 路径下的 META-INF&#x2F;services 目录查找服务配置文件，并根据文件中配置的类名加载类。这一机制实现了组件之间的解耦，为系统的扩展提供了可能，在 JDBC、SLF4J、Dubbo 都有应用。   如何使用 SPI">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210710145729163.png?x-oss-process=/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzc0MjM1NA==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210710151835867.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzc0MjM1NA==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210629220554484.png?x-oss-process=/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzc0MjM1NA==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210629225110591.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210710151835867.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzc0MjM1NA==,size_16,color_FFFFFF,t_70">
+<meta property="article:published_time" content="2021-06-28T23:43:22.000Z">
+<meta property="article:modified_time" content="2021-07-10T14:23:16.767Z">
+<meta property="article:author" content="宵月">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="SPI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20210710145729163.png?x-oss-process=/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzc0MjM1NA==,size_16,color_FFFFFF,t_70">
+
+
+<link rel="canonical" href="https://771592594.github.io/xiaoyue/2021/06/29/Java-SPI%E6%9C%BA%E5%88%B6%E7%9A%84%E7%90%86%E8%A7%A3%E4%B8%8E%E5%BA%94%E7%94%A8(%E5%AE%8C)/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;771592594.github.io&#x2F;xiaoyue&#x2F;2021&#x2F;06&#x2F;29&#x2F;Java-SPI%E6%9C%BA%E5%88%B6%E7%9A%84%E7%90%86%E8%A7%A3%E4%B8%8E%E5%BA%94%E7%94%A8(%E5%AE%8C)&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;06&#x2F;29&#x2F;Java-SPI机制的理解与应用(完)&#x2F;&quot;,&quot;title&quot;:&quot;Java-SPI机制的理解与应用&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>Java-SPI机制的理解与应用 | 宵月的书房</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/xiaoyue/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/xiaoyue/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">宵月的书房</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">keep folish, keep hungry</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/xiaoyue/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/xiaoyue/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/xiaoyue/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/xiaoyue/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/xiaoyue/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8-SPI"><span class="nav-number">2.</span> <span class="nav-text">如何使用 SPI</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JDBC"><span class="nav-number">3.</span> <span class="nav-text">JDBC</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Why-Class-forName"><span class="nav-number">3.1.</span> <span class="nav-text">Why Class.forName?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Use-SPI-instead-of-Class-forName"><span class="nav-number">3.2.</span> <span class="nav-text">Use SPI instead of Class.forName</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="nav-number">4.</span> <span class="nav-text">源码解析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="宵月"
+      src="/xiaoyue/images/avatar.png">
+  <p class="site-author-name" itemprop="name">宵月</p>
+  <div class="site-description" itemprop="description">分享技术与生活</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/xiaoyue/archives/">
+        
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/xiaoyue/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/xiaoyue/tags/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://github.com/771592594" title="https:&#x2F;&#x2F;github.com&#x2F;771592594" rel="noopener" target="_blank">GitHub</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=419485668&auto=1&height=66"></iframe>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://771592594.github.io/xiaoyue/2021/06/29/Java-SPI%E6%9C%BA%E5%88%B6%E7%9A%84%E7%90%86%E8%A7%A3%E4%B8%8E%E5%BA%94%E7%94%A8(%E5%AE%8C)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/xiaoyue/images/avatar.png">
+      <meta itemprop="name" content="宵月">
+      <meta itemprop="description" content="分享技术与生活">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵月的书房">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java-SPI机制的理解与应用
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-06-29 07:43:22" itemprop="dateCreated datePublished" datetime="2021-06-29T07:43:22+08:00">2021-06-29</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-07-10 22:23:16" itemprop="dateModified" datetime="2021-07-10T22:23:16+08:00">2021-07-10</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/xiaoyue/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" itemprop="url" rel="index"><span itemprop="name">技术分享</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>SPI (Service Provider Interface) 是一种服务发现机制。它会在运行时从 ClassPath 路径下的 <code>META-INF/services</code> 目录查找服务配置文件，并根据文件中配置的类名加载类。这一机制实现了组件之间的解耦，为系统的扩展提供了可能，在 JDBC、SLF4J、Dubbo 都有应用。</p>
+<span id="more"></span>
+
+<h1 id="如何使用-SPI"><a href="#如何使用-SPI" class="headerlink" title="如何使用 SPI"></a>如何使用 SPI</h1><p>我们先写一个简单的demo，展示SPI的使用方法。这个过程总共需要四步：</p>
+<p>第一步，定义服务接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.xiaoyue.service;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MyService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">doSomething</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>第二步，创建服务接口的实现类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.xiaoyue.service.impl;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyServiceImpl1</span> <span class="keyword">implements</span> <span class="title">MyService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomething</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Apple&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.xiaoyue.service.impl;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyServiceImpl2</span> <span class="keyword">implements</span> <span class="title">MyService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomething</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Pear&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>第三步，在 resource 下创建 <code>META-INFO/Service</code> 目录，在目录中创建 <strong>与服务接口全限定类名同名的文件</strong>，然后在文件中配置要加载的实现类的名称。</p>
+<p><img src="https://img-blog.csdnimg.cn/20210710145729163.png?x-oss-process=/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzc0MjM1NA==,size_16,color_FFFFFF,t_70"></p>
+<p>第四步，通过 <code>ServiceLoader.load(Class&lt;S&gt; service) </code> 方法加载该服务的配置，然后通过它内部的迭代器来动态地加载实现类并创建服务对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    ServiceLoader&lt;MyService&gt; serviceLoader = ServiceLoader.load(MyService.class);</span><br><span class="line">    Iterator&lt;MyService&gt; iterator = serviceLoader.iterator();</span><br><span class="line">    <span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 加载类并创建接口对象</span></span><br><span class="line">            MyService service = iterator.next();</span><br><span class="line">            service.doSomething();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception ignore) &#123; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在第三步中，我向文件中配置的是 MyServiceImpl1 ，所以最终输出效果：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Apple</span><br></pre></td></tr></table></figure>
+
+<p>如果我将文件中配置改为 MyServiceImpl2 ，那么最终输出效果为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Pear</span><br></pre></td></tr></table></figure>
+
+<p><strong>上面的例子只是简单的演示，实际开发中实现类和配置文件都是通过 jar 包引入，详情参考下文 JDBC 中 SPI 的使用。</strong></p>
+<h1 id="JDBC"><a href="#JDBC" class="headerlink" title="JDBC"></a>JDBC</h1><p>Java 为了适配不同的数据库提供了 <code>java.sql.Driver</code> 接口，该接口定义了数据库驱动的基本方法，具体的逻辑由各大数据库厂商自己实现。下面是几大常用的数据库及其提供的驱动类：</p>
+<table>
+<thead>
+<tr>
+<th>数据库类型</th>
+<th>驱动类</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Mysql</td>
+<td>com.mysql.cj.jdbc.Driver</td>
+</tr>
+<tr>
+<td>Oracle</td>
+<td>oracle.jdbc.driver.OracleDriver</td>
+</tr>
+<tr>
+<td>Postgre</td>
+<td>org.postgresql.Driver</td>
+</tr>
+</tbody></table>
+<h2 id="Why-Class-forName"><a href="#Why-Class-forName" class="headerlink" title="Why Class.forName?"></a>Why Class.forName?</h2><p>早期的 JDBC 在使用时，需要通过 <code>Class::forName</code> 方法加载数据库驱动类，然后才能通过 <code>DriverManager::getConnection </code> 来获取连接。如果我们要连接 Mysql 数据，代码应该这么写：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    Class.forName(<span class="string">&quot;com.mysql.cj.jdbc.Driver&quot;</span>);</span><br><span class="line">    Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>很多人可能没有想过，这段代码中通过 <code>Class::forName</code> 引入数据库驱动的作用是什么呢？为什么这样就可以连接数据库了呢？</p>
+<p>首先，数据库连接是 <code>DriverManager::getConnection</code> 方法获取的，这个方法会遍历已注册的驱动来尝试获取连接，关键代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> Connection <span class="title">getConnection</span><span class="params">(String url, Properties info, Class&lt;?&gt; caller)</span>  </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(DriverInfo aDriver : registeredDrivers) &#123;</span><br><span class="line">        Connection con = aDriver.driver.connect(url, info);</span><br><span class="line">        <span class="keyword">if</span> (con != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> (con);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>那么驱动是在哪里注册的呢？我们接着往下看。</p>
+<p>在这个案例中我通过  <code>Class.forName()</code> 方法加载类 Mysql 的驱动类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class.forName(<span class="string">&quot;com.mysql.cj.jdbc.Driver&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>在 Mysql 的驱动类中有一个静态代码块，当类被加载时会自动执行静态代码块。这里调用 <code>java.sql.DriverManager</code> 的 <code>registerDriver()</code> 方法。</p>
+<p><img src="https://img-blog.csdnimg.cn/20210710151835867.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzc0MjM1NA==,size_16,color_FFFFFF,t_70"></p>
+<p>这个方法会向 <code>CopyOnWriteArrayList</code> 类型的  <code>registeredDrivers</code> 对象添加驱动的信息（也就是注册驱动）</p>
+<p><img src="https://img-blog.csdnimg.cn/20210629220554484.png?x-oss-process=/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzc0MjM1NA==,size_16,color_FFFFFF,t_70"></p>
+<p>到这里，我们就可以将获取数据库连接的整个流程串联起来：</p>
+<ol>
+<li>我们调用 <code>Class.forName()</code> 加载 <code>com.mysql.cj.jdbc.Driver</code></li>
+<li>驱动类被加载时，执行静态代码块，调用 <code>DriverManager</code> 的 <code>registerDriver()</code> 方法注册驱动类</li>
+<li>我们调用 <code>DriverManager.getConnect()</code> 方法，遍历已经注册的驱动，获取连接</li>
+</ol>
+<p>在早期的 JDBC 中，<code>Class.forName(&quot;xxx&quot;)</code> 这一步是必不可少的。但这里的参数是硬编码的，如果我要将 Mysql 改为 Oracle，就需要修改这里的参数，可见这种加载方式非常的不灵活。</p>
+<h2 id="Use-SPI-instead-of-Class-forName"><a href="#Use-SPI-instead-of-Class-forName" class="headerlink" title="Use SPI instead of Class.forName"></a>Use SPI instead of Class.forName</h2><p>根据上面的分析，我们知道 mysql 驱动类需要被加载，才会执行它的静态代码块向 <code>DriverManager </code> 注册驱动。那么 JDBC 是如何通过 SPI 机制来加载数据库驱动呢？这里我们仍然以 <code>mysql</code> 为例进行讲解：</p>
+<hr>
+<p>在 java 要想连接 mysql，需要引入 <code>mysql-connector-java</code> 的jar包。在这个jar包的 <code>META-INFO/services</code> 目录下有一个名为 <code>java.sql.Driver</code> 的文件，在这个文件中配置了 <code>com.mysql.cj.jdbc.Driver</code> 。</p>
+<p><img src="https://img-blog.csdnimg.cn/20210629225110591.png"></p>
+<p> <code>com.mysql.cj.jdbc.Driver</code> 实现了  <code>java.sql.Driver</code> 接口。这样就满足了 SPI 机制的使用条件，但是 SPI 机制具体是在哪里使用的呢？</p>
+<p><img src="https://img-blog.csdnimg.cn/20210710151835867.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzc0MjM1NA==,size_16,color_FFFFFF,t_70"></p>
+<p>自从 JDBC 使用 SPI 机制加载数据库驱动之后，我们在获取数据库连接前再也不需要手动调用 <code>Class.forName()</code> 了，原先的代码简化为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样看来 SPI 机制应该在 <code>DriverManager</code> 类中被调用。事实确实如此，在这个类中有一个静态代码块，调用了 <code>loadInitialDrivers()</code> 方法，在这个方法中使用了 SPI 机制来加载数据库驱动，关键代码如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DriverManager</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        loadInitialDrivers();</span><br><span class="line">        println(<span class="string">&quot;JDBC DriverManager initialized&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">loadInitialDrivers</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        AccessController.doPrivileged(<span class="keyword">new</span> PrivilegedAction&lt;Void&gt;() &#123;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> Void <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="comment">// 使用SPI机制</span></span><br><span class="line">                ServiceLoader&lt;Driver&gt; loadedDrivers = ServiceLoader.load(Driver.class);</span><br><span class="line">                Iterator&lt;Driver&gt; driversIterator = loadedDrivers.iterator();</span><br><span class="line">                <span class="keyword">while</span>(driversIterator.hasNext()) &#123;</span><br><span class="line">					driversIterator.next();</span><br><span class="line">				&#125;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="源码解析"><a href="#源码解析" class="headerlink" title="源码解析"></a>源码解析</h1><p>首先，<code>ServiceLoader</code> 定义了 <code>PREFIX</code> 常量，指定 SPI 是从 <code>META-INF/services/</code> 目录中读取配置。我们调用 <code>load()</code> 方法，经过一步步调用最终会进入 <code>reload()</code> 方法，在这个方法中会创建懒迭代器 <code>lookupIterator</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">ServiceLoader</span>&lt;<span class="title">S</span>&gt; <span class="keyword">implements</span> <span class="title">Iterable</span>&lt;<span class="title">S</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String PREFIX = <span class="string">&quot;META-INF/services/&quot;</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> LazyIterator lookupIterator;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;S&gt; <span class="function">ServiceLoader&lt;S&gt; <span class="title">load</span><span class="params">(Class&lt;S&gt; service)</span> </span>&#123;</span><br><span class="line">        ClassLoader cl = Thread.currentThread().getContextClassLoader();</span><br><span class="line">        <span class="keyword">return</span> ServiceLoader.load(service, cl);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;S&gt; <span class="function">ServiceLoader&lt;S&gt; <span class="title">load</span><span class="params">(Class&lt;S&gt; service, ClassLoader loader)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ServiceLoader&lt;&gt;(service, loader);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">ServiceLoader</span><span class="params">(Class&lt;S&gt; svc, ClassLoader cl)</span> </span>&#123;</span><br><span class="line">        service = Objects.requireNonNull(svc, <span class="string">&quot;Service interface cannot be null&quot;</span>);</span><br><span class="line">        loader = (cl == <span class="keyword">null</span>) ? ClassLoader.getSystemClassLoader() : cl;</span><br><span class="line">        acc = (System.getSecurityManager() != <span class="keyword">null</span>) ? AccessController.getContext() : <span class="keyword">null</span>;</span><br><span class="line">        reload();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">reload</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        providers.clear();</span><br><span class="line">        lookupIterator = <span class="keyword">new</span> LazyIterator(service, loader);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在第二节 如何使用 SPI 中，我是通过遍历迭代器来加载类并创建对象。在遍历的过程中，迭代器究竟做了什么呢？让我们接着向下看：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Iterator&lt;MyService&gt; iterator = serviceLoader.iterator();</span><br><span class="line"><span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 加载类并创建接口对象</span></span><br><span class="line">        MyService service = iterator.next();</span><br><span class="line">        service.doSomething();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception ignore) &#123; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>懒迭代器 <code>LazyIterator</code> 是 <code>ServiceLoader</code> 的一个内部类，我们通过迭代器提供的 <code>hasNext()</code> 和 <code>next()</code>  接口对元素进行遍历，它们底层又分别调用了 <code>hasNextService()</code> 和 <code>nextService()</code> 方法。</p>
+<p><code>hasNextService()</code> 方法会根据服务（接口）的全限定类名从 <code>META-INFO/Service</code> 目录中加载配置，然后转化为一个枚举对象 <code>configs</code>，并读取下一条配置（每条配置都是服务的实现类名）。</p>
+<p><code>nextService()</code> 方法会调用 <code>Class.forName()</code> 加载当前遍历到的服务并将其实例化后返回。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">LazyIterator</span> <span class="keyword">implements</span> <span class="title">Iterator</span>&lt;<span class="title">S</span>&gt; </span>&#123;</span><br><span class="line">    Class&lt;S&gt; service;</span><br><span class="line">    ClassLoader loader;</span><br><span class="line">    Enumeration&lt;URL&gt; configs = <span class="keyword">null</span>;</span><br><span class="line">    Iterator&lt;String&gt; pending = <span class="keyword">null</span>;</span><br><span class="line">    String nextName = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">hasNextService</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (nextName != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (configs == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="comment">// 加载配置</span></span><br><span class="line">			String fullName = PREFIX + service.getName();</span><br><span class="line">			<span class="keyword">if</span> (loader == <span class="keyword">null</span>)</span><br><span class="line">				configs = ClassLoader.getSystemResources(fullName);</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">				configs = loader.getResources(fullName);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> ((pending == <span class="keyword">null</span>) || !pending.hasNext()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!configs.hasMoreElements()) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            pending = parse(service, configs.nextElement());</span><br><span class="line">        &#125;</span><br><span class="line">        nextName = pending.next();</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> S <span class="title">nextService</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!hasNextService())</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> NoSuchElementException();</span><br><span class="line">        String cn = nextName;</span><br><span class="line">        nextName = <span class="keyword">null</span>;</span><br><span class="line">        Class&lt;?&gt; c = <span class="keyword">null</span>;</span><br><span class="line">        ......</span><br><span class="line">		c = Class.forName(cn, <span class="keyword">false</span>, loader);</span><br><span class="line">		S p = service.cast(c.newInstance());</span><br><span class="line">		providers.put(cn, p);</span><br><span class="line">		<span class="keyword">return</span> p;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>SPI 机制使用需要以下条件：</p>
+<ol>
+<li>项目中存在服务接口</li>
+<li>通过 jar 包的方式，引入接口的实现类和配置文件</li>
+<li>配置文件存放在 ClassPath 的 <code>META-INFO/Service</code> 目录下，并且文件名与服务接口的全限定类名相同</li>
+<li>在配置文件中添加需要加载的实现类的全限定类名</li>
+<li>在代码中的某处调用了 <code>ServiceLoader.load()</code> 动态地加载类</li>
+</ol>
+<p><strong>SPI 机制本质是通过面向接口编程的方式实现组件之间的解耦，我们可以根据自己的需要引入不同的接口实现，而不需要修改原有的代码，这样就提高项目的可扩展性。</strong></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>如果觉得有所帮助，不妨请作者喝杯奶茶</div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/xiaoyue/images/wechatpay.png" alt="宵月 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/xiaoyue/images/alipay.png" alt="宵月 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/xiaoyue/tags/Java/" rel="tag"><i class="fa fa-tag"></i> Java</a>
+              <a href="/xiaoyue/tags/SPI/" rel="tag"><i class="fa fa-tag"></i> SPI</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/xiaoyue/2021/06/20/%E6%B5%85%E8%B0%88%E7%AE%97%E6%B3%95%E7%9A%84%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E4%B8%8E%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6(%E5%AE%8C)/" rel="prev" title="浅谈算法的时间复杂度与空间复杂度">
+                  <i class="fa fa-chevron-left"></i> 浅谈算法的时间复杂度与空间复杂度
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/xiaoyue/2021/07/01/%E9%80%92%E5%BD%92%E7%AE%97%E6%B3%95%E7%9A%84%E4%BC%98%E5%8C%96(%E5%AE%8C)/" rel="next" title="递归算法的优化">
+                  递归算法的优化 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">宵月</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script size="150" alpha="0.3" zIndex="-2" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/xiaoyue/js/comments.js"></script><script src="/xiaoyue/js/utils.js"></script><script src="/xiaoyue/js/motion.js"></script><script src="/xiaoyue/js/schemes/muse.js"></script><script src="/xiaoyue/js/next-boot.js"></script>
+
+  
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

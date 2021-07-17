@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/xiaoyue/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/xiaoyue/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/xiaoyue/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/xiaoyue/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/xiaoyue/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;771592594.github.io&quot;,&quot;root&quot;:&quot;&#x2F;xiaoyue&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;xiaoyue&#x2F;images&quot;,&quot;scheme&quot;:&quot;Mist&quot;,&quot;version&quot;:&quot;8.5.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;width&quot;:300,&quot;display&quot;:&quot;always&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:true,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;}}</script><script src="/xiaoyue/js/config.js"></script>
+<meta name="description" content="前言所谓递归，就是函数中存在着调用函数本身的情况。它有点像《盗梦空间》电影里梦境的设计：主角为了获取他人的秘密，从现实入眠中进入了他人的梦境，如果在该层梦境无法达到目的，则在该层入眠进入更深一层的梦境，反复执行这个操作，直到主角在某一层梦境中达成了自己的目的或者该层梦境崩坏了，才会停止深入返回到上一层。   如何学习递归">
+<meta property="og:type" content="article">
+<meta property="og:title" content="递归算法的编写">
+<meta property="og:url" content="https://771592594.github.io/xiaoyue/2021/07/01/%E9%80%92%E5%BD%92%E7%AE%97%E6%B3%95%E7%9A%84%E7%BC%96%E5%86%99/index.html">
+<meta property="og:site_name" content="宵月的书房">
+<meta property="og:description" content="前言所谓递归，就是函数中存在着调用函数本身的情况。它有点像《盗梦空间》电影里梦境的设计：主角为了获取他人的秘密，从现实入眠中进入了他人的梦境，如果在该层梦境无法达到目的，则在该层入眠进入更深一层的梦境，反复执行这个操作，直到主角在某一层梦境中达成了自己的目的或者该层梦境崩坏了，才会停止深入返回到上一层。   如何学习递归">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-07-01T14:27:25.000Z">
+<meta property="article:modified_time" content="2021-07-11T09:55:42.782Z">
+<meta property="article:author" content="宵月">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="递归">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://771592594.github.io/xiaoyue/2021/07/01/%E9%80%92%E5%BD%92%E7%AE%97%E6%B3%95%E7%9A%84%E7%BC%96%E5%86%99/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;771592594.github.io&#x2F;xiaoyue&#x2F;2021&#x2F;07&#x2F;01&#x2F;%E9%80%92%E5%BD%92%E7%AE%97%E6%B3%95%E7%9A%84%E7%BC%96%E5%86%99&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;07&#x2F;01&#x2F;递归算法的编写&#x2F;&quot;,&quot;title&quot;:&quot;递归算法的编写&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>递归算法的编写 | 宵月的书房</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/xiaoyue/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/xiaoyue/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">宵月的书房</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">keep folish, keep hungry</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/xiaoyue/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/xiaoyue/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/xiaoyue/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/xiaoyue/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/xiaoyue/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%AD%A6%E4%B9%A0%E9%80%92%E5%BD%92"><span class="nav-number">2.</span> <span class="nav-text">如何学习递归</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B%E8%AE%B2%E8%A7%A3"><span class="nav-number">3.</span> <span class="nav-text">案例讲解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%BA%E5%BA%8F%E6%89%93%E5%8D%B0%E6%95%B0%E7%BB%84%E5%85%83%E7%B4%A0"><span class="nav-number">3.1.</span> <span class="nav-text">顺序打印数组元素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%A8%E6%8E%92%E5%88%97"><span class="nav-number">3.2.</span> <span class="nav-text">全排列</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="宵月"
+      src="/xiaoyue/images/avatar.png">
+  <p class="site-author-name" itemprop="name">宵月</p>
+  <div class="site-description" itemprop="description">分享技术与生活</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/xiaoyue/archives/">
+        
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/xiaoyue/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/xiaoyue/tags/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://github.com/771592594" title="https:&#x2F;&#x2F;github.com&#x2F;771592594" rel="noopener" target="_blank">GitHub</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=419485668&auto=1&height=66"></iframe>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://771592594.github.io/xiaoyue/2021/07/01/%E9%80%92%E5%BD%92%E7%AE%97%E6%B3%95%E7%9A%84%E7%BC%96%E5%86%99/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/xiaoyue/images/avatar.png">
+      <meta itemprop="name" content="宵月">
+      <meta itemprop="description" content="分享技术与生活">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵月的书房">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          递归算法的编写
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-07-01 22:27:25" itemprop="dateCreated datePublished" datetime="2021-07-01T22:27:25+08:00">2021-07-01</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-07-11 17:55:42" itemprop="dateModified" datetime="2021-07-11T17:55:42+08:00">2021-07-11</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/xiaoyue/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" itemprop="url" rel="index"><span itemprop="name">技术分享</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>所谓递归，就是函数中存在着调用函数本身的情况。它有点像《盗梦空间》电影里梦境的设计：主角为了获取他人的秘密，从现实入眠中进入了他人的梦境，如果在该层梦境无法达到目的，则在该层入眠进入更深一层的梦境，反复执行这个操作，直到主角在某一层梦境中达成了自己的目的或者该层梦境崩坏了，才会停止深入返回到上一层。</p>
+<span id="more"></span>
+
+<h1 id="如何学习递归"><a href="#如何学习递归" class="headerlink" title="如何学习递归"></a>如何学习递归</h1><p>我刚学算法时，写递归全靠想象，写的代码运行不了就人脑 debug，最后因为大脑栈溢出而放弃，最后不得不想办法以迭代的方式来解决。</p>
+<p>后来随着刷题量的增加，我发现: <strong>比起迭代，递归更加符合人类的思维方式。只要掌握正确的方法论，就能写出正确的递归代码。</strong></p>
+<p>写递归算法时一定要确定以下五大要素：</p>
+<ol>
+<li>递归的输入和输出</li>
+<li>递归终止条件</li>
+<li>每层递归的处理逻辑</li>
+<li>下探到下一层的逻辑</li>
+<li>恢复变更（一般用于回溯法）</li>
+</ol>
+<p>这是一个通用的递归模板</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">recursion</span>(<span class="params">level, param1, param2, ...</span>):</span></span><br><span class="line">    <span class="comment"># 递归终止条件</span></span><br><span class="line">    <span class="keyword">if</span> level = MAX_LEVEL:</span><br><span class="line">        process_result()</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    <span class="comment"># 当前层的处理逻辑</span></span><br><span class="line">    process()</span><br><span class="line">    <span class="comment"># 下探到下一层的逻辑</span></span><br><span class="line">    recursion(level + <span class="number">1</span>, param1, param2, ...)</span><br><span class="line">    <span class="comment"># 恢复变更（回溯算法需要）</span></span><br><span class="line">    .....</span><br></pre></td></tr></table></figure>
+
+<h1 id="案例讲解"><a href="#案例讲解" class="headerlink" title="案例讲解"></a>案例讲解</h1><h2 id="顺序打印数组元素"><a href="#顺序打印数组元素" class="headerlink" title="顺序打印数组元素"></a>顺序打印数组元素</h2><p>先看一个简单的案例：顺序打印数组元素。我们根据上面要素逐条进行分析：</p>
+<p>一、递归的输入和输出</p>
+<p>我们要顺序打印数组的元素，需要输入数组，以及当前打印的索引位置。这个结果通过控制台输出，是没有返回的。因此我们定义出这样的一个递归函数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rec</span>(<span class="params">i: <span class="built_in">int</span>, arr: <span class="built_in">list</span></span>) -&gt; <span class="literal">None</span>:</span></span><br><span class="line">    <span class="comment"># pass</span></span><br></pre></td></tr></table></figure>
+
+<p>二、递归终止条件</p>
+<p>顺序输出要求我们从索引0开始遍历到数组的最后一个元素，若当前遍历的索引大于数组的最大索引时结束遍历。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">res</span>(<span class="params">i: <span class="built_in">int</span>, arr: <span class="built_in">list</span></span>) -&gt; <span class="literal">None</span>:</span></span><br><span class="line">	<span class="keyword">if</span> i &gt; <span class="built_in">len</span>(arr) - <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    <span class="comment"># pass</span></span><br></pre></td></tr></table></figure>
+
+<p>三、每层递归的处理逻辑</p>
+<p>这个函数中要求我们打印数组的元素，所以处理逻辑为打印元素</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">res</span>(<span class="params">i: <span class="built_in">int</span>, arr: <span class="built_in">list</span></span>) -&gt; <span class="literal">None</span>:</span></span><br><span class="line">	<span class="keyword">if</span> i &gt; <span class="built_in">len</span>(arr) - <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    <span class="built_in">print</span>(arr[i])</span><br><span class="line">    <span class="comment"># pass</span></span><br></pre></td></tr></table></figure>
+
+<p>四、下探到下一层的逻辑</p>
+<p>当我们打印完当前元素后，需要移动到下一个元素进行同样的打印操作。所以在本层逻辑处理完成后，递归调用该方法，进入一个位置</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">res</span>(<span class="params">i: <span class="built_in">int</span>, arr: <span class="built_in">list</span></span>) -&gt; <span class="literal">None</span>:</span></span><br><span class="line">	<span class="keyword">if</span> i &gt; <span class="built_in">len</span>(arr) - <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    <span class="built_in">print</span>(arr[i])</span><br><span class="line">    res(i + <span class="number">1</span>, arr)</span><br></pre></td></tr></table></figure>
+
+<p>五、恢复变更</p>
+<p>由于没有使用回溯算法所以不需要恢复变更</p>
+<h2 id="全排列"><a href="#全排列" class="headerlink" title="全排列"></a>全排列</h2><p>题目来源： <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/permutations/">LeetCode 46. 全排列</a></p>
+<p>题目描述：给定一个不含重复数字的数组 <code>nums</code> ，返回其 <strong>所有可能的全排列</strong> 。你可以 <strong>按任意顺序</strong> 返回答案。</p>
+<p>题目模板：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">permute</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]:</span></span><br><span class="line">        <span class="comment"># pass</span></span><br></pre></td></tr></table></figure>
+
+<p>解题思路：这道题可以想象为将N个不同的小球放入N个不同的篮子中。假设N为5，当我们准备放入第一个篮子时，手里有五个小球，任意地放一个；然后往前走到了第二个篮子，我们手里有四个小球，也任意放一个；重复此操作，直到所有的小球都放入篮子中，这样就得到了一种组合。然后，我们从最后一个篮子往前开始回收小球，回收过程中，如果手中的有没有放入过当前的篮子的小球，则将其放入；然后继续向后面的篮子放，直到手中小球全部放完，这样就得到了新的组合。</p>
+<p>下面我们根据之前讲的递归思路来一步一步地完成这个算法：</p>
+<p>一、递归的输入和输出</p>
+<p>我使用 rest_nums 变量表示当前手中没有放入的小球；combination 表示已经放入的小球列表；ret 表示全排列的结果集</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">permute</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]:</span></span><br><span class="line">        <span class="comment"># pass</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">res</span>(<span class="params">self, rest_nums: <span class="type">List</span>[<span class="built_in">int</span>], combination: <span class="type">List</span>[<span class="built_in">int</span>], ret: <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :param rest_nums:       未放入的元素</span></span><br><span class="line"><span class="string">        :param combination:     已放入的元素列表</span></span><br><span class="line"><span class="string">        :param ret:             结果集</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>二、递归终止条件</p>
+<p>当手中的小球全部放完时，我们就可以记录一种排列结果，然后结束本次方法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">permute</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]:</span></span><br><span class="line">        <span class="comment"># pass</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">res</span>(<span class="params">self, rest_nums: <span class="type">List</span>[<span class="built_in">int</span>], combination: <span class="type">List</span>[<span class="built_in">int</span>], ret: <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :param rest_nums:       未放入的元素</span></span><br><span class="line"><span class="string">        :param combination:     已放入的元素列表</span></span><br><span class="line"><span class="string">        :param ret:             结果集</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(rest_nums) == <span class="number">0</span>:</span><br><span class="line">            ret.append(<span class="built_in">list</span>(combination))</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">        <span class="comment"># to be continued</span></span><br></pre></td></tr></table></figure>
+
+<p>三、每层递归的处理逻辑</p>
+<p>在每一层的递归中，我们手中都有若干小球，每次都要选择其中一个放入；放完所有的小球后，向前回收时，还要回到这里，换另一个没放入的小球，这样就可以获取不同的排列。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">permute</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]:</span></span><br><span class="line">        <span class="comment"># pass</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">res</span>(<span class="params">self, rest_nums: <span class="type">List</span>[<span class="built_in">int</span>], combination: <span class="type">List</span>[<span class="built_in">int</span>], ret: <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :param rest_nums:       未放入的元素</span></span><br><span class="line"><span class="string">        :param combination:     已放入的元素列表</span></span><br><span class="line"><span class="string">        :param ret:             结果集</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(rest_nums) == <span class="number">0</span>:</span><br><span class="line">            ret.append(<span class="built_in">list</span>(combination))</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">        <span class="keyword">for</span> num <span class="keyword">in</span> rest_nums:</span><br><span class="line">            combination.append(num)</span><br><span class="line">            rest = <span class="built_in">list</span>(rest_nums)</span><br><span class="line">            rest.remove(num)</span><br><span class="line">            <span class="comment"># to be continued</span></span><br></pre></td></tr></table></figure>
+
+<p>四、下探到下一层的逻辑</p>
+<p>重复调用该方法进入下一层.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">permute</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]:</span></span><br><span class="line">        <span class="comment"># pass</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">res</span>(<span class="params">self, rest_nums: <span class="type">List</span>[<span class="built_in">int</span>], combination: <span class="type">List</span>[<span class="built_in">int</span>], ret: <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :param rest_nums:       未放入的元素</span></span><br><span class="line"><span class="string">        :param combination:     已放入的元素列表</span></span><br><span class="line"><span class="string">        :param ret:             结果集</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(rest_nums) == <span class="number">0</span>:</span><br><span class="line">            ret.append(<span class="built_in">list</span>(combination))</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">        <span class="keyword">for</span> num <span class="keyword">in</span> rest_nums:</span><br><span class="line">            combination.append(num)</span><br><span class="line">            rest = <span class="built_in">list</span>(rest_nums)</span><br><span class="line">            rest.remove(num)</span><br><span class="line">            self.res(rest, combination, ret)</span><br><span class="line">            <span class="comment"># to be continued</span></span><br></pre></td></tr></table></figure>
+
+<p>五、恢复变更</p>
+<p>在当前篮子放某小球的所有可能性都尝试后，我们要回收该小球，然后回到上一个篮子去找新的排列。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">permute</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]:</span></span><br><span class="line">        ret = []</span><br><span class="line">        self.res(nums, [], ret)</span><br><span class="line">        <span class="keyword">return</span> ret</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">rec</span>(<span class="params">self, rest_nums: <span class="type">List</span>[<span class="built_in">int</span>], combination: <span class="type">List</span>[<span class="built_in">int</span>], ret: <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :param rest_nums:       未放入的元素</span></span><br><span class="line"><span class="string">        :param combination:     已放入的元素列表</span></span><br><span class="line"><span class="string">        :param ret:             结果集</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(rest_nums) == <span class="number">0</span>:</span><br><span class="line">            ret.append(<span class="built_in">list</span>(combination))</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">        <span class="keyword">for</span> num <span class="keyword">in</span> rest_nums:</span><br><span class="line">            combination.append(num)</span><br><span class="line">            rest = <span class="built_in">list</span>(rest_nums)</span><br><span class="line">            rest.remove(num)</span><br><span class="line">            self.res(rest, combination, ret)</span><br><span class="line">            combination.remove(num)</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>如果觉得有所帮助，不妨请作者喝杯奶茶</div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/xiaoyue/images/wechatpay.png" alt="宵月 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/xiaoyue/images/alipay.png" alt="宵月 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/xiaoyue/tags/%E7%AE%97%E6%B3%95/" rel="tag"><i class="fa fa-tag"></i> 算法</a>
+              <a href="/xiaoyue/tags/Python/" rel="tag"><i class="fa fa-tag"></i> Python</a>
+              <a href="/xiaoyue/tags/%E9%80%92%E5%BD%92/" rel="tag"><i class="fa fa-tag"></i> 递归</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/xiaoyue/2021/07/01/%E9%80%92%E5%BD%92%E7%AE%97%E6%B3%95%E7%9A%84%E4%BC%98%E5%8C%96(%E5%AE%8C)/" rel="prev" title="递归算法的优化">
+                  <i class="fa fa-chevron-left"></i> 递归算法的优化
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/xiaoyue/2021/07/01/%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F%E7%9A%84%E7%90%86%E8%A7%A3%E4%B8%8E%E5%BA%94%E7%94%A8/" rel="next" title="装饰器模式的理解与应用">
+                  装饰器模式的理解与应用 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">宵月</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script size="150" alpha="0.3" zIndex="-2" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/xiaoyue/js/comments.js"></script><script src="/xiaoyue/js/utils.js"></script><script src="/xiaoyue/js/motion.js"></script><script src="/xiaoyue/js/schemes/muse.js"></script><script src="/xiaoyue/js/next-boot.js"></script>
+
+  
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

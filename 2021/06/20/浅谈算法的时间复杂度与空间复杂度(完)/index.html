@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/xiaoyue/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/xiaoyue/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/xiaoyue/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/xiaoyue/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/xiaoyue/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;771592594.github.io&quot;,&quot;root&quot;:&quot;&#x2F;xiaoyue&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;xiaoyue&#x2F;images&quot;,&quot;scheme&quot;:&quot;Mist&quot;,&quot;version&quot;:&quot;8.5.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;width&quot;:300,&quot;display&quot;:&quot;always&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:true,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;}}</script><script src="/xiaoyue/js/config.js"></script>
+<meta name="description" content="前言在大学的教课书告诉我们，一个算法的优劣是通过它的复杂度来评判的。算法复杂度分为时间复杂度和空间复杂度：时间复杂度是指执行算法所需要的计算工作量；而空间复杂度是指执行这个算法所需要的内存空间。 复杂度一般使用大O表示法来表述，括号中一般使用 n 来表示数据规模。如果输入的数据为数组、字符串或集合，那么 n 代表它们的元素个数或长度，如果输入的数据为一个数字，那么 n 代表的数字大小。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅谈算法的时间复杂度与空间复杂度">
+<meta property="og:url" content="https://771592594.github.io/xiaoyue/2021/06/20/%E6%B5%85%E8%B0%88%E7%AE%97%E6%B3%95%E7%9A%84%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E4%B8%8E%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6(%E5%AE%8C)/index.html">
+<meta property="og:site_name" content="宵月的书房">
+<meta property="og:description" content="前言在大学的教课书告诉我们，一个算法的优劣是通过它的复杂度来评判的。算法复杂度分为时间复杂度和空间复杂度：时间复杂度是指执行算法所需要的计算工作量；而空间复杂度是指执行这个算法所需要的内存空间。 复杂度一般使用大O表示法来表述，括号中一般使用 n 来表示数据规模。如果输入的数据为数组、字符串或集合，那么 n 代表它们的元素个数或长度，如果输入的数据为一个数字，那么 n 代表的数字大小。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210620131617316.png?x-oss-process=/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzc0MjM1NA==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210620140016466.png">
+<meta property="article:published_time" content="2021-06-20T03:03:52.000Z">
+<meta property="article:modified_time" content="2021-07-04T15:23:40.919Z">
+<meta property="article:author" content="宵月">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20210620131617316.png?x-oss-process=/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzc0MjM1NA==,size_16,color_FFFFFF,t_70">
+
+
+<link rel="canonical" href="https://771592594.github.io/xiaoyue/2021/06/20/%E6%B5%85%E8%B0%88%E7%AE%97%E6%B3%95%E7%9A%84%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E4%B8%8E%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6(%E5%AE%8C)/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;771592594.github.io&#x2F;xiaoyue&#x2F;2021&#x2F;06&#x2F;20&#x2F;%E6%B5%85%E8%B0%88%E7%AE%97%E6%B3%95%E7%9A%84%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E4%B8%8E%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6(%E5%AE%8C)&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;06&#x2F;20&#x2F;浅谈算法的时间复杂度与空间复杂度(完)&#x2F;&quot;,&quot;title&quot;:&quot;浅谈算法的时间复杂度与空间复杂度&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>浅谈算法的时间复杂度与空间复杂度 | 宵月的书房</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/xiaoyue/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/xiaoyue/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">宵月的书房</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">keep folish, keep hungry</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/xiaoyue/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/xiaoyue/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/xiaoyue/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/xiaoyue/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/xiaoyue/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-number">2.</span> <span class="nav-text">时间复杂度</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B%E5%88%86%E6%9E%90"><span class="nav-number">2.1.</span> <span class="nav-text">案例分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E9%87%8F%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-number">2.1.1.</span> <span class="nav-text">常量时间复杂度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E6%80%A7%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-number">2.1.2.</span> <span class="nav-text">线性时间复杂度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E6%95%B0%E7%BA%A7%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-number">2.1.3.</span> <span class="nav-text">指数级时间复杂度</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%B9%E6%AE%8A%E6%A1%88%E4%BE%8B"><span class="nav-number">2.2.</span> <span class="nav-text">特殊案例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%B6%E5%88%97%E7%AE%97%E6%B3%95%E7%9A%84%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-number">2.2.1.</span> <span class="nav-text">并列算法的时间复杂度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%92%E5%BD%92%E7%AE%97%E6%B3%95%E7%9A%84%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-number">2.2.2.</span> <span class="nav-text">递归算法的时间复杂度</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-number">3.</span> <span class="nav-text">空间复杂度</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%9E%E9%80%92%E5%BD%92%E7%AE%97%E6%B3%95%E7%9A%84%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-number">3.1.</span> <span class="nav-text">非递归算法的空间复杂度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%92%E5%BD%92%E7%AE%97%E6%B3%95%E7%9A%84%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-number">3.2.</span> <span class="nav-text">递归算法的空间复杂度</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="宵月"
+      src="/xiaoyue/images/avatar.png">
+  <p class="site-author-name" itemprop="name">宵月</p>
+  <div class="site-description" itemprop="description">分享技术与生活</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/xiaoyue/archives/">
+        
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/xiaoyue/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/xiaoyue/tags/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://github.com/771592594" title="https:&#x2F;&#x2F;github.com&#x2F;771592594" rel="noopener" target="_blank">GitHub</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=419485668&auto=1&height=66"></iframe>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://771592594.github.io/xiaoyue/2021/06/20/%E6%B5%85%E8%B0%88%E7%AE%97%E6%B3%95%E7%9A%84%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E4%B8%8E%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6(%E5%AE%8C)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/xiaoyue/images/avatar.png">
+      <meta itemprop="name" content="宵月">
+      <meta itemprop="description" content="分享技术与生活">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵月的书房">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          浅谈算法的时间复杂度与空间复杂度
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-06-20 11:03:52" itemprop="dateCreated datePublished" datetime="2021-06-20T11:03:52+08:00">2021-06-20</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-07-04 23:23:40" itemprop="dateModified" datetime="2021-07-04T23:23:40+08:00">2021-07-04</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/xiaoyue/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" itemprop="url" rel="index"><span itemprop="name">技术分享</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在大学的教课书告诉我们，一个算法的优劣是通过它的复杂度来评判的。算法复杂度分为时间复杂度和空间复杂度：<strong>时间复杂度是指执行算法所需要的计算工作量；而空间复杂度是指执行这个算法所需要的内存空间。</strong></p>
+<p><strong>复杂度一般使用大O表示法来表述，括号中一般使用 n 来表示数据规模。如果输入的数据为数组、字符串或集合，那么 n 代表它们的元素个数或长度，如果输入的数据为一个数字，那么 n 代表的数字大小。</strong></p>
+<span id="more"></span>
+
+<h1 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h1><p>分析时间复杂度只要分析在不同的数据规模下，算法的执行次数。</p>
+<p>常见时间复杂度表示从小到大排序如下：</p>
+<ul>
+<li>O(1)</li>
+<li>O(log n)</li>
+<li>O(n)</li>
+<li>O(n<sup>2</sup>)</li>
+<li>O(n<sup>3</sup>)</li>
+<li>O(2<sup>n</sup>)</li>
+<li>O(n!)</li>
+</ul>
+<h2 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h2><h3 id="常量时间复杂度"><a href="#常量时间复杂度" class="headerlink" title="常量时间复杂度"></a>常量时间复杂度</h3><p>下面看两个打印数字的案例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span>(<span class="params">n: <span class="built_in">int</span></span>):</span></span><br><span class="line">    <span class="built_in">print</span>(n)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span>(<span class="params">n: <span class="built_in">int</span></span>):</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>):</span><br><span class="line">        <span class="built_in">print</span>(n)</span><br></pre></td></tr></table></figure>
+
+<p>无论数字n多大，程序执行的在案例1中程序只执行了一次打印语句；在案例2中，程序只执行三次打印语句。</p>
+<p>这意味着算法的工作量与数据规模无关，是常数级的时间复杂度，使用O(1)表示。</p>
+<h3 id="线性时间复杂度"><a href="#线性时间复杂度" class="headerlink" title="线性时间复杂度"></a>线性时间复杂度</h3><p>我们对上面的案例进行修改：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span>(<span class="params">n: <span class="built_in">int</span></span>):</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">        <span class="built_in">print</span>(n)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span>(<span class="params">n: <span class="built_in">int</span></span>):</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n*<span class="number">2</span>):</span><br><span class="line">        <span class="built_in">print</span>(n)</span><br></pre></td></tr></table></figure>
+
+<p>在案例1中，字符串打印的次数为n，用函数可以表示为：y = x；在案例2中，字符串的打印次数为2n，用函数表示为：y = 2x。</p>
+<p>可以看出程序的执行次数是与数据规模成线性关系的，时间复杂度使用O(n)表示。</p>
+<h3 id="指数级时间复杂度"><a href="#指数级时间复杂度" class="headerlink" title="指数级时间复杂度"></a>指数级时间复杂度</h3><p>继续对上面的案例进行修改</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span>(<span class="params">n: <span class="built_in">int</span></span>):</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">        	<span class="built_in">print</span>(n)</span><br></pre></td></tr></table></figure>
+
+<p>在这个案例中，程序中有两层嵌套，每次的执行次数都是n，所以总共执行 n<sup>2</sup> 次。</p>
+<p>可以看出程序的执行次数与数据规模成平方关系，时间复杂度用O(n<sup>2</sup>)表示</p>
+<h2 id="特殊案例"><a href="#特殊案例" class="headerlink" title="特殊案例"></a>特殊案例</h2><h3 id="并列算法的时间复杂度"><a href="#并列算法的时间复杂度" class="headerlink" title="并列算法的时间复杂度"></a>并列算法的时间复杂度</h3><p>我们实际写算法的时候，不会像上面那么简单。一个算法中可能会包含多个算法，这种算法的时间复杂度要如何计算呢？</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span>(<span class="params">n: <span class="built_in">int</span></span>):</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">        <span class="built_in">print</span>(n)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n)</span><br><span class="line">    	<span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(n)</span><br><span class="line">        	<span class="built_in">print</span>(n)</span><br></pre></td></tr></table></figure>
+
+<p>上面的算法是由两个并列的算法组合而成，第一个部分是一层循环，时间复杂度为O(n)；第二部分是两层嵌套循环，时间复杂度为O(n<sup>2</sup>)。</p>
+<p>对于这样的算法，时间复杂度取子算法中的最大时间复杂度，这里就是O(n<sup>2</sup>)</p>
+<h3 id="递归算法的时间复杂度"><a href="#递归算法的时间复杂度" class="headerlink" title="递归算法的时间复杂度"></a>递归算法的时间复杂度</h3><p>对于递归算法，我们需要画出算法的递归树，来判断时间复杂度。</p>
+<p>我们这里以斐波那契数列为例进行讲解：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fib</span>(<span class="params">n: <span class="built_in">int</span></span>):</span></span><br><span class="line">    <span class="keyword">if</span> n &lt; <span class="number">2</span>:</span><br><span class="line">    	<span class="keyword">return</span> n</span><br><span class="line">    <span class="keyword">return</span> fib(n - <span class="number">1</span>) + fib(n - <span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+
+<p>我们画出上面算法的递归树，根据递归树可知，我们计算fib(5)之前，需要计算fib(4)和fib(3)，计算fib(4)需要计算fib(3)和fib(2)；计算fib(3)又需要计算fib(2)和fib(1)；计算fib(2)需要计算fib(1)和fib(0)。</p>
+<p>由此可以看出，每一层的节点展开后，要计算的节点树是原来的两倍。如果递归树有n层，那么要计算的节点个数最多为 2<sup>n</sup>-1（满二叉树的节点个数），因此斐波那契数列递归算法的时间复杂度是2的指数级的，也就是O(2<sup>n</sup>)。</p>
+<p><img src="https://img-blog.csdnimg.cn/20210620131617316.png?x-oss-process=/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzc0MjM1NA==,size_16,color_FFFFFF,t_70"></p>
+<p>最后提一下，计算递归算法时间复杂度的利器：<strong>主定理 Master Theorem</strong>。任何分治和递归的算法都可以通过主定理来计算。</p>
+<h1 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h1><p>空间复杂度就比较简单了，可以直接根据算法中使用的额外变量就可以判断；如果是递归算法，则是递归栈的最大深度。如果在一个递归算法中使用了额外的对象，那么空间复杂度就是栈的最大深度和额外对象空间之间的较大者。</p>
+<h2 id="非递归算法的空间复杂度"><a href="#非递归算法的空间复杂度" class="headerlink" title="非递归算法的空间复杂度"></a>非递归算法的空间复杂度</h2><p>这是一个交换数组元素的方法，它只使用了一个额外变量t，所以空间复杂度是常量级的，即：O(1)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span>(<span class="params">arr, i, j</span>):</span></span><br><span class="line">    t = arr[i]</span><br><span class="line">    arr[i] = arr[j]</span><br><span class="line">    arr[j] = t</span><br><span class="line">    <span class="keyword">return</span> arr</span><br></pre></td></tr></table></figure>
+
+<p>在python语言中，我们甚至可以不用额外变量。不过，时间复杂度仍然是O(1)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span>(<span class="params">arr, i, j</span>):</span></span><br><span class="line">    arr[i], arr[j] = arr[j], arr[i]</span><br><span class="line">    <span class="keyword">return</span> arr</span><br></pre></td></tr></table></figure>
+
+<p>下面看一个迭代法求斐波那契数列第n项（n从0开始）的算法，这个算法中创建了长度为n的列表，使用空间复杂度为O(n)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fib</span>(<span class="params">n: <span class="built_in">int</span></span>):</span></span><br><span class="line">    <span class="keyword">if</span> n &lt; <span class="number">2</span>:</span><br><span class="line">        <span class="keyword">return</span> n</span><br><span class="line">    arr = [<span class="number">0</span>, <span class="number">1</span>]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, n+<span class="number">1</span>):</span><br><span class="line">        arr.append(arr[i-<span class="number">1</span>]  + arr[i-<span class="number">2</span>]) </span><br><span class="line">    <span class="keyword">return</span> arr[n]</span><br></pre></td></tr></table></figure>
+
+<h2 id="递归算法的空间复杂度"><a href="#递归算法的空间复杂度" class="headerlink" title="递归算法的空间复杂度"></a>递归算法的空间复杂度</h2><p>递归算法的空间复杂度是栈的最大深度，我们还是以斐波那契数列进行讲解。我们上面画过fib(5)的递归树，它的最大深度为5，我们再画个 fib(2) 的递归树，它的最大深度为2。可以看出栈的最大深度是与数据大小成线性关系的，所以它的空间复杂度为O(n)。</p>
+<p><img src="https://img-blog.csdnimg.cn/20210620140016466.png"></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>如果觉得有所帮助，不妨请作者喝杯奶茶</div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/xiaoyue/images/wechatpay.png" alt="宵月 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/xiaoyue/images/alipay.png" alt="宵月 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/xiaoyue/tags/%E7%AE%97%E6%B3%95/" rel="tag"><i class="fa fa-tag"></i> 算法</a>
+              <a href="/xiaoyue/tags/Python/" rel="tag"><i class="fa fa-tag"></i> Python</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/xiaoyue/2021/06/15/Java-%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%8C%85%E8%A3%85%E7%B1%BB(%E5%AE%8C)/" rel="prev" title="Java-基本类型与包装类">
+                  <i class="fa fa-chevron-left"></i> Java-基本类型与包装类
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/xiaoyue/2021/06/29/Java-SPI%E6%9C%BA%E5%88%B6%E7%9A%84%E7%90%86%E8%A7%A3%E4%B8%8E%E5%BA%94%E7%94%A8(%E5%AE%8C)/" rel="next" title="Java-SPI机制的理解与应用">
+                  Java-SPI机制的理解与应用 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">宵月</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script size="150" alpha="0.3" zIndex="-2" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/xiaoyue/js/comments.js"></script><script src="/xiaoyue/js/utils.js"></script><script src="/xiaoyue/js/motion.js"></script><script src="/xiaoyue/js/schemes/muse.js"></script><script src="/xiaoyue/js/next-boot.js"></script>
+
+  
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

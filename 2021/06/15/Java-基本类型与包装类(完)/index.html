@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/xiaoyue/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/xiaoyue/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/xiaoyue/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/xiaoyue/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/xiaoyue/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;771592594.github.io&quot;,&quot;root&quot;:&quot;&#x2F;xiaoyue&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;xiaoyue&#x2F;images&quot;,&quot;scheme&quot;:&quot;Mist&quot;,&quot;version&quot;:&quot;8.5.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;width&quot;:300,&quot;display&quot;:&quot;always&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:true,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;}}</script><script src="/xiaoyue/js/config.js"></script>
+<meta name="description" content="前言Java 中数据类型可以分为 基本数据类型 和 引用数据类型 (创建的实例称为对象)，每个基本数据类型都有各自的引用类型的包装类，具体如下表所示：    基本类型 包装类    byte Byte   short Short   int Integer   long Long   float Float   double Double   char Character   boolean Bo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java-基本类型与包装类">
+<meta property="og:url" content="https://771592594.github.io/xiaoyue/2021/06/15/Java-%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%8C%85%E8%A3%85%E7%B1%BB(%E5%AE%8C)/index.html">
+<meta property="og:site_name" content="宵月的书房">
+<meta property="og:description" content="前言Java 中数据类型可以分为 基本数据类型 和 引用数据类型 (创建的实例称为对象)，每个基本数据类型都有各自的引用类型的包装类，具体如下表所示：    基本类型 包装类    byte Byte   short Short   int Integer   long Long   float Float   double Double   char Character   boolean Bo">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210608201020497.png?x-oss-process=/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzc0MjM1NA==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210608201343289.png">
+<meta property="article:published_time" content="2021-06-15T00:28:10.000Z">
+<meta property="article:modified_time" content="2021-07-04T15:17:24.026Z">
+<meta property="article:author" content="宵月">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20210608201020497.png?x-oss-process=/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzc0MjM1NA==,size_16,color_FFFFFF,t_70">
+
+
+<link rel="canonical" href="https://771592594.github.io/xiaoyue/2021/06/15/Java-%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%8C%85%E8%A3%85%E7%B1%BB(%E5%AE%8C)/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;771592594.github.io&#x2F;xiaoyue&#x2F;2021&#x2F;06&#x2F;15&#x2F;Java-%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%8C%85%E8%A3%85%E7%B1%BB(%E5%AE%8C)&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;06&#x2F;15&#x2F;Java-基本类型与包装类(完)&#x2F;&quot;,&quot;title&quot;:&quot;Java-基本类型与包装类&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>Java-基本类型与包装类 | 宵月的书房</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/xiaoyue/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/xiaoyue/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">宵月的书房</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">keep folish, keep hungry</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/xiaoyue/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/xiaoyue/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/xiaoyue/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/xiaoyue/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/xiaoyue/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8C%85%E8%A3%85%E7%B1%BB%E4%B8%8E%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">2.</span> <span class="nav-text">包装类与基本类型的区别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E6%8B%86%E7%AE%B1-%E8%A3%85%E7%AE%B1%E6%9C%BA%E5%88%B6"><span class="nav-number">3.</span> <span class="nav-text">自动拆箱&#x2F;装箱机制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%8Eequals%E6%96%B9%E6%B3%95"><span class="nav-number">4.</span> <span class="nav-text">&#x3D;&#x3D;与equals方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BC%93%E5%AD%98"><span class="nav-number">5.</span> <span class="nav-text">数据缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="nav-number">5.1.</span> <span class="nav-text">面试题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6"><span class="nav-number">5.2.</span> <span class="nav-text">缓存机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90"><span class="nav-number">5.3.</span> <span class="nav-text">源码分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%9C%E9%A2%98%E6%8F%AD%E6%99%93"><span class="nav-number">5.4.</span> <span class="nav-text">谜题揭晓</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="宵月"
+      src="/xiaoyue/images/avatar.png">
+  <p class="site-author-name" itemprop="name">宵月</p>
+  <div class="site-description" itemprop="description">分享技术与生活</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/xiaoyue/archives/">
+        
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/xiaoyue/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/xiaoyue/tags/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://github.com/771592594" title="https:&#x2F;&#x2F;github.com&#x2F;771592594" rel="noopener" target="_blank">GitHub</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=419485668&auto=1&height=66"></iframe>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://771592594.github.io/xiaoyue/2021/06/15/Java-%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%8C%85%E8%A3%85%E7%B1%BB(%E5%AE%8C)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/xiaoyue/images/avatar.png">
+      <meta itemprop="name" content="宵月">
+      <meta itemprop="description" content="分享技术与生活">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵月的书房">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java-基本类型与包装类
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-06-15 08:28:10" itemprop="dateCreated datePublished" datetime="2021-06-15T08:28:10+08:00">2021-06-15</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-07-04 23:17:24" itemprop="dateModified" datetime="2021-07-04T23:17:24+08:00">2021-07-04</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/xiaoyue/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" itemprop="url" rel="index"><span itemprop="name">技术分享</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>Java 中数据类型可以分为 <strong>基本数据类型</strong> 和 <strong>引用数据类型</strong> (创建的实例称为对象)，每个基本数据类型都有各自的引用类型的包装类，具体如下表所示：</p>
+<table>
+<thead>
+<tr>
+<th>基本类型</th>
+<th>包装类</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>byte</td>
+<td>Byte</td>
+</tr>
+<tr>
+<td>short</td>
+<td>Short</td>
+</tr>
+<tr>
+<td>int</td>
+<td>Integer</td>
+</tr>
+<tr>
+<td>long</td>
+<td>Long</td>
+</tr>
+<tr>
+<td>float</td>
+<td>Float</td>
+</tr>
+<tr>
+<td>double</td>
+<td>Double</td>
+</tr>
+<tr>
+<td>char</td>
+<td>Character</td>
+</tr>
+<tr>
+<td>boolean</td>
+<td>Boolean</td>
+</tr>
+</tbody></table>
+<p>作为一门面向对象的语言，Java 为什么有基本数据类型这种非对象的类型？</p>
+<span id="more"></span>
+
+<p>答案是使用基本数据类型所需的内存空间较小，在性能上会比使用包装类要好</p>
+<h1 id="包装类与基本类型的区别"><a href="#包装类与基本类型的区别" class="headerlink" title="包装类与基本类型的区别"></a>包装类与基本类型的区别</h1><p>一、基本数据类型只包含了数据；包装类是对基本类型的封装，它既然包含了数据和相关的方法，比如：类型转换操作、数值比较</p>
+<p>二、基本类型不允许为 null，包装类可以赋值为null。在实际开发中，数据库表中的字段大多用 null 表示没有数据，所以数据表对应的实体类往往使用支持 null 的包装类来增强表现力。</p>
+<p>三、进行数值比较时，基本类型使用 <code>==</code>，包装类使用 <code>equals()</code> 方法。</p>
+<h1 id="自动拆箱-装箱机制"><a href="#自动拆箱-装箱机制" class="headerlink" title="自动拆箱/装箱机制"></a>自动拆箱/装箱机制</h1><p>所谓 <strong>拆箱</strong> 就是将包装类转化为基本类型；而 <strong>装箱</strong> 则是将基本类型转化为包装类</p>
+<p>在 jdk1.5 之前是基本数据类型和包装类之间是不能相互赋值的，需要通过手动调用拆箱/装箱方法进行相互转化。例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Integer a = <span class="keyword">new</span> Integer(<span class="number">1</span>);</span><br><span class="line"><span class="comment">// 包装类-&gt;基本数据类型 需要调用拆箱方法 xxValue()</span></span><br><span class="line"><span class="keyword">int</span> b = a.intValue();</span><br><span class="line"><span class="comment">// 基本数据类型-&gt;包装类 需要调用装箱方法 valueOf()</span></span><br><span class="line">Integer c = Integer.valueOf(b);</span><br></pre></td></tr></table></figure>
+
+<p>自从有了自动装拆箱之后，基本类型和包装类之间就可以实现自动转化，例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 自动拆箱</span></span><br><span class="line"><span class="keyword">int</span> a = <span class="keyword">new</span> Integer(<span class="number">1</span>);</span><br><span class="line"><span class="comment">// 自动装箱</span></span><br><span class="line">Integer b = a;</span><br></pre></td></tr></table></figure>
+
+<p><strong>包装类赋值给基本类型</strong> 和 <strong>与基本数据类型进行计算时</strong>，会隐式地调用 <code>xxxValue()</code> 进行拆包</p>
+<p>基本数据类型赋值给包装类时，会隐式地调用<code>valueOf()</code> 进行装包，</p>
+<h1 id="与equals方法"><a href="#与equals方法" class="headerlink" title="==与equals方法"></a>==与equals方法</h1><p>对于基本数据类型，<code>==</code> 会进行值比较；而对于引用类型，<code>==</code> 会比较对象的内存地址。包装类属于引用类型，在不使用数据缓存的情况下，两个对象的内存地址必然不同。</p>
+<p><code>equals</code> 是 万类之父 <code>Object</code> 中的方法。在没有重写的情况下与 <code>==</code> 作用相同，是判断对象的内存地址是否相同。为了正确地比较包装类的值，所有的包装类中都重写了<code>equals</code> 方法，将判断的方式改为了值相同。</p>
+<h1 id="数据缓存"><a href="#数据缓存" class="headerlink" title="数据缓存"></a>数据缓存</h1><h2 id="面试题"><a href="#面试题" class="headerlink" title="面试题"></a>面试题</h2><p>在上一节提到，包装类的值比较是使用 <code>equals</code> 方法的，但我们在一些面试题中经常会看到这样的案例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Character b = <span class="number">127</span>;</span><br><span class="line">Character a = <span class="number">127</span>;</span><br><span class="line">System.out.println(a == b);			</span><br><span class="line">System.out.println(a.equals(b));</span><br><span class="line"><span class="comment">// 输出结果：true true</span></span><br><span class="line"></span><br><span class="line">Character b = <span class="number">128</span>;</span><br><span class="line">Character a = <span class="number">128</span>;</span><br><span class="line">System.out.println(a == b);				</span><br><span class="line">System.out.println(a.equals(b));</span><br><span class="line"><span class="comment">// 输出结果：false true</span></span><br></pre></td></tr></table></figure>
+<p>在这个案例中，两个值相同的 <code>Character</code> 对象 <code>equals</code>  返回 true 没什么好说的；但是它们使用 <code>==</code> 进行比较，有的返回 true，有的却返回 false，这是为什么呢？</p>
+<h2 id="缓存机制"><a href="#缓存机制" class="headerlink" title="缓存机制"></a>缓存机制</h2><p>实际上，这种现象的根源是包装类的缓存机制。为了提高程序的运行效率，Java 为<code>Integer</code>、<code>Long</code>、<code>Character</code> 这三个包装类提供了缓存，如果使用的数值在缓存中存在，则不创建新的对象，而是直接使用缓存中的对象。</p>
+<p>包装类缓存的数值范围如下所示：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>缓存范围</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Integer</td>
+<td>[-128, 127]</td>
+</tr>
+<tr>
+<td>Long</td>
+<td>[-128, 127]</td>
+</tr>
+<tr>
+<td>Character</td>
+<td>[0, 127]</td>
+</tr>
+</tbody></table>
+<h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><p>下面以 <code>Character</code> 为例，从源码层面分析包装类的缓存机制：</p>
+<p>从源码中，我们可以找到它有一个静态内部类叫 <code>CharacterCache</code>，这个类有一个<code>Character</code> 类型的数组 <code>cache</code> 。</p>
+<p>当内部类被加载时，会执行 <code>static</code> 包围的静态代码块中的语句，创建长度为128的 <code>cache</code> 数组，然后通过 for 循环创建值在 [0, 127] 的 <code>Character</code> 对象并填充到数组中。</p>
+<p><img src="https://img-blog.csdnimg.cn/20210608201020497.png?x-oss-process=/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzc0MjM1NA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>我们进行自动装箱时会隐式地调用 <code>valueOf</code> 方法，该方法的作用是：如果装箱的值在缓存中存在，则会获取缓存的对象；否则，创建一个新的对象。</p>
+<p><img src="https://img-blog.csdnimg.cn/20210608201343289.png" alt="在这里插入图片描述"></p>
+<h2 id="谜题揭晓"><a href="#谜题揭晓" class="headerlink" title="谜题揭晓"></a>谜题揭晓</h2><p>现在我们回来分析上面的题目：</p>
+<p>第一段代码中创建值为 127 的对象，127 正好命中了<code>Character</code> 类的缓存，所以 变量 a,b 引用的对象是从缓存中获取的同一个对象，内存地址是相同的，所以 <code>==</code> 比较结果为 true。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Character b = <span class="number">127</span>;</span><br><span class="line">Character a = <span class="number">127</span>;</span><br><span class="line">System.out.println(a == b);			</span><br><span class="line"><span class="comment">// 输出结果：true</span></span><br></pre></td></tr></table></figure>
+
+<p>第二段代码中创建值为 128 的对象，128 在 <code>Character</code> 类中没有缓存，所以变量 a,b 引用的是它们各自创建的对象，内存地址必然是不同的，因此 <code>==</code> 比较结果为 false。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Character b = <span class="number">128</span>;</span><br><span class="line">Character a = <span class="number">128</span>;</span><br><span class="line">System.out.println(a == b);				</span><br><span class="line"><span class="comment">// 输出结果：false</span></span><br></pre></td></tr></table></figure>
+
+<p>从上面可知，<code>==</code> 比较返回 false 的根本原因在于比较的双方不是同一个对象。以此类推，使用 <code>==</code> 比较new出来的对象的与缓存中存在的对象，结果必然为false。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Character a = <span class="number">1</span>;</span><br><span class="line">Character b = <span class="keyword">new</span> Character(<span class="number">1</span>);</span><br><span class="line">System.out.println(a == b);		</span><br><span class="line"><span class="comment">// 输出结果：false</span></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>如果觉得有所帮助，不妨请作者喝杯奶茶</div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/xiaoyue/images/wechatpay.png" alt="宵月 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/xiaoyue/images/alipay.png" alt="宵月 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/xiaoyue/tags/Java/" rel="tag"><i class="fa fa-tag"></i> Java</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/xiaoyue/2021/06/14/Java-%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96(%E5%AE%8C)/" rel="prev" title="Java-序列化与反序列化">
+                  <i class="fa fa-chevron-left"></i> Java-序列化与反序列化
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/xiaoyue/2021/06/20/%E6%B5%85%E8%B0%88%E7%AE%97%E6%B3%95%E7%9A%84%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E4%B8%8E%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6(%E5%AE%8C)/" rel="next" title="浅谈算法的时间复杂度与空间复杂度">
+                  浅谈算法的时间复杂度与空间复杂度 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">宵月</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script size="150" alpha="0.3" zIndex="-2" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/xiaoyue/js/comments.js"></script><script src="/xiaoyue/js/utils.js"></script><script src="/xiaoyue/js/motion.js"></script><script src="/xiaoyue/js/schemes/muse.js"></script><script src="/xiaoyue/js/next-boot.js"></script>
+
+  
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
