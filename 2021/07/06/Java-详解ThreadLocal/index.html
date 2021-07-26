@@ -30,10 +30,10 @@
 <meta property="og:image" content="https://ftp.bmp.ovh/imgs/2021/07/6387b862505d841b.png">
 <meta property="og:image" content="https://ftp.bmp.ovh/imgs/2021/07/743b1013dc87aeaf.png">
 <meta property="og:image" content="https://ftp.bmp.ovh/imgs/2021/07/cc44a4c64c706dbc.png">
-<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2021/07/cf6ebe0f3c57d7f8.png">
-<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2021/07/d01bc1e1e7cb2bd6.png">
+<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2021/07/bb5b8cd1dbcfd4f8.png">
+<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2021/07/2d314f398ce2207c.png">
 <meta property="article:published_time" content="2021-07-06T13:02:23.000Z">
-<meta property="article:modified_time" content="2021-07-25T15:18:05.914Z">
+<meta property="article:modified_time" content="2021-07-26T03:32:41.925Z">
 <meta property="article:author" content="宵月">
 <meta property="article:tag" content="多线程">
 <meta property="article:tag" content="ThreadLocal">
@@ -239,7 +239,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-07-25 23:18:05" itemprop="dateModified" datetime="2021-07-25T23:18:05+08:00">2021-07-25</time>
+        <time title="修改时间：2021-07-26 11:32:41" itemprop="dateModified" datetime="2021-07-26T11:32:41+08:00">2021-07-26</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -306,23 +306,42 @@
 <p>ThreadLocalMap 的 <code>getEntry()</code> 方法会以 <code>ThreadLocal</code> 参数为 key 从哈希表中查找元素，若找不到则返回null。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> Entry <span class="title">getEntry</span><span class="params">(ThreadLocal&lt;?&gt; key)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = key.threadLocalHashCode &amp; (table.length - <span class="number">1</span>);</span><br><span class="line">    Entry e = table[i];</span><br><span class="line">    <span class="comment">// 如果找到节点，则返回</span></span><br><span class="line">    <span class="keyword">if</span> (e != <span class="keyword">null</span> &amp;&amp; e.get() == key)</span><br><span class="line">        <span class="keyword">return</span> e;</span><br><span class="line">    <span class="comment">// 如果没找到，则使用线性探测法继续寻找</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span> getEntryAfterMiss(key, i, e);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> Entry <span class="title">getEntryAfterMiss</span><span class="params">(ThreadLocal&lt;?&gt; key, <span class="keyword">int</span> i, Entry e)</span> </span>&#123;</span><br><span class="line">    Entry[] tab = table;</span><br><span class="line">    <span class="keyword">int</span> len = tab.length;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (e != <span class="keyword">null</span>) &#123;</span><br><span class="line">        ThreadLocal&lt;?&gt; k = e.get();</span><br><span class="line">        <span class="keyword">if</span> (k == key)</span><br><span class="line">            <span class="keyword">return</span> e;</span><br><span class="line">        <span class="keyword">if</span> (k == <span class="keyword">null</span>)</span><br><span class="line">            expungeStaleEntry(i);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            i = nextIndex(i, len);</span><br><span class="line">        e = tab[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h1 id="存在的安全隐患"><a href="#存在的安全隐患" class="headerlink" title="存在的安全隐患"></a>存在的安全隐患</h1><h2 id="内存泄露"><a href="#内存泄露" class="headerlink" title="内存泄露"></a>内存泄露</h2><p>所谓内存泄漏就是程序中分配的内存由于某些原因无法释放（在 Java 就是对象无法被回收），造成可用内存的减少。</p>
+<h1 id="存在的安全隐患"><a href="#存在的安全隐患" class="headerlink" title="存在的安全隐患"></a>存在的安全隐患</h1><h2 id="内存泄露"><a href="#内存泄露" class="headerlink" title="内存泄露"></a>内存泄露</h2><p>所谓内存泄漏就是程序中分配的内存由于某些原因无法释放（在 Java 中就是对象无法被回收），造成可用内存的减少。</p>
 <p>为了便利大家理解，在讲 <code>ThreadLocal</code> 的内存泄漏问题前，我先讲一些前置知识</p>
 <p>前置知识一、Java 的垃圾回收机制是如何判断对象是否可以回收的？</p>
-<p>Hot Spot 是当下主流的 Java 虚拟机，它采用可达性分析法来进行对象判活。可达性分析法会从 GC ROOTS（） 出发向下搜素，搜素经过的路径被称为引用链，如果一个对象到 GC ROOTS 之间没有一条引用链，那么这个对象就是可以被回收的。</p>
+<p>Hot Spot 是当下主流的 Java 虚拟机，它采用可达性分析法来进行对象判活。可达性分析法会从 GC ROOTS 出发向下搜素，搜素经过的路径被称为引用链，如果一个对象到 GC ROOTS 之间没有一条引用链，那么这个对象就是可以被回收的。</p>
+<blockquote>
+<p>常见 GC ROOTS 包括：</p>
+<p>Class–所有已加载的类</p>
+<p>Thread – 活着的线程</p>
+<p>Stack Local– - Java方法的局部变量或参数</p>
+<p>JNI – navtive方法中引用的对象</p>
+</blockquote>
 <p>前置知识二、Java 中的引用类型</p>
-<p>Java 中一共有四种引用类型: 强引用、软引用、弱引用、虚引用。除了强引用外，其他三种引用都继承了 <code>Reference</code> 类，该类中有一个名为 <code>referent</code> 的字段，该字段引用的对象会被 GC 回收机制特殊对象。</p>
-<p><img src="https://ftp.bmp.ovh/imgs/2021/07/743b1013dc87aeaf.png"></p>
+<p>Java 中一共有四种引用类型: 强引用、软引用、弱引用、虚引用。</p>
 <blockquote>
 <p>强引用：Java中最常见的引用类型，把一个对象赋给一个引用变量，这个引用变量就是一个强引用；强引用的对象与 GC ROOTS 之间必然存在着一条引用链，因此不会被垃圾回收机制回收。它是造成内存泄漏的主要原因。</p>
-<p>软引用：通过 SoftReference 创建，包装</p>
-<p>弱引用：通过 Week Reference 创建，</p>
+<p>软引用：通过 SoftReference 创建，软引用的对象在内存不足时会被 GC 回收</p>
+<p>弱引用：通过 Week Reference 创建，弱引用的对象在没有其他强引用的情况下，会在一下次 GC 时被回收</p>
+<p>虚引用：通过 PhantomReference 创建，不会影响对象的生命周期，也无法通过虚引用来获取实例，为对象设置虚引用唯一的目的是为了让该对象被回收时返回一个系统通知</p>
 </blockquote>
-<p><code>ThreadLocalMap</code> 类中的 <code>Entry</code> 继承了弱引用 <code>WeekReference</code>，弱引用包装 <code>ThreadLocal</code> 类的对象。被弱引用包装的对象，在没有外部强引用的情况下，会在下一次 GC 时被回收。</p>
+<p>除了强引用外，其他三种引用都是通过类创建，这些类的父类 <code>Reference</code> 类有一个 <code>referent</code> 的字段，<strong>该字段引用的对象会被 GC 回收机制特殊处理。</strong></p>
+<p><img src="https://ftp.bmp.ovh/imgs/2021/07/743b1013dc87aeaf.png"></p>
+<p><code>ThreadLocalMap.Entry</code> 继承了弱引用 <code>WeekReference</code>，在实例化时会调用父类 <code>WeekReference</code> 的构造方法传入 <code>ThreadLocal</code> 参数</p>
 <p><img src="https://ftp.bmp.ovh/imgs/2021/07/cc44a4c64c706dbc.png"></p>
-<p>下面通过一个案例来演示 ThreadLocal 的内存泄漏问题：我创建一个没有外部强引用的 ThreadLocal 对象并设置线程对象副本，接着打断点查看它的 ThreadLocalMap，可以看到  </p>
-<p><img src="https://ftp.bmp.ovh/imgs/2021/07/cf6ebe0f3c57d7f8.png"></p>
-<p><img src="https://ftp.bmp.ovh/imgs/2021/07/d01bc1e1e7cb2bd6.png"></p>
+<p>而 <code>WeekReference</code> 又调用了父类 <code>Reference</code> 的构造方法，最终将  <code>ThreadLocal</code> 参数赋值给了 <code>reference</code> 字段。因此 <code>Entry</code> 中的 <code>ThreadLocal</code> 是一个弱引用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WeakReference</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">Reference</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">WeakReference</span><span class="params">(T referent)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(referent);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Reference</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> T referent;         <span class="comment">/* Treated specially by GC */</span></span><br><span class="line">    <span class="keyword">volatile</span> ReferenceQueue&lt;? <span class="keyword">super</span> T&gt; queue;</span><br><span class="line"></span><br><span class="line">    Reference(T referent) &#123;</span><br><span class="line">        <span class="keyword">this</span>(referent, <span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Reference(T referent, ReferenceQueue&lt;? <span class="keyword">super</span> T&gt; queue) &#123;</span><br><span class="line">        <span class="keyword">this</span>.referent = referent;</span><br><span class="line">        <span class="keyword">this</span>.queue = (queue == <span class="keyword">null</span>) ? ReferenceQueue.NULL : queue;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>综上所述，我们可以得出一个结论：<code>ThreadLocalMap.Entry</code> 与它的 Key（也就是 <code>ThreadLocal</code>）之间存在着弱引用关系，如果 <code>ThreadLocal</code> 对象没有其他外部的强引用，那么它会在下一次GC时被回收</strong></p>
+<p>下面通过一个案例来演示 <code>ThreadLocal</code> 的内存泄漏问题：我创建一个没有外部强引用的 <code>ThreadLocal</code> 对象并在当前线程中设置对象副本，接着打断点查看线程在 GC 前后 的 <code>ThreadLocalMap</code></p>
+<p>GC 前 <code>ThreadLocalMap</code> 条目中的 <code>reference</code> 为我们创建的 <code>ThreadLocal</code>对象，<code>value</code> 是我们设置的对象副本</p>
+<p><img src="https://ftp.bmp.ovh/imgs/2021/07/bb5b8cd1dbcfd4f8.png"></p>
+<p>GC 后弱引用的 <code>ThreadLocal</code> 对象被回收， <code>reference</code> 字段变为了空指针，而 <code>value</code> 却仍然存在。这是因为 <code>value</code> 对象与 GC ROOTS 之间存在着 thread-&gt;threadLocalMap-&gt;entry-&gt;value 这么一条强引用，所以它是不会被回收的，会导致内存泄漏。</p>
+<p><img src="https://ftp.bmp.ovh/imgs/2021/07/2d314f398ce2207c.png"></p>
+<p><strong>对于内存泄漏问题，我们不必特别担心，因为在上面讲解的 <code>ThreadLocalMap</code> 源码中，我们可以看到很多的方法中都有清除过期条目的代码。</strong>比如：<code>set()</code> 、<code>getEntry()</code>方法在线性探测搜索条目时，会顺便清除过期节点；<code>rehash()</code> 方法会扫描全部的条目，清除过期节点。</p>
+<p><strong>虽然在源码中对内存泄漏做了很多工作，但上述的处理都具有一定的滞后性，我们平时使用完 <code>ThreadLocal</code> 后，最好是记得及时调用 <code>remove()</code> 方法清除条目。</strong></p>
 <h2 id="脏数据"><a href="#脏数据" class="headerlink" title="脏数据"></a>脏数据</h2><p>在线程池中使用<code> ThreadLocal</code> 可能会读取到脏数据。这是因为线程池实现了线程的复用，某线程在执行某次任务时向 <code>ThreadLocalMap</code> 写入了数据，任务完成后此线程会存活一段时间。如果在这段时间内，该线程在执行其他任务时调用<code>get()</code> 方法就会读取到上次设置的数据。</p>
 <p>我使用单例线程池来模拟同一个线程先后执行多个任务的场景：我每隔10秒钟向线程提交一个打印当前时间的任务。理论上每次打印的时间应该都差10s，但实际结果却是每次都打印了第一次时间。<strong>造成这个现象的原因就是线程重复时没有清除老数据。</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    ThreadLocal&lt;Date&gt; date = <span class="keyword">new</span> ThreadLocal&lt;&gt;();</span><br><span class="line">    ExecutorService pool = Executors.newSingleThreadExecutor();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</span><br><span class="line">        pool.execute(()-&gt;&#123;</span><br><span class="line">            <span class="keyword">if</span> (date.get() == <span class="keyword">null</span>) &#123;</span><br><span class="line">                date.set(<span class="keyword">new</span> Date());</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(date.get());</span><br><span class="line">        &#125;);</span><br><span class="line">        TimeUnit.SECONDS.sleep(<span class="number">10</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    pool.shutdown();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 执行结果</span></span><br><span class="line">Sun Jul <span class="number">25</span> <span class="number">21</span>:<span class="number">00</span>:<span class="number">46</span> CST <span class="number">2021</span></span><br><span class="line">Sun Jul <span class="number">25</span> <span class="number">21</span>:<span class="number">00</span>:<span class="number">46</span> CST <span class="number">2021</span></span><br><span class="line">Sun Jul <span class="number">25</span> <span class="number">21</span>:<span class="number">00</span>:<span class="number">46</span> CST <span class="number">2021</span></span><br></pre></td></tr></table></figure>
