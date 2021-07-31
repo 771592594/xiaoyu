@@ -23,7 +23,7 @@
 <meta name="description" content="前言ThreadLocal 类提供了线程内存储变量的能力，作用主要是做数据隔离，填充的数据只属于当前线程，对于别的线程而言是相对隔离的，在多线程环境下，可以防止自己的变量被其它线程篡改。 使用场景数据隔离">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java-详解ThreadLocal">
-<meta property="og:url" content="https://771592594.github.io/xiaoyue/2021/07/06/Java-%E8%AF%A6%E8%A7%A3ThreadLocal/index.html">
+<meta property="og:url" content="https://771592594.github.io/xiaoyue/2021/07/06/Java-%E8%AF%A6%E8%A7%A3ThreadLocal(%E5%AE%8C)/index.html">
 <meta property="og:site_name" content="宵月的书房">
 <meta property="og:description" content="前言ThreadLocal 类提供了线程内存储变量的能力，作用主要是做数据隔离，填充的数据只属于当前线程，对于别的线程而言是相对隔离的，在多线程环境下，可以防止自己的变量被其它线程篡改。 使用场景数据隔离">
 <meta property="og:locale" content="zh_CN">
@@ -41,11 +41,11 @@
 <meta name="twitter:image" content="https://ftp.bmp.ovh/imgs/2021/07/6387b862505d841b.png">
 
 
-<link rel="canonical" href="https://771592594.github.io/xiaoyue/2021/07/06/Java-%E8%AF%A6%E8%A7%A3ThreadLocal/">
+<link rel="canonical" href="https://771592594.github.io/xiaoyue/2021/07/06/Java-%E8%AF%A6%E8%A7%A3ThreadLocal(%E5%AE%8C)/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;771592594.github.io&#x2F;xiaoyue&#x2F;2021&#x2F;07&#x2F;06&#x2F;Java-%E8%AF%A6%E8%A7%A3ThreadLocal&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;07&#x2F;06&#x2F;Java-详解ThreadLocal&#x2F;&quot;,&quot;title&quot;:&quot;Java-详解ThreadLocal&quot;}</script>
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;771592594.github.io&#x2F;xiaoyue&#x2F;2021&#x2F;07&#x2F;06&#x2F;Java-%E8%AF%A6%E8%A7%A3ThreadLocal(%E5%AE%8C)&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;07&#x2F;06&#x2F;Java-详解ThreadLocal(完)&#x2F;&quot;,&quot;title&quot;:&quot;Java-详解ThreadLocal&quot;}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
 <title>Java-详解ThreadLocal | 宵月的书房</title>
@@ -208,7 +208,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://771592594.github.io/xiaoyue/2021/07/06/Java-%E8%AF%A6%E8%A7%A3ThreadLocal/">
+    <link itemprop="mainEntityOfPage" href="https://771592594.github.io/xiaoyue/2021/07/06/Java-%E8%AF%A6%E8%A7%A3ThreadLocal(%E5%AE%8C)/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/xiaoyue/images/avatar.png">
