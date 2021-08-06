@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://ftp.bmp.ovh/imgs/2021/08/32bbd498e60b3fa8.png">
 <meta property="og:image" content="https://ftp.bmp.ovh/imgs/2021/08/d99d454cf2b321da.png">
 <meta property="article:published_time" content="2021-08-04T11:17:43.000Z">
-<meta property="article:modified_time" content="2021-08-06T13:45:39.772Z">
+<meta property="article:modified_time" content="2021-08-06T13:46:02.565Z">
 <meta property="article:author" content="宵月">
 <meta property="article:tag" content="数据结构">
 <meta property="article:tag" content="堆">
@@ -237,7 +237,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-08-06 21:45:39" itemprop="dateModified" datetime="2021-08-06T21:45:39+08:00">2021-08-06</time>
+        <time title="修改时间：2021-08-06 21:46:02" itemprop="dateModified" datetime="2021-08-06T21:46:02+08:00">2021-08-06</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -287,7 +287,7 @@
 </ol>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">pop</span>(<span class="params">heap: <span class="built_in">list</span></span>):</span></span><br><span class="line">    value = heap[<span class="number">0</span>]</span><br><span class="line">    heap[<span class="number">0</span>] = heap[<span class="built_in">len</span>(heap) - <span class="number">1</span>]</span><br><span class="line">    heap.pop()</span><br><span class="line">    down(heap, <span class="number">0</span>, <span class="built_in">len</span>(heap))</span><br><span class="line">    <span class="keyword">return</span> value</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">down</span>(<span class="params">heap, node, size</span>):</span></span><br><span class="line">    smallest, left, right = node, node * <span class="number">2</span> + <span class="number">1</span>, node * <span class="number">2</span> + <span class="number">2</span></span><br><span class="line">	<span class="comment"># 将当前节点与大于它的孩子节点进行交换，实现下沉操作</span></span><br><span class="line">    <span class="keyword">if</span> left &lt; size <span class="keyword">and</span> heap[smallest] &gt; heap[left]:</span><br><span class="line">        smallest = left</span><br><span class="line">    <span class="keyword">if</span> right &lt; size <span class="keyword">and</span> heap[smallest] &gt; heap[right]:</span><br><span class="line">        smallest = right</span><br><span class="line">    <span class="keyword">if</span> node != smallest:</span><br><span class="line">        heap[node], heap[smallest] = heap[smallest], heap[node]</span><br><span class="line">        down(heap, smallest, size)</span><br></pre></td></tr></table></figure>
 
-<h2 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h2><p>利用堆顶（二叉树的根节点）存放最值的特性，我们可以通过下面的步骤实现堆排序：</p>
+<h2 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h2><p>利用堆顶存放最值的特性，我们可以通过下面的步骤实现堆排序：</p>
 <ol>
 <li>堆顶元素与 <strong>未排序的末尾元素</strong> 进行交换</li>
 <li>将新的堆顶元素下沉，将下一个最小值交换到根节点</li>
