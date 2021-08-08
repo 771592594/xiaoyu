@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://static001.geekbang.org/resource/image/e2/ea/e2aa76928b2bc135e08e7590ca36e0ea.png">
 <meta property="og:image" content="https://static001.geekbang.org/resource/image/33/63/33777c468872cb9a99b3cdc1ff597063.png">
 <meta property="article:published_time" content="2021-08-07T23:38:37.000Z">
-<meta property="article:modified_time" content="2021-08-08T07:12:08.081Z">
+<meta property="article:modified_time" content="2021-08-08T07:13:50.035Z">
 <meta property="article:author" content="宵月">
 <meta property="article:tag" content="多线程">
 <meta name="twitter:card" content="summary">
@@ -230,7 +230,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2021-08-08 07:38:37 / 修改时间：15:12:08" itemprop="dateCreated datePublished" datetime="2021-08-08T07:38:37+08:00">2021-08-08</time>
+      <time title="创建时间：2021-08-08 07:38:37 / 修改时间：15:13:50" itemprop="dateCreated datePublished" datetime="2021-08-08T07:38:37+08:00">2021-08-08</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -298,7 +298,7 @@
 <li>在 CPU 寄存器中对 count 进行 + 1</li>
 <li>将结果重新写回内存中</li>
 </ol>
-<p>假设一开始 <code>count=0</code>，如果线程A执行完指令1，切换到了线程B。线程B执行完指令123，将 <code>coun=1</code> 写入内存后，切换回线程A。此时线程A寄存器中的 count 仍然是0，执行指令23后也将 <code>coun=1</code> 写入内存。所以最终的执行结果是1而不我们所期望的2。</p>
+<p>假设一开始 <code>count=0</code>，如果线程A执行完指令1，切换到了线程B。线程B执行完指令123，将 <code>coun=1</code> 写入内存后，切换回线程A。此时线程A寄存器中的 count 仍然是0，执行指令23后也将 <code>coun=1</code> 写入内存。所以最终的执行结果是1，而非我们所期望的2。执行过程如下图所示：</p>
 <p><img src="https://static001.geekbang.org/resource/image/33/63/33777c468872cb9a99b3cdc1ff597063.png" alt="img"></p>
 <h1 id="编译优化带来的有序性问题"><a href="#编译优化带来的有序性问题" class="headerlink" title="编译优化带来的有序性问题"></a>编译优化带来的有序性问题</h1>
     </div>
