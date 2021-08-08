@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/xiaoyue/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/xiaoyue/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/xiaoyue/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/xiaoyue/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/xiaoyue/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;771592594.github.io&quot;,&quot;root&quot;:&quot;&#x2F;xiaoyue&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;xiaoyue&#x2F;images&quot;,&quot;scheme&quot;:&quot;Gemini&quot;,&quot;version&quot;:&quot;8.5.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;width&quot;:300,&quot;display&quot;:&quot;always&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:true,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;}}</script><script src="/xiaoyue/js/config.js"></script>
+<meta name="description" content="并发背后的故事这些年来，我们的 CPU、内存、IO设备 都在不断地朝着更快的方向迭代。但是在这个过程中，有一个核心矛盾却一直存在：三者之间的速度差异。用形象地方式来说就是：在程序运行时，CPU是天上一天，内存是地上一年（假设CPU 执行一条指令需要一天，那么内存读写就得等上一年）；内存与IO的差异就更大了，内存是天上一天，IO是地上十年。 程序中的大部分语句都是需要访问内存的，有些甚至还要访问IO">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为什么要学习并发编程">
+<meta property="og:url" content="https://771592594.github.io/xiaoyue/2021/08/08/%E5%B9%B6%E5%8F%91Bug%E7%9A%84%E6%A0%B9%E6%BA%90-%E5%8F%AF%E8%A7%81%E6%80%A7%E3%80%81%E5%8E%9F%E5%AD%90%E6%80%A7%E5%92%8C%E6%9C%89%E5%BA%8F%E6%80%A7%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="宵月的书房">
+<meta property="og:description" content="并发背后的故事这些年来，我们的 CPU、内存、IO设备 都在不断地朝着更快的方向迭代。但是在这个过程中，有一个核心矛盾却一直存在：三者之间的速度差异。用形象地方式来说就是：在程序运行时，CPU是天上一天，内存是地上一年（假设CPU 执行一条指令需要一天，那么内存读写就得等上一年）；内存与IO的差异就更大了，内存是天上一天，IO是地上十年。 程序中的大部分语句都是需要访问内存的，有些甚至还要访问IO">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://static001.geekbang.org/resource/image/a0/da/a07e8182819e2b260ce85b2167d446da.png">
+<meta property="og:image" content="https://static001.geekbang.org/resource/image/e2/ea/e2aa76928b2bc135e08e7590ca36e0ea.png">
+<meta property="og:image" content="https://static001.geekbang.org/resource/image/33/63/33777c468872cb9a99b3cdc1ff597063.png">
+<meta property="article:published_time" content="2021-08-07T23:38:37.000Z">
+<meta property="article:modified_time" content="2021-08-08T06:58:22.502Z">
+<meta property="article:author" content="宵月">
+<meta property="article:tag" content="多线程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://static001.geekbang.org/resource/image/a0/da/a07e8182819e2b260ce85b2167d446da.png">
+
+
+<link rel="canonical" href="https://771592594.github.io/xiaoyue/2021/08/08/%E5%B9%B6%E5%8F%91Bug%E7%9A%84%E6%A0%B9%E6%BA%90-%E5%8F%AF%E8%A7%81%E6%80%A7%E3%80%81%E5%8E%9F%E5%AD%90%E6%80%A7%E5%92%8C%E6%9C%89%E5%BA%8F%E6%80%A7%E9%97%AE%E9%A2%98/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;771592594.github.io&#x2F;xiaoyue&#x2F;2021&#x2F;08&#x2F;08&#x2F;%E5%B9%B6%E5%8F%91Bug%E7%9A%84%E6%A0%B9%E6%BA%90-%E5%8F%AF%E8%A7%81%E6%80%A7%E3%80%81%E5%8E%9F%E5%AD%90%E6%80%A7%E5%92%8C%E6%9C%89%E5%BA%8F%E6%80%A7%E9%97%AE%E9%A2%98&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;08&#x2F;08&#x2F;并发Bug的根源-可见性、原子性和有序性问题&#x2F;&quot;,&quot;title&quot;:&quot;为什么要学习并发编程&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>为什么要学习并发编程 | 宵月的书房</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/xiaoyue/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/xiaoyue/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">宵月的书房</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">keep folish, keep hungry</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/xiaoyue/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/xiaoyue/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/xiaoyue/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/xiaoyue/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/xiaoyue/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91%E8%83%8C%E5%90%8E%E7%9A%84%E6%95%85%E4%BA%8B"><span class="nav-number">1.</span> <span class="nav-text">并发背后的故事</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E5%B8%A6%E6%9D%A5%E7%9A%84%E5%8F%AF%E8%A7%81%E6%80%A7%E9%97%AE%E9%A2%98"><span class="nav-number">2.</span> <span class="nav-text">缓存带来的可见性问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E5%88%87%E6%8D%A2%E5%B8%A6%E6%9D%A5%E7%9A%84%E5%8E%9F%E5%AD%90%E6%80%A7%E9%97%AE%E9%A2%98"><span class="nav-number">3.</span> <span class="nav-text">线程切换带来的原子性问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E4%BC%98%E5%8C%96%E5%B8%A6%E6%9D%A5%E7%9A%84%E6%9C%89%E5%BA%8F%E6%80%A7%E9%97%AE%E9%A2%98"><span class="nav-number">4.</span> <span class="nav-text">编译优化带来的有序性问题</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="宵月"
+      src="/xiaoyue/images/avatar.png">
+  <p class="site-author-name" itemprop="name">宵月</p>
+  <div class="site-description" itemprop="description">分享技术与生活</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/xiaoyue/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/xiaoyue/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/xiaoyue/tags/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://github.com/771592594" title="https:&#x2F;&#x2F;github.com&#x2F;771592594" rel="noopener" target="_blank">GitHub</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=419485668&auto=1&height=66"></iframe>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://771592594.github.io/xiaoyue/2021/08/08/%E5%B9%B6%E5%8F%91Bug%E7%9A%84%E6%A0%B9%E6%BA%90-%E5%8F%AF%E8%A7%81%E6%80%A7%E3%80%81%E5%8E%9F%E5%AD%90%E6%80%A7%E5%92%8C%E6%9C%89%E5%BA%8F%E6%80%A7%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/xiaoyue/images/avatar.png">
+      <meta itemprop="name" content="宵月">
+      <meta itemprop="description" content="分享技术与生活">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵月的书房">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          为什么要学习并发编程
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2021-08-08 07:38:37 / 修改时间：14:58:22" itemprop="dateCreated datePublished" datetime="2021-08-08T07:38:37+08:00">2021-08-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/xiaoyue/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" itemprop="url" rel="index"><span itemprop="name">技术分享</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="并发背后的故事"><a href="#并发背后的故事" class="headerlink" title="并发背后的故事"></a>并发背后的故事</h1><p>这些年来，我们的 CPU、内存、IO设备 都在不断地朝着更快的方向迭代。但是在这个过程中，有一个核心矛盾却一直存在：三者之间的速度差异。用形象地方式来说就是：在程序运行时，CPU是天上一天，内存是地上一年（假设CPU 执行一条指令需要一天，那么内存读写就得等上一年）；内存与IO的差异就更大了，内存是天上一天，IO是地上十年。</p>
+<p>程序中的大部分语句都是需要访问内存的，有些甚至还要访问IO。根据木桶理论（一只木桶所能装的水取决于它的最短板），程序的整体运行效率取决于它最慢的读写IO设备。</p>
+<p>为了合理利用CPU的高性能，平衡三者的速度差异，计算机体系结构、操作系统、编译程序都做出了贡献，主要体现为：</p>
+<ol>
+<li>CPU增加了缓存，以平衡与内存的速度差异</li>
+<li>操作系统增加了进程和线程，以分时复用CPU，平衡了CPU与IO设备的速度差异</li>
+<li>编译程序优化指令集的顺序，使得缓存能够得到合理地利用</li>
+</ol>
+<p>现在我们默默地享受这些成果，但天下没有免费地午餐，并发编程很多诡异的问题也来源于此</p>
+<h1 id="缓存带来的可见性问题"><a href="#缓存带来的可见性问题" class="headerlink" title="缓存带来的可见性问题"></a>缓存带来的可见性问题</h1><p>在单核主机上，所有线程都在一个CPU上执行，CPU缓存与内存数据的一致性容易解决。因为所有线程的读写操作都作用于同一个CPU的缓存，所以一个线程的写对于另一个线程的读，一定是可见的。比如在下图中，线程A更新了变量V的值，线程B去读取变量V，读取的一定是A写入的值。</p>
+<p><img src="https://static001.geekbang.org/resource/image/a0/da/a07e8182819e2b260ce85b2167d446da.png"></p>
+<p><strong>一个线程对共享变量的修改，另外一个线程能够立刻看到，我们称为可见性。</strong></p>
+<p>在多核主机上，每个CPU都有自己的缓存，这时候CPU缓存与内存的一致性就没那么好解决。比如下图中，线程A、B在启动时，会将内存中的变量V拷贝到各自的CPU缓存中，然后在各自的CPU缓存中进行读写操作。这个时候，线程A对变量V的写，对线程B就不具备可见性了。</p>
+<p><img src="https://static001.geekbang.org/resource/image/e2/ea/e2aa76928b2bc135e08e7590ca36e0ea.png" alt="img"></p>
+<p>下面我们通过这么一段例子，来验证一下多核场景下的可见性问题。类中有个共享变量 <code>isChanged</code> ，在一个线程线程不不停地对它取反，在另一个线程如果察觉到它的值变化则结束程序。请问这段代码执行效果是怎么样的呢？</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestWithoutVolatile</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> isChanged = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">while</span> (isChanged == isChanged);</span><br><span class="line">            System.exit(<span class="number">0</span>);</span><br><span class="line">        &#125;).start();</span><br><span class="line"></span><br><span class="line">        Thread.sleep(<span class="number">1</span>);</span><br><span class="line">        <span class="keyword">for</span> (; ; isChanged = !isChanged);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>很多人第一反应是 <code>isChanged == isChanged</code> 这个判断条件是永真，因此会死循环。虽然程序会死循环的结论是正确的，但 <code>isChanged == isChanged</code> 真的是永真的吗？</p>
+<p>我们把循环部分单独拎出来，通过 <code>javap -c TestWithoutVolatile</code> 命令查看它的字节码指令</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestWithoutVolatile</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> isChanged = <span class="keyword">false</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        <span class="keyword">while</span>(isChanged == isChanged);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public static void main(java.lang.String[]) throws java.lang.InterruptedException;</span><br><span class="line">  Code:</span><br><span class="line">     0: getstatic     #7                  // Field isChanged:Z</span><br><span class="line">     3: getstatic     #7                  // Field isChanged:Z</span><br><span class="line">     6: if_icmpne     12</span><br><span class="line">     9: goto          0</span><br><span class="line">    12: return</span><br></pre></td></tr></table></figure>
+
+<p>这段字节码指令执行的操作如下：</p>
+<ol>
+<li>获取静态字段 isChanged，并将其值压入栈顶</li>
+<li>获取静态字段 isChanged，并将其值压入栈顶</li>
+<li>比较栈顶两个数的大小，当结果不等于0时跳转到12行；否则，通过goto指令回到第0行循环执行</li>
+</ol>
+<p>从这段字节码中可以知道 <code>isChanged == isChanged</code> 这个操作是由三条指令组成，并不是一个原子操作，在某种情况下可能会返回false。比如：子线程启动时 isChanged 为 false，它第一次执行 getstatic 将 0 压入栈中；这时切环到了主线程，主线程对 isCahnge 取反将其修改为 true。这时候切回子线程执行 getstatic 会将1压入栈中，然后执行 if_icmpne 指令进行比较，比较的结果就是 false。所以 <code>isChanged == isChanged</code> 并不是永真的。</p>
+<p>既然 while 的判断条件不是永真的，那为什么上面的程序会出现死循环呢？原因是主线程和子线程在启动时，会将变量加载到各自的CPU缓存中，每次读取都是访问自己的CPU缓存，因此无法感知到其他线程对该变量的修改。这就是并发编程的可见性问题。</p>
+<h1 id="线程切换带来的原子性问题"><a href="#线程切换带来的原子性问题" class="headerlink" title="线程切换带来的原子性问题"></a>线程切换带来的原子性问题</h1><p>在操作系统中 IO 这个耗时的任务并不是由 CPU 来干的，因此 CPU 没必要等待 IO 完成再去执行其他任务。早期的操作系统为了解决 IO 过慢的问题，发明了多进程：操作系统会实时地选择一个进程，分配一小段时间（比如50ms）让它执行。过了50ms，操作系统会重新选一个进程来执行，这个过程称为”任务切换“，给进程分配地时间叫做”时间片“。</p>
+<p>如果在时间片里，进程要执行 IO 操作，比如读文件。那么这个进程可以将自身挂起，让出 CPU 的资源让其他进程执行任务。等到文件读取到内存后，由操作系统将该进程唤醒，唤醒后就由机会重新获取CPU的使用权。</p>
+<p>因为进程间是不共享内存空间的，所以进程要做任务切换就要切换内存映射地址，而一个进程创建的所有线程，都是共享一个内存空间的，所以线程做任务切换成本就很低了。现代的操作系统都基于更轻量的线程来调度，现在我们提到的“任务切换”都是指“线程切换”。</p>
+<p><strong>我们把一个或者多个操作在 CPU 执行的过程中不被中断的特性称为原子性。</strong></p>
+<p>如今我们使用高级语言进程编程，高级语言的一条语句往往对应多条CPU指令，<strong>任务切换可以发生在任何一条CPU指令执行完时，而非高级语言的一条语句执行完时。换句话说就是，高级语言的语句执行不是原子性的，可能会由于任务切换得到意想不到的结果。</strong></p>
+<p>下面我们通过这么一段例子，来验证一下多核场景下的原子性问题。下面的代码，调用 <code>add()</code> 方法会执行 1000000 次 count += 1 的操作。我们创建两个线程来调用这个方法，两个线程都执行完成后，你觉得 count 值是多少呢？</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">long</span> count = <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> idx = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (idx++ &lt; <span class="number">1000000</span>) &#123;</span><br><span class="line">            count += <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        <span class="comment">// 创建两个线程，执行add()操作</span></span><br><span class="line">        Thread th1 = <span class="keyword">new</span> Thread(Test::add);</span><br><span class="line">        Thread th2 = <span class="keyword">new</span> Thread(Test::add);</span><br><span class="line">        th1.start();th2.start();</span><br><span class="line">        th1.join();th2.join();</span><br><span class="line">        System.out.println(count);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>直觉上这段代码的执行结果应该是2000000，但实际执行结果却是[1000000, 2000000]之间的随机数，这是为什么呢？</p>
+<p>原因是 <code>count += 1</code> 这个语句不是一条 CPU 指令，而是由三条 CPU 指令组成的：</p>
+<ol>
+<li>将 count 加载到 CPU 寄存器</li>
+<li>在 CPU 寄存器中对 count 进行 + 1</li>
+<li>将结果重新写回内存中</li>
+</ol>
+<p>假设一开始 count=0，如果线程A执行完指令1，切换到了线程B。线程B执行完指令123，将coun=1写入内存后，切换回线程A。此时线程A寄存器中的count仍然是0，执行指令23后也将coun=1写入内存。所以最终的执行结果是1而不我们所期望的2。</p>
+<p><img src="https://static001.geekbang.org/resource/image/33/63/33777c468872cb9a99b3cdc1ff597063.png" alt="img"></p>
+<h1 id="编译优化带来的有序性问题"><a href="#编译优化带来的有序性问题" class="headerlink" title="编译优化带来的有序性问题"></a>编译优化带来的有序性问题</h1>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>如果觉得有所帮助，不妨请作者喝杯奶茶</div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/xiaoyue/images/wechatpay.png" alt="宵月 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/xiaoyue/images/alipay.png" alt="宵月 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/xiaoyue/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag"><i class="fa fa-tag"></i> 多线程</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/xiaoyue/2021/08/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%A0%86/" rel="prev" title="数据结构-堆">
+                  <i class="fa fa-chevron-left"></i> 数据结构-堆
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">宵月</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script size="150" alpha="0.3" zIndex="-2" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/xiaoyue/js/comments.js"></script><script src="/xiaoyue/js/utils.js"></script><script src="/xiaoyue/js/motion.js"></script><script src="/xiaoyue/js/next-boot.js"></script>
+
+  
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{&quot;enable&quot;:true,&quot;tags&quot;:&quot;none&quot;,&quot;js&quot;:{&quot;url&quot;:&quot;https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;npm&#x2F;mathjax@3.1.4&#x2F;es5&#x2F;tex-mml-chtml.js&quot;,&quot;integrity&quot;:&quot;sha256-ncNI9OXOS5Ek4tzVYiOMmN&#x2F;KKCPZ6V0Cpv2P&#x2F;zHntiA&#x3D;&quot;}}</script>
+<script src="/xiaoyue/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
