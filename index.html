@@ -223,7 +223,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2021-10-06 17:39:12 / 修改时间：22:15:45" itemprop="dateCreated datePublished" datetime="2021-10-06T17:39:12+08:00">2021-10-06</time>
+      <time title="创建时间：2021-10-06 17:39:12 / 修改时间：22:37:39" itemprop="dateCreated datePublished" datetime="2021-10-06T17:39:12+08:00">2021-10-06</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -245,7 +245,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>文章背景: 最近公司的几个外包到期了，我接手了他们做的工地考勤上报对接。这个对接主要工作是将我们平台的考勤数据通过接口上传到数据平台。在阅览他们的代码时，我发现他们总是在循环中对单条数据做查询，大概的代码如下:</p>
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>文章背景: 最近公司的几个外包到期了，我接手了他们做的工地考勤上报对接。对接主要工作是将我们平台的考勤数据通过接口上传到数据平台。在阅览他们的代码时，我发现他们总是在循环中对单条数据做查询，大概的代码如下:</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">uploadAttendance</span><span class="params">(List&lt;RecognitionPO&gt; recognitionList)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (RecognitionPO recognition : recognitionList) &#123;</span><br><span class="line">    	PersonPO personPO = personMapper.selectById(recognition.getPersonId());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>在每次都有上千条考勤需要上传的场景下，这段代码的运行效率不是很好，光是查询数据就都需要好几分钟。</p>
