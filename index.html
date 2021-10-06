@@ -135,7 +135,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/xiaoyue/archives/">
         
-          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-count">19</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -148,7 +148,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/xiaoyue/tags/">
           
-        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-count">19</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -189,6 +189,90 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://771592594.github.io/xiaoyue/2021/10/06/Java-%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E8%A6%81%E5%8D%A0%E7%94%A8%E5%A4%9A%E5%B0%91%E5%86%85%E5%AD%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/xiaoyue/images/avatar.png">
+      <meta itemprop="name" content="xiaoyue">
+      <meta itemprop="description" content="分享技术与生活">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiaoyue">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/xiaoyue/2021/10/06/Java-%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E8%A6%81%E5%8D%A0%E7%94%A8%E5%A4%9A%E5%B0%91%E5%86%85%E5%AD%98/" class="post-title-link" itemprop="url">Java-一个对象要占用多少内存</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2021-10-06 17:39:12 / 修改时间：22:12:07" itemprop="dateCreated datePublished" datetime="2021-10-06T17:39:12+08:00">2021-10-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/xiaoyue/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" itemprop="url" rel="index"><span itemprop="name">技术分享</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>文章背景: 最近我公司的几个外包员工离职了，我接手了他们做的实名制考勤上报业务。这个业务的主要工作是将我们平台的考勤数据通过网络请求的方式上传到数据平台。在浏览外包写的代码时，发现他们总是在循环中对单条数据做查询，大概的代码如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">uploadAttendance</span><span class="params">(List&lt;RecognitionPO&gt; recognitionList)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (RecognitionPO recognition : recognitionList) &#123;</span><br><span class="line">    	PersonPO personPO = personMapper.selectById(recognition.getPersonId());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在每次都有上千条考勤需要上传的场景下，这段代码的运行效率不是很好，光是查询数据就都需要好几分钟。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/xiaoyue/2021/10/06/Java-%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E8%A6%81%E5%8D%A0%E7%94%A8%E5%A4%9A%E5%B0%91%E5%86%85%E5%AD%98/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -966,94 +1050,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/xiaoyue/2021/07/06/%E5%93%88%E5%B8%8C%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E7%AD%96%E7%95%A5(%E5%AE%8C)/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://771592594.github.io/xiaoyue/2021/07/06/Java-%E8%AF%A6%E8%A7%A3ThreadLocal(%E5%AE%8C)/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/xiaoyue/images/avatar.png">
-      <meta itemprop="name" content="xiaoyue">
-      <meta itemprop="description" content="分享技术与生活">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="xiaoyue">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/xiaoyue/2021/07/06/Java-%E8%AF%A6%E8%A7%A3ThreadLocal(%E5%AE%8C)/" class="post-title-link" itemprop="url">Java-详解ThreadLocal</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2021-07-06 21:02:23" itemprop="dateCreated datePublished" datetime="2021-07-06T21:02:23+08:00">2021-07-06</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-08-07 12:07:19" itemprop="dateModified" datetime="2021-08-07T12:07:19+08:00">2021-08-07</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/xiaoyue/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" itemprop="url" rel="index"><span itemprop="name">技术分享</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>ThreadLocal 类提供了线程内存储变量的能力，作用主要是做数据隔离，填充的数据只属于当前线程，对于别的线程而言是相对隔离的，在多线程环境下，可以防止自己的变量被其它线程篡改。</p>
-<h1 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h1><h2 id="数据隔离"><a href="#数据隔离" class="headerlink" title="数据隔离"></a>数据隔离</h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/xiaoyue/2021/07/06/Java-%E8%AF%A6%E8%A7%A3ThreadLocal(%E5%AE%8C)/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
