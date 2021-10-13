@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://ftp.bmp.ovh/imgs/2021/08/f953ef202e04e34f.png">
 <meta property="og:image" content="https://ftp.bmp.ovh/imgs/2021/08/134967e0b33f79f8.png">
 <meta property="article:published_time" content="2021-08-29T07:47:11.000Z">
-<meta property="article:modified_time" content="2021-10-13T14:23:32.217Z">
+<meta property="article:modified_time" content="2021-10-13T14:24:48.262Z">
 <meta property="article:author" content="xiaoyue">
 <meta property="article:tag" content="IO">
 <meta name="twitter:card" content="summary">
@@ -236,7 +236,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-10-13 22:23:32" itemprop="dateModified" datetime="2021-10-13T22:23:32+08:00">2021-10-13</time>
+        <time title="修改时间：2021-10-13 22:24:48" itemprop="dateModified" datetime="2021-10-13T22:24:48+08:00">2021-10-13</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -275,7 +275,7 @@
 <p>在 linux 系统中可以使用 <code>ulimit -a</code> 命令查看系统的最大句柄数; 使用 <code>ulimit -n</code> 命令修改操作系统的最大句柄数；</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">ulimit</span> -a</span></span><br><span class="line">core file size          (blocks, -c) 0</span><br><span class="line">data seg size           (kbytes, -d) unlimited</span><br><span class="line">scheduling priority             (-e) 0</span><br><span class="line">file size               (blocks, -f) unlimited</span><br><span class="line">pending signals                 (-i) 7823</span><br><span class="line">max locked memory       (kbytes, -l) 64</span><br><span class="line">max memory size         (kbytes, -m) unlimited</span><br><span class="line">open files                      (-n) 1024</span><br><span class="line">pipe size            (512 bytes, -p) 8</span><br><span class="line">POSIX message queues     (bytes, -q) 819200</span><br><span class="line">real-time priority              (-r) 0</span><br><span class="line">stack size              (kbytes, -s) 8192</span><br><span class="line">cpu time               (seconds, -t) unlimited</span><br><span class="line">max user processes              (-u) 7823</span><br><span class="line">virtual memory          (kbytes, -v) unlimited</span><br><span class="line">file locks                      (-x) unlimited</span><br></pre></td></tr></table></figure>
 
-<p><strong>综上所述，我们可以得出一下结论：如果流不关闭，操作系统的句柄也会一直存在，最终导致系统资源枯竭，无法打开新的文件了。</strong></p>
+<p><strong>综上所述：如果流不关闭，操作系统的句柄也会一直存在，最终导致系统资源枯竭，无法打开新的文件了。</strong></p>
 <h1 id="优雅地关闭流"><a href="#优雅地关闭流" class="headerlink" title="优雅地关闭流"></a>优雅地关闭流</h1><h2 id="try-with-resource"><a href="#try-with-resource" class="headerlink" title="try-with-resource"></a>try-with-resource</h2><p>为了避免开发者忘记关闭流，在 JDK 1.7 中提供了 <code>try-with-resource</code> 的语法糖，保证流在使用完毕后自动关闭。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> (FileOutputStream os = <span class="keyword">new</span> FileOutputStream(<span class="string">&quot;aaa.txt&quot;</span>)) &#123;</span><br><span class="line">        os.write(<span class="string">&quot;hello world&quot;</span>.getBytes(StandardCharsets.UTF_8));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
