@@ -33,7 +33,7 @@
 <meta property="og:image" content="https://files.catbox.moe/2k40a5.png">
 <meta property="og:image" content="https://files.catbox.moe/hzpk33.png">
 <meta property="article:published_time" content="2021-10-11T12:30:50.000Z">
-<meta property="article:modified_time" content="2021-10-16T07:38:13.360Z">
+<meta property="article:modified_time" content="2021-10-16T08:02:30.888Z">
 <meta property="article:author" content="xiaoyue">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="锁">
@@ -128,7 +128,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%94%81%E7%B2%92%E5%BA%A6"><span class="nav-number">1.</span> <span class="nav-text">锁粒度</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B2%97%E7%B2%92%E5%BA%A6%E9%94%81"><span class="nav-number">1.1.</span> <span class="nav-text">粗粒度锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%86%E7%B2%92%E5%BA%A6%E9%94%81"><span class="nav-number">1.2.</span> <span class="nav-text">细粒度锁</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%AD%BB%E9%94%81"><span class="nav-number">2.</span> <span class="nav-text">死锁</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%AD%BB%E9%94%81"><span class="nav-number">2.1.</span> <span class="nav-text">什么是死锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E9%A2%84%E9%98%B2%E6%AD%BB%E9%94%81"><span class="nav-number">2.2.</span> <span class="nav-text">如何预防死锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A0%B4%E5%9D%8F%E2%80%9D%E5%8D%A0%E7%94%A8%E5%B9%B6%E7%AD%89%E5%BE%85%E2%80%9D%E6%9D%A1%E4%BB%B6"><span class="nav-number">2.3.</span> <span class="nav-text">破坏”占用并等待”条件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A0%B4%E5%9D%8F%E2%80%9D%E4%B8%8D%E5%8F%AF%E6%8A%A2%E5%8D%A0%E2%80%9D%E6%9D%A1%E4%BB%B6"><span class="nav-number">2.4.</span> <span class="nav-text">破坏”不可抢占”条件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A0%B4%E5%9D%8F%E2%80%9D%E5%BE%AA%E7%8E%AF%E7%AD%89%E5%BE%85%E2%80%9D%E6%9D%A1%E4%BB%B6"><span class="nav-number">2.5.</span> <span class="nav-text">破坏”循环等待”条件</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%94%81%E7%B2%92%E5%BA%A6"><span class="nav-number">1.</span> <span class="nav-text">锁粒度</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B2%97%E7%B2%92%E5%BA%A6%E9%94%81"><span class="nav-number">1.1.</span> <span class="nav-text">粗粒度锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%86%E7%B2%92%E5%BA%A6%E9%94%81"><span class="nav-number">1.2.</span> <span class="nav-text">细粒度锁</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%AD%BB%E9%94%81"><span class="nav-number">2.</span> <span class="nav-text">死锁</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%AD%BB%E9%94%81"><span class="nav-number">2.1.</span> <span class="nav-text">什么是死锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E9%A2%84%E9%98%B2%E6%AD%BB%E9%94%81"><span class="nav-number">2.2.</span> <span class="nav-text">如何预防死锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A0%B4%E5%9D%8F%E2%80%9D%E5%8D%A0%E7%94%A8%E5%B9%B6%E7%AD%89%E5%BE%85%E2%80%9D%E6%9D%A1%E4%BB%B6"><span class="nav-number">2.3.</span> <span class="nav-text">破坏”占用并等待”条件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A0%B4%E5%9D%8F%E2%80%9D%E4%B8%8D%E5%8F%AF%E6%8A%A2%E5%8D%A0%E2%80%9D%E6%9D%A1%E4%BB%B6"><span class="nav-number">2.4.</span> <span class="nav-text">破坏”不可抢占”条件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A0%B4%E5%9D%8F%E2%80%9D%E5%BE%AA%E7%8E%AF%E7%AD%89%E5%BE%85%E2%80%9D%E6%9D%A1%E4%BB%B6"><span class="nav-number">2.5.</span> <span class="nav-text">破坏”循环等待”条件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -239,7 +239,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-10-16 15:38:13" itemprop="dateModified" datetime="2021-10-16T15:38:13+08:00">2021-10-16</time>
+        <time title="修改时间：2021-10-16 16:02:30" itemprop="dateModified" datetime="2021-10-16T16:02:30+08:00">2021-10-16</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -319,8 +319,12 @@
 <p>在转账的案例中，我们给每个账户设置一个id，作为排序字段。锁必须按id从小到大的顺序进行申请，比如：一个线程要获取id为[2,1]的锁，那么它必须先获取到id为1的锁，然后才能去获取id为2的锁。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Account</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Integer id;</span><br><span class="line">    <span class="keyword">private</span> Integer amount;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">transfer</span><span class="params">(Account target, <span class="keyword">int</span> amount)</span> </span>&#123;</span><br><span class="line">        Account smaller = <span class="keyword">this</span>;</span><br><span class="line">        Account bigger = target;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.id &gt; target.id) &#123;</span><br><span class="line">            smaller = target;</span><br><span class="line">            bigger = <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">synchronized</span> (smaller) &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (bigger) &#123;</span><br><span class="line">                <span class="keyword">this</span>.amount -= amount;</span><br><span class="line">                target.amount += amount;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-
-
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ol>
+<li>在编写并发代码时，锁的粒度越小，程序的运行效率越高。在保证正确性的情况下，应该尽可能使用细粒度锁。</li>
+<li>如果存在多个需要保护的资源，只使用其中一个资源作为锁是不够的，锁必须覆盖所有需要保护的资源。</li>
+<li>使用细粒度锁保护多个资源时，如果实现不当，可能会出现死锁问题。</li>
+<li>对于死锁问题，我们要了解它产生的四大必要条件。只要能够破坏其中一条，就能避免死锁的产生。</li>
+</ol>
 
     </div>
 
