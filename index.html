@@ -135,7 +135,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/xiaoyue/archives/">
         
-          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-count">23</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -189,6 +189,96 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://771592594.github.io/xiaoyue/2021/11/01/Java-%E7%AD%89%E5%BE%85%E9%80%9A%E7%9F%A5%E6%9C%BA%E5%88%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/xiaoyue/images/avatar.png">
+      <meta itemprop="name" content="xiaoyue">
+      <meta itemprop="description" content="分享技术与生活">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiaoyue">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/xiaoyue/2021/11/01/Java-%E7%AD%89%E5%BE%85%E9%80%9A%E7%9F%A5%E6%9C%BA%E5%88%B6/" class="post-title-link" itemprop="url">Java-等待通知机制</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-11-01 19:20:00" itemprop="dateCreated datePublished" datetime="2021-11-01T19:20:00+08:00">2021-11-01</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-11-06 20:56:19" itemprop="dateModified" datetime="2021-11-06T20:56:19+08:00">2021-11-06</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/xiaoyue/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" itemprop="url" rel="index"><span itemprop="name">技术分享</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在之前写的 <a href="https://771592594.github.io/xiaoyue/2021/10/11/Java-%E9%94%81%E7%B2%92%E5%BA%A6%E4%B8%8E%E6%AD%BB%E9%94%81%E9%97%AE%E9%A2%98/">《Java-锁粒度与死锁问题》</a> 一文中，我们知道死锁有四个必要条件，只要破坏其一就不会出现。其中，我们破坏**”占有并等待”**条件时创建了一个资源分配器，只有当线程能够获取到要求全部资源时，才会将资源分配给它；如果线程无法获取到所有的资源，则会使用死循环来不断尝试获取。代码如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Allocator</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Set&lt;Object&gt; locks = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">apply</span><span class="params">(Account from, Account to)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (locks.contains(from) || locks.contains(to)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        locks.addAll(Arrays.asList(from, to));</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">free</span><span class="params">(Account from, Account to)</span> </span>&#123;</span><br><span class="line">        locks.removeAll(Arrays.asList(from, to));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Account</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Integer amount;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">transfer</span><span class="params">(Account target, Integer amount)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">while</span> (!Allocator.apply(<span class="keyword">this</span>, target));</span><br><span class="line">        <span class="keyword">this</span>.amount -= amount;</span><br><span class="line">        target.amount += amount;</span><br><span class="line">        Allocator.free(<span class="keyword">this</span>, target);            </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/xiaoyue/2021/11/01/Java-%E7%AD%89%E5%BE%85%E9%80%9A%E7%9F%A5%E6%9C%BA%E5%88%B6/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -966,95 +1056,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/xiaoyue/2021/08/16/%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F%E7%9A%84%E7%90%86%E8%A7%A3%E4%B8%8E%E5%BA%94%E7%94%A8(%E5%AE%8C)/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://771592594.github.io/xiaoyue/2021/08/08/%E5%B9%B6%E5%8F%91Bug%E7%9A%84%E6%A0%B9%E6%BA%90-%E5%8F%AF%E8%A7%81%E6%80%A7%E3%80%81%E5%8E%9F%E5%AD%90%E6%80%A7%E5%92%8C%E6%9C%89%E5%BA%8F%E6%80%A7%E9%97%AE%E9%A2%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/xiaoyue/images/avatar.png">
-      <meta itemprop="name" content="xiaoyue">
-      <meta itemprop="description" content="分享技术与生活">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="xiaoyue">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/xiaoyue/2021/08/08/%E5%B9%B6%E5%8F%91Bug%E7%9A%84%E6%A0%B9%E6%BA%90-%E5%8F%AF%E8%A7%81%E6%80%A7%E3%80%81%E5%8E%9F%E5%AD%90%E6%80%A7%E5%92%8C%E6%9C%89%E5%BA%8F%E6%80%A7%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">并发Bug的根源-可见性、原子性和有序性问题</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2021-08-08 07:38:37" itemprop="dateCreated datePublished" datetime="2021-08-08T07:38:37+08:00">2021-08-08</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-10-10 19:37:56" itemprop="dateModified" datetime="2021-10-10T19:37:56+08:00">2021-10-10</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/xiaoyue/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" itemprop="url" rel="index"><span itemprop="name">技术分享</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="并发背后的故事"><a href="#并发背后的故事" class="headerlink" title="并发背后的故事"></a>并发背后的故事</h1><p>这些年来，我们的 CPU、内存、IO设备 都在不断地朝着更快的方向迭代。但是在这个过程中，有一个核心矛盾却一直存在：三者之间的速度差异。用形象地方式来说就是：在程序运行时，CPU是天上一天，内存是地上一年（假设CPU 执行一条指令需要一天，那么内存读写就得等上一年）；内存与IO的差异就更大了，内存是天上一天，IO是地上十年。</p>
-<p>程序中的大部分语句都是需要访问内存的，有些甚至还要访问IO。根据木桶理论（一只木桶所能装的水取决于它的最短板），程序的整体运行效率取决于它最慢的读写IO设备。</p>
-<p>为了合理利用CPU的高性能，平衡三者的速度差异，计算机体系结构、操作系统、编译程序都做出了贡献，主要体现为：</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/xiaoyue/2021/08/08/%E5%B9%B6%E5%8F%91Bug%E7%9A%84%E6%A0%B9%E6%BA%90-%E5%8F%AF%E8%A7%81%E6%80%A7%E3%80%81%E5%8E%9F%E5%AD%90%E6%80%A7%E5%92%8C%E6%9C%89%E5%BA%8F%E6%80%A7%E9%97%AE%E9%A2%98/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
