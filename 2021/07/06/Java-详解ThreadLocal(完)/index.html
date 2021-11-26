@@ -28,19 +28,19 @@
 <meta property="og:site_name" content="xiaoyue">
 <meta property="og:description" content="前言ThreadLocal 类提供了线程内存储变量的能力，作用主要是做数据隔离，填充的数据只属于当前线程，对于别的线程而言是相对隔离的，在多线程环境下，可以防止自己的变量被其它线程篡改。 使用场景数据隔离">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2021/07/6387b862505d841b.png">
-<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2021/07/743b1013dc87aeaf.png">
-<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2021/07/cc44a4c64c706dbc.png">
-<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2021/07/bb5b8cd1dbcfd4f8.png">
-<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2021/07/2d314f398ce2207c.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/8a81b3a7ba24282f5e4f26fc3c7c6bb6.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/06e6816cf289b8fc415ec33c204d03e2.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/1c4db27dc97feb55c84ce4e674abd8e7.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/44ff8c0a50aaadd1511f489074913823.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/7fea4432537a986104ec1d2e2e290d7a.png">
 <meta property="article:published_time" content="2021-07-06T13:02:23.000Z">
-<meta property="article:modified_time" content="2021-11-26T11:58:51.561Z">
+<meta property="article:modified_time" content="2021-11-26T14:07:10.946Z">
 <meta property="article:author" content="xiaoyue">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="多线程">
 <meta property="article:tag" content="ThreadLocal">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://ftp.bmp.ovh/imgs/2021/07/6387b862505d841b.png">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/img_convert/8a81b3a7ba24282f5e4f26fc3c7c6bb6.png">
 
 
 <link rel="canonical" href="https://771592594.github.io/xiaoyue/2021/07/06/Java-%E8%AF%A6%E8%A7%A3ThreadLocal(%E5%AE%8C)/">
@@ -241,7 +241,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-11-26 19:58:51" itemprop="dateModified" datetime="2021-11-26T19:58:51+08:00">2021-11-26</time>
+        <time title="修改时间：2021-11-26 22:07:10" itemprop="dateModified" datetime="2021-11-26T22:07:10+08:00">2021-11-26</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -267,7 +267,7 @@
 <h1 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h1><h2 id="数据隔离"><a href="#数据隔离" class="headerlink" title="数据隔离"></a>数据隔离</h2><p>ThreadLocal 主要用于各种开源框架中，比如：Spring的线程隔离、Mybatis的缓存机制（这些等我整明白了再补上）</p>
 <p>实际项目很难用上 ThreadLocal，但有些场景确实需要使用它，比如：多线程使用 <code>SimpleDateFormat</code> </p>
 <p><code>SimpleDateFormat</code> 是一个线程不安全的类，我们使用它的 <code>format()</code> 和 <code>parse()</code> 方法来进行时间和字符串之间的转化。每次调用 <code>format()</code> 方法格式化时间时，都会重新设置内部的 <code>Calendar</code> 的对象，然后根据 <code>calendar</code> 对象中时间格式化字符串。调用 <code>parse()</code> 方法，也会修改的  <code>Calendar</code> 对象，然后根据  <code>Calendar</code> 创建日期对象。</p>
-<p><img src="https://ftp.bmp.ovh/imgs/2021/07/6387b862505d841b.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/8a81b3a7ba24282f5e4f26fc3c7c6bb6.png"></p>
 <p>因此，这个类在多线程的情况下使用可能会出现时间错误的问题。这个问题的解决方案就是使用 <code>ThreadLocal</code> 包装  <code>SimpleDateFormat</code> ，调用 <code>ThreadLocal.withInitial()</code> 方法为每个线程设置 <code>SimpleDateFormat</code> 对象副本</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> ThreadLocal&lt;SimpleDateFormat&gt; localFormat = </span><br><span class="line">    ThreadLocal.withInitial(() -&gt; <span class="keyword">new</span> SimpleDateFormat(<span class="string">&quot;yyyy-MM-dd&quot;</span>));</span><br></pre></td></tr></table></figure>
 
@@ -328,9 +328,9 @@
 <p>虚引用：通过 PhantomReference 创建，不会影响对象的生命周期，也无法通过虚引用来获取实例，为对象设置虚引用唯一的目的是为了让该对象被回收时返回一个系统通知</p>
 </blockquote>
 <p>除了强引用外，其他三种引用都是通过类创建，这些类的父类 <code>Reference</code> 类有一个 <code>referent</code> 的字段，<strong>该字段引用的对象会被 GC 回收机制特殊处理。</strong></p>
-<p><img src="https://ftp.bmp.ovh/imgs/2021/07/743b1013dc87aeaf.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/06e6816cf289b8fc415ec33c204d03e2.png"></p>
 <p><code>ThreadLocalMap.Entry</code> 继承了弱引用 <code>WeekReference</code>，在实例化时会调用父类 <code>WeekReference</code> 的构造方法传入 <code>ThreadLocal</code> 参数</p>
-<p><img src="https://ftp.bmp.ovh/imgs/2021/07/cc44a4c64c706dbc.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/1c4db27dc97feb55c84ce4e674abd8e7.png"></p>
 <p>而 <code>WeekReference</code> 又调用了父类 <code>Reference</code> 的构造方法，最终将  <code>ThreadLocal</code> 参数赋值给了 <code>reference</code> 字段。因此 <code>Entry</code> 中的 <code>ThreadLocal</code> 是一个弱引用。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WeakReference</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">Reference</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">WeakReference</span><span class="params">(T referent)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(referent);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -339,9 +339,9 @@
 <p><strong>综上所述，我们可以得出一个结论：<code>ThreadLocalMap.Entry</code> 与它的 Key（也就是 <code>ThreadLocal</code>）之间存在着弱引用关系，如果 <code>ThreadLocal</code> 对象没有其他外部的强引用，那么它会在下一次GC时被回收</strong></p>
 <p>下面通过一个案例来演示 <code>ThreadLocal</code> 的内存泄漏问题：我创建一个没有外部强引用的 <code>ThreadLocal</code> 对象并在当前线程中设置对象副本，接着打断点查看线程在 GC 前后 的 <code>ThreadLocalMap</code></p>
 <p>GC 前 <code>ThreadLocalMap</code> 条目中的 <code>reference</code> 为我们创建的 <code>ThreadLocal</code>对象，<code>value</code> 是我们设置的对象副本</p>
-<p><img src="https://ftp.bmp.ovh/imgs/2021/07/bb5b8cd1dbcfd4f8.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/44ff8c0a50aaadd1511f489074913823.png"></p>
 <p>GC 后弱引用的 <code>ThreadLocal</code> 对象被回收， <code>reference</code> 字段变为了空指针，而 <code>value</code> 却仍然存在。这是因为 <code>value</code> 对象与 GC ROOTS 之间存在着 thread-&gt;threadLocalMap-&gt;entry-&gt;value 这么一条强引用，所以它是不会被回收的，会导致内存泄漏。</p>
-<p><img src="https://ftp.bmp.ovh/imgs/2021/07/2d314f398ce2207c.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/7fea4432537a986104ec1d2e2e290d7a.png"></p>
 <p><strong>对于内存泄漏问题，我们不必特别担心，因为在上面讲解的 <code>ThreadLocalMap</code> 源码中，我们可以看到很多的方法中都有清除过期条目的代码。</strong>比如：<code>set()</code> 、<code>getEntry()</code>方法在线性探测搜索条目时，会顺便清除过期节点；<code>rehash()</code> 方法会扫描全部的条目，清除过期节点。</p>
 <p><strong>虽然在源码中对内存泄漏做了很多工作，但上述的处理都具有一定的滞后性，我们平时使用完 <code>ThreadLocal</code> 后，最好是记得及时调用 <code>remove()</code> 方法清除条目。</strong></p>
 <h2 id="脏数据"><a href="#脏数据" class="headerlink" title="脏数据"></a>脏数据</h2><p>在线程池中使用<code> ThreadLocal</code> 可能会读取到脏数据。这是因为线程池实现了线程的复用，某线程在执行某次任务时向 <code>ThreadLocalMap</code> 写入了数据，任务完成后此线程会存活一段时间。如果在这段时间内，该线程在执行其他任务时调用<code>get()</code> 方法就会读取到上次设置的数据。</p>
