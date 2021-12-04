@@ -21,17 +21,17 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
 
 <script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;771592594.github.io&quot;,&quot;root&quot;:&quot;&#x2F;xiaoyue&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;xiaoyue&#x2F;images&quot;,&quot;scheme&quot;:&quot;Gemini&quot;,&quot;version&quot;:&quot;8.5.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;width&quot;:300,&quot;display&quot;:&quot;always&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:true,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:true,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;}}</script><script src="/xiaoyue/js/config.js"></script>
-<meta name="description" content="前言文章背景: 最近公司的几个外包到期了，我接手了他们做的工地考勤上报对接。对接主要工作是将我们平台的考勤数据通过接口上传到数据平台。在阅览他们的代码时，我发现他们总是在循环中对单条数据做查询，大概的代码如下: 12345private void uploadAttendance(List&lt;RecognitionPO&gt; recognitionList) &amp;#123;    for (R">
+<meta name="description" content="前言最近公司的几个外包到期了，我接手了他们的代码后，发现他们总喜欢在循环中对做等值查询，例如：下面这段根据人员出勤记录反查人员信息的代码： 12345private void uploadAttendance(List&lt;RecognitionPO&gt; recognitionList) &amp;#123;    for (RecognitionPO recognition : recogniti">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java-一个对象要占用多少内存">
 <meta property="og:url" content="https://771592594.github.io/xiaoyue/2021/10/06/Java-%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E8%A6%81%E5%8D%A0%E7%94%A8%E5%A4%9A%E5%B0%91%E5%86%85%E5%AD%98(%E5%AE%8C)/index.html">
 <meta property="og:site_name" content="xiaoyue">
-<meta property="og:description" content="前言文章背景: 最近公司的几个外包到期了，我接手了他们做的工地考勤上报对接。对接主要工作是将我们平台的考勤数据通过接口上传到数据平台。在阅览他们的代码时，我发现他们总是在循环中对单条数据做查询，大概的代码如下: 12345private void uploadAttendance(List&lt;RecognitionPO&gt; recognitionList) &amp;#123;    for (R">
+<meta property="og:description" content="前言最近公司的几个外包到期了，我接手了他们的代码后，发现他们总喜欢在循环中对做等值查询，例如：下面这段根据人员出勤记录反查人员信息的代码： 12345private void uploadAttendance(List&lt;RecognitionPO&gt; recognitionList) &amp;#123;    for (RecognitionPO recognition : recogniti">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/52f415ea9ddc0a957cf4d4ef476adeb3.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/c2f01c4843c02fb6dc145a9f9e79a859.png">
 <meta property="article:published_time" content="2021-10-06T09:39:12.000Z">
-<meta property="article:modified_time" content="2021-11-26T13:29:46.307Z">
+<meta property="article:modified_time" content="2021-12-04T12:55:54.486Z">
 <meta property="article:author" content="xiaoyue">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="JVM">
@@ -237,7 +237,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-11-26 21:29:46" itemprop="dateModified" datetime="2021-11-26T21:29:46+08:00">2021-11-26</time>
+        <time title="修改时间：2021-12-04 20:55:54" itemprop="dateModified" datetime="2021-12-04T20:55:54+08:00">2021-12-04</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -275,10 +275,10 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>文章背景: 最近公司的几个外包到期了，我接手了他们做的工地考勤上报对接。对接主要工作是将我们平台的考勤数据通过接口上传到数据平台。在阅览他们的代码时，我发现他们总是在循环中对单条数据做查询，大概的代码如下:</p>
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近公司的几个外包到期了，我接手了他们的代码后，发现他们总喜欢在循环中对做等值查询，例如：下面这段根据人员出勤记录反查人员信息的代码：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">uploadAttendance</span><span class="params">(List&lt;RecognitionPO&gt; recognitionList)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (RecognitionPO recognition : recognitionList) &#123;</span><br><span class="line">    	PersonPO personPO = personMapper.selectById(recognition.getPersonId());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>在每次都有上千条考勤需要上传的场景下，这段代码的运行效率不是很好，光是查询数据就都需要好几分钟。</p>
+<p>在每次都有上千条考勤记录需要反查人员信息的场景下，这段代码的运行效率不是很好，光是查询数据就需要好几分钟。</p>
 <p>于是，我通过空间换时间的思想，使用IN查询 + 本地缓存对该代码进行优化：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">uploadAttendance</span><span class="params">(List&lt;RecognitionPO&gt; recognitionList)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 查询考勤对应的所有人员信息, 建立本地缓存</span></span><br><span class="line">    Set&lt;Long&gt; ids = list.stream().map(it -&gt; it.getPersonId()).collect(Collectors.toSet());</span><br><span class="line">    List&lt;PersonPO&gt; personPOS = personService.selectBatchIds(ids);</span><br><span class="line">    Map&lt;Long, PersonPO&gt; cache = <span class="keyword">new</span> HashMap&lt;&gt;(personPOS.size());</span><br><span class="line">    personPOS.forEach(it -&gt; cache.put(it.getId(), it));</span><br><span class="line">    <span class="comment">// 从缓存中直接读取数据</span></span><br><span class="line">    <span class="keyword">for</span> (RecognitionPO recognition : recognitionList) &#123;</span><br><span class="line">    	PersonPO personPO = cache.get(recognition.getPersonId());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -361,7 +361,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(ClassLayout.parseInstance(o).toPrintable());</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://img-blog.csdnimg.cn/img_convert/c2f01c4843c02fb6dc145a9f9e79a859.png"></p>
-<h2 id="lucene-core"><a href="#lucene-core" class="headerlink" title="lucene-core"></a>lucene-core</h2><p>如果要计算对象及其引用实例所占用的内存，则要使用<code>lucene-core</code></p>
+<h2 id="lucene-core"><a href="#lucene-core" class="headerlink" title="lucene-core"></a>lucene-core</h2><p><strong>如果要计算对象及其引用实例所占用的内存，则要使用<code>lucene-core</code></strong></p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.lucene<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lucene-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(RamUsageEstimator.humanSizeOf(o));</span><br><span class="line"><span class="comment">// 输出: 88 bytes</span></span><br></pre></td></tr></table></figure>
