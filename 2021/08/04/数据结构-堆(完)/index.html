@@ -21,18 +21,18 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
 
 <script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;771592594.github.io&quot;,&quot;root&quot;:&quot;&#x2F;xiaoyue&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;xiaoyue&#x2F;images&quot;,&quot;scheme&quot;:&quot;Gemini&quot;,&quot;version&quot;:&quot;8.5.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;width&quot;:300,&quot;display&quot;:&quot;always&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:true,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:true,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;}}</script><script src="/xiaoyue/js/config.js"></script>
-<meta name="description" content="什么是堆堆（heap）是计算机科学中一类特殊的数据结构的统称，二叉堆（Binary Heap）是最简单、常用的堆，它本质是一棵符合堆的性质的 完全二叉树， 树中节点的值总是不大于或不小于其子节点的值。 每个节点的值都 不大于 父节点的堆叫做 最小堆（小根堆），根节点为堆的最大值">
+<meta name="description" content="什么是堆堆（heap）是计算机科学中一类特殊的数据结构的统称，二叉堆（Binary Heap）是最简单、常用的堆，它本质是一棵符合堆的性质的 完全二叉树， 树中节点的值总是不大于或不小于其子节点的值。  每个节点的值都 不大于 父节点的堆叫做 最小堆（小根堆），根节点为堆的最大值">
 <meta property="og:type" content="article">
 <meta property="og:title" content="数据结构-堆">
 <meta property="og:url" content="https://771592594.github.io/xiaoyue/2021/08/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%A0%86(%E5%AE%8C)/index.html">
 <meta property="og:site_name" content="xiaoyue">
-<meta property="og:description" content="什么是堆堆（heap）是计算机科学中一类特殊的数据结构的统称，二叉堆（Binary Heap）是最简单、常用的堆，它本质是一棵符合堆的性质的 完全二叉树， 树中节点的值总是不大于或不小于其子节点的值。 每个节点的值都 不大于 父节点的堆叫做 最小堆（小根堆），根节点为堆的最大值">
+<meta property="og:description" content="什么是堆堆（heap）是计算机科学中一类特殊的数据结构的统称，二叉堆（Binary Heap）是最简单、常用的堆，它本质是一棵符合堆的性质的 完全二叉树， 树中节点的值总是不大于或不小于其子节点的值。  每个节点的值都 不大于 父节点的堆叫做 最小堆（小根堆），根节点为堆的最大值">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/da8e69552105e60d42539b0511fcf857.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/b471a514ed7576968f642528f948d78c.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/af09d1e49924720af367d7f7c112a27c.png">
 <meta property="article:published_time" content="2021-08-04T11:17:43.000Z">
-<meta property="article:modified_time" content="2021-11-26T14:04:00.227Z">
+<meta property="article:modified_time" content="2021-12-23T14:00:32.741Z">
 <meta property="article:author" content="xiaoyue">
 <meta property="article:tag" content="数据结构">
 <meta property="article:tag" content="堆">
@@ -143,7 +143,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/xiaoyue/archives/">
         
-          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-count">22</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -238,7 +238,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-11-26 22:04:00" itemprop="dateModified" datetime="2021-11-26T22:04:00+08:00">2021-11-26</time>
+        <time title="修改时间：2021-12-23 22:00:32" itemprop="dateModified" datetime="2021-12-23T22:00:32+08:00">2021-12-23</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -258,14 +258,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>4.9k</span>
+      <span>4.1k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>9 分钟</span>
+      <span>7 分钟</span>
     </span>
 </div>
 
@@ -277,10 +277,13 @@
     
     <div class="post-body" itemprop="articleBody">
         <h1 id="什么是堆"><a href="#什么是堆" class="headerlink" title="什么是堆"></a>什么是堆</h1><p>堆（heap）是计算机科学中一类特殊的数据结构的统称，<strong>二叉堆</strong>（Binary Heap）是最简单、常用的堆，它本质是一棵符合堆的性质的 <strong>完全二叉树</strong>， 树中节点的值总是不大于或不小于其子节点的值。</p>
+<hr>
 <p>每个节点的值都 <strong>不大于</strong> 父节点的堆叫做 <strong>最小堆（小根堆）</strong>，根节点为堆的最大值 </p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/da8e69552105e60d42539b0511fcf857.png"></p>
+<hr>
 <p>每个节点的值都 <strong>不小于</strong> 父节点的堆叫做 <strong>最大堆（大根堆）</strong>，根节点为堆的最小值</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/b471a514ed7576968f642528f948d78c.png"></p>
+<hr>
 <p>由于完全二叉树节点的编号存在着一定规律：假设根节点的编号为 <code>i</code>，那么左孩子的编号为 <code>2i + 1</code>，右孩子编号为 <code>2i + 2</code>， 父节点的编号为 <code>(i - 1) / 2</code>，因此我们可以通过数组来模拟堆的数据结构。</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/af09d1e49924720af367d7f7c112a27c.png"></p>
 <p>二叉堆可以实现 <code>O(logN)</code> 的插入、删除 和  <code>O(1)</code> 的最值查询，可以用来解决 Top K 问题、实现优先级队列。</p>
@@ -288,30 +291,30 @@
 <p>首先介绍两个重要的操作： <strong>上浮</strong> &amp; <strong>下沉</strong> ，通过这两个操作在创建、插入、删除、排序时，保证堆的有效性。</p>
 <p><strong>上浮</strong>：如果当前节点的值比父节点小，则将它与父节点交换；若交换后仍存在更大的父节点，则重复上述操作。</p>
 <p><strong>下沉</strong>：如果存在比当前节点小的子节点，则将它与最小子节点交换；若交换后仍存在更小的子节点，则重复上述操作。</p>
-<p>上浮堆化：<strong>顺序遍历</strong> 数组，上浮所有比父节点小的节点</p>
+<p>上浮堆化：<strong>顺序遍历</strong> 数组，上浮所有比父节点小的节点（使用插入排序的思想）</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">heapify</span>(<span class="params">arr</span>):</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(arr)):</span><br><span class="line">        up(arr, i)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">up</span>(<span class="params">heap: <span class="built_in">list</span>, node: <span class="built_in">int</span></span>):</span></span><br><span class="line">    parent = (node - <span class="number">1</span>) &gt;&gt; <span class="number">1</span></span><br><span class="line">    <span class="comment"># 如果当前节点值大于父节点，则与其交换</span></span><br><span class="line">    <span class="keyword">if</span> node &gt; <span class="number">0</span> <span class="keyword">and</span> heap[node] &lt; heap[parent]:</span><br><span class="line">        heap[node], heap[parent] = heap[parent], heap[node]</span><br><span class="line">        up(heap, parent)</span><br></pre></td></tr></table></figure>
 
 <p>下沉堆化：<strong>逆序遍历</strong> 数组，下沉所有比子节点大的节点</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">heapify</span>(<span class="params">arr</span>):</span></span><br><span class="line">    size = <span class="built_in">len</span>(nums)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(size - <span class="number">1</span>, -<span class="number">1</span>, -<span class="number">1</span>):</span><br><span class="line">		down(i, size)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">down</span>(<span class="params">node: <span class="built_in">int</span>, size: <span class="built_in">int</span></span>):</span></span><br><span class="line">    minimum, left, right = node, node * <span class="number">2</span> + <span class="number">1</span>, node * <span class="number">2</span> + <span class="number">2</span></span><br><span class="line">    <span class="keyword">if</span> left &lt; size <span class="keyword">and</span> nums[left] &gt; nums[minimum]:</span><br><span class="line">        minimum = left</span><br><span class="line">    <span class="keyword">if</span> right &lt; size <span class="keyword">and</span> nums[right] &gt; nums[minimum]:</span><br><span class="line">        minimum = right</span><br><span class="line">    <span class="keyword">if</span> node != minimum:</span><br><span class="line">        nums[node], nums[minimum] = nums[minimum], nums[node]</span><br><span class="line">        down(minimum, size)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">heapify</span>(<span class="params">arr</span>):</span></span><br><span class="line">    size = <span class="built_in">len</span>(nums)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(size - <span class="number">1</span>, -<span class="number">1</span>, -<span class="number">1</span>):</span><br><span class="line">		down(i, size)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">down</span>(<span class="params">node: <span class="built_in">int</span>, size: <span class="built_in">int</span></span>):</span></span><br><span class="line">    minimum, left, right = node, node * <span class="number">2</span> + <span class="number">1</span>, node * <span class="number">2</span> + <span class="number">2</span></span><br><span class="line">    <span class="comment"># 将当前节点与它最大/最小的孩子节点进行交换，实现下沉操作</span></span><br><span class="line">    <span class="keyword">if</span> left &lt; size <span class="keyword">and</span> nums[left] &gt; nums[minimum]:</span><br><span class="line">        minimum = left</span><br><span class="line">    <span class="keyword">if</span> right &lt; size <span class="keyword">and</span> nums[right] &gt; nums[minimum]:</span><br><span class="line">        minimum = right</span><br><span class="line">    <span class="keyword">if</span> node != minimum:</span><br><span class="line">        nums[node], nums[minimum] = nums[minimum], nums[node]</span><br><span class="line">        down(minimum, size)</span><br></pre></td></tr></table></figure>
 
 <h2 id="插入节点"><a href="#插入节点" class="headerlink" title="插入节点"></a>插入节点</h2><p>为了保证堆的有效性，堆一般将节点插入到末尾，然后进行上浮操作，保证堆的有效性</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span>(<span class="params">heap: <span class="built_in">list</span>, num: <span class="built_in">int</span></span>):</span></span><br><span class="line">    heap.append(num)</span><br><span class="line">    up(heap, <span class="built_in">len</span>(heap) - <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">up</span>(<span class="params">heap: <span class="built_in">list</span>, node: <span class="built_in">int</span></span>):</span></span><br><span class="line">    parent = (node - <span class="number">1</span>) &gt;&gt; <span class="number">1</span></span><br><span class="line">    <span class="comment"># 如果当前节点值大于父节点，则与其交换</span></span><br><span class="line">    <span class="keyword">if</span> node &gt; <span class="number">0</span> <span class="keyword">and</span> heap[node] &lt; heap[parent]:</span><br><span class="line">        heap[node], heap[parent] = heap[parent], heap[node]</span><br><span class="line">        up(heap, parent)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span>(<span class="params">heap: <span class="built_in">list</span>, num: <span class="built_in">int</span></span>):</span></span><br><span class="line">    heap.append(num)</span><br><span class="line">    up(heap, <span class="built_in">len</span>(heap) - <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
 
 <h2 id="弹出堆顶"><a href="#弹出堆顶" class="headerlink" title="弹出堆顶"></a>弹出堆顶</h2><p>为了保证堆的有效性，弹出堆顶时时不能像数组一样移除首元素，然后将后面元素迁移一位。正确的做法是：</p>
 <ol>
 <li>使用尾节点替换掉根节点</li>
 <li>通过下沉将它交换到合适的位置，将下一个最小值交换到根节点。</li>
 </ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">pop</span>(<span class="params">heap: <span class="built_in">list</span></span>):</span></span><br><span class="line">    value = heap[<span class="number">0</span>]</span><br><span class="line">    heap[<span class="number">0</span>] = heap[<span class="built_in">len</span>(heap) - <span class="number">1</span>]</span><br><span class="line">    heap.pop()</span><br><span class="line">    down(heap, <span class="number">0</span>, <span class="built_in">len</span>(heap))</span><br><span class="line">    <span class="keyword">return</span> value</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">down</span>(<span class="params">heap, node, size</span>):</span></span><br><span class="line">    smallest, left, right = node, node * <span class="number">2</span> + <span class="number">1</span>, node * <span class="number">2</span> + <span class="number">2</span></span><br><span class="line">	<span class="comment"># 将当前节点与大于它的孩子节点进行交换，实现下沉操作</span></span><br><span class="line">    <span class="keyword">if</span> left &lt; size <span class="keyword">and</span> heap[smallest] &gt; heap[left]:</span><br><span class="line">        smallest = left</span><br><span class="line">    <span class="keyword">if</span> right &lt; size <span class="keyword">and</span> heap[smallest] &gt; heap[right]:</span><br><span class="line">        smallest = right</span><br><span class="line">    <span class="keyword">if</span> node != smallest:</span><br><span class="line">        heap[node], heap[smallest] = heap[smallest], heap[node]</span><br><span class="line">        down(heap, smallest, size)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">pop</span>(<span class="params">heap: <span class="built_in">list</span></span>):</span></span><br><span class="line">    value = heap[<span class="number">0</span>]</span><br><span class="line">    heap[<span class="number">0</span>] = heap[<span class="built_in">len</span>(heap) - <span class="number">1</span>]</span><br><span class="line">    heap.pop()</span><br><span class="line">    down(heap, <span class="number">0</span>, <span class="built_in">len</span>(heap))</span><br><span class="line">    <span class="keyword">return</span> value</span><br></pre></td></tr></table></figure>
 
-<h2 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h2><p>利用堆顶存放最值的特性，我们可以通过下面的步骤实现堆排序：</p>
+<h2 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h2><p>利用堆顶存放最值的特性，我们可以通过下面的步骤实现对符合堆条件的数组进行排序：</p>
 <ol>
 <li>堆顶节点与 <strong>未排序的末尾节点</strong> 进行交换</li>
 <li>将新的堆顶节点下沉，将下一个最小值交换到根节点</li>
 <li>重复上述操作，每次将一个最小节点排序到末尾，直到所有节点都排序过为止</li>
 </ol>
 <p>一般使用最小堆来实现降序排序，使用最大堆实现升序排序；</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sort</span>(<span class="params">heap</span>):</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(heap) - <span class="number">1</span>, -<span class="number">1</span>, -<span class="number">1</span>):</span><br><span class="line">        heap[<span class="number">0</span>], heap[i] = heap[i], heap[<span class="number">0</span>]</span><br><span class="line">        down(heap, <span class="number">0</span>, i)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">down</span>(<span class="params">heap, node, size</span>):</span></span><br><span class="line">    smallest, left, right = node, node * <span class="number">2</span> + <span class="number">1</span>, node * <span class="number">2</span> + <span class="number">2</span></span><br><span class="line">	<span class="comment"># 将当前节点与大于它的孩子节点进行交换，实现下沉操作</span></span><br><span class="line">    <span class="keyword">if</span> left &lt; size <span class="keyword">and</span> heap[smallest] &gt; heap[left]:</span><br><span class="line">        smallest = left</span><br><span class="line">    <span class="keyword">if</span> right &lt; size <span class="keyword">and</span> heap[smallest] &gt; heap[right]:</span><br><span class="line">        smallest = right</span><br><span class="line">    <span class="keyword">if</span> node != smallest:</span><br><span class="line">        heap[node], heap[smallest] = heap[smallest], heap[node]</span><br><span class="line">        down(heap, smallest, size)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sort</span>(<span class="params">heap</span>):</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(heap) - <span class="number">1</span>, -<span class="number">1</span>, -<span class="number">1</span>):</span><br><span class="line">        heap[<span class="number">0</span>], heap[i] = heap[i], heap[<span class="number">0</span>]</span><br><span class="line">        down(heap, <span class="number">0</span>, i)</span><br></pre></td></tr></table></figure>
 
 <h1 id="堆的应用"><a href="#堆的应用" class="headerlink" title="堆的应用"></a>堆的应用</h1><h2 id="Top-K-问题"><a href="#Top-K-问题" class="headerlink" title="Top K 问题"></a>Top K 问题</h2><p>题目链接：<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/kth-largest-element-in-an-array/">215. 数组中的第K个最大元素</a></p>
 <p>题目描述：给定整数数组 <code>nums</code> 和整数 <code>k</code>，请返回数组中第 <code>k</code> 大的元素。</p>
@@ -396,14 +399,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">76k</span>
+    <span title="站点总字数">75k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">2:18</span>
+    <span title="站点阅读时长">2:17</span>
   </span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
