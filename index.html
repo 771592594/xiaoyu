@@ -223,7 +223,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2021-12-26 18:35:34 / 修改时间：22:54:36" itemprop="dateCreated datePublished" datetime="2021-12-26T18:35:34+08:00">2021-12-26</time>
+      <time title="创建时间：2021-12-26 18:35:34 / 修改时间：23:02:49" itemprop="dateCreated datePublished" datetime="2021-12-26T18:35:34+08:00">2021-12-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -263,7 +263,7 @@
     <div class="post-body" itemprop="articleBody">
           <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>首先，我们先看一下维基百科对快排的定义：</p>
 <blockquote>
-<p><strong>快速排序</strong>（英语：Quicksort），又称<strong>分区交换排序</strong>（partition-exchange sort），简称<strong>快排</strong>，一种排序算法，最早由<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%9D%B1%E5%B0%BC%C2%B7%E9%9C%8D%E7%88%BE">东尼·霍尔</a>提出。在平均状况下，排序n个项目要<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/52de01bd6666792cf18fce11c058ae3e67694f02">次比较。在最坏状况下则需要<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/6cd9594a16cb898b8f2a2dff9227a385ec183392">次比较，但这种状况并不常见。事实上，快速排序<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/1b8781cea4259c3bd43204e02d08b9b9ce8fe0ff">通常明显比其他算法更快，因为它的内部循环（inner loop)可以在大部分的架构上很有效率地达成。</p>
+<p><strong>快速排序</strong>（英语：Quicksort），又称<strong>分区交换排序</strong>（partition-exchange sort），简称<strong>快排</strong>，一种排序算法，最早由<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%9D%B1%E5%B0%BC%C2%B7%E9%9C%8D%E7%88%BE">东尼·霍尔</a>提出。在平均状况下，排序n个项目要O(nlogn)次比较。在最坏状况下则需要O(n^2)次比较，但这种状况并不常见。事实上，快速排序O(nlogn)通常明显比其他算法更快，因为它的内部循环（inner loop)可以在大部分的架构上很有效率地达成。</p>
 </blockquote>
 <p>快速排序使用<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%88%86%E6%B2%BB%E6%B3%95">分治法</a>（Divide and conquer）策略来把一个序列（list）分为较小和较大的2个子序列，然后递归地排序两个子序列。步骤为：</p>
           <!--noindex-->
