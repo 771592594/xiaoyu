@@ -24,7 +24,7 @@
 <meta name="description" content="并发背后的故事这些年来，我们的 CPU、内存、IO设备 都在不断地朝着更快的方向迭代。但是在这个过程中，有一个核心矛盾却一直存在：三者之间的速度差异。用形象地方式来说就是：在程序运行时，CPU是天上一天，内存是地上一年（假设CPU 执行一条指令需要一天，那么内存读写就得等上一年）；内存与IO的差异就更大了，内存是天上一天，IO是地上十年。 程序中的大部分语句都是需要访问内存的，有些甚至还要访问IO">
 <meta property="og:type" content="article">
 <meta property="og:title" content="并发Bug的根源-可见性、原子性和有序性问题">
-<meta property="og:url" content="https://771592594.github.io/xiaoyue/2021/08/08/%E5%B9%B6%E5%8F%91Bug%E7%9A%84%E6%A0%B9%E6%BA%90-%E5%8F%AF%E8%A7%81%E6%80%A7%E3%80%81%E5%8E%9F%E5%AD%90%E6%80%A7%E5%92%8C%E6%9C%89%E5%BA%8F%E6%80%A7%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:url" content="https://771592594.github.io/xiaoyue/2021/08/08/Java-%E5%B9%B6%E5%8F%91Bug%E7%9A%84%E6%A0%B9%E6%BA%90-%E5%8F%AF%E8%A7%81%E6%80%A7%E3%80%81%E5%8E%9F%E5%AD%90%E6%80%A7%E5%92%8C%E6%9C%89%E5%BA%8F%E6%80%A7%E9%97%AE%E9%A2%98/index.html">
 <meta property="og:site_name" content="xiaoyue">
 <meta property="og:description" content="并发背后的故事这些年来，我们的 CPU、内存、IO设备 都在不断地朝着更快的方向迭代。但是在这个过程中，有一个核心矛盾却一直存在：三者之间的速度差异。用形象地方式来说就是：在程序运行时，CPU是天上一天，内存是地上一年（假设CPU 执行一条指令需要一天，那么内存读写就得等上一年）；内存与IO的差异就更大了，内存是天上一天，IO是地上十年。 程序中的大部分语句都是需要访问内存的，有些甚至还要访问IO">
 <meta property="og:locale" content="zh_CN">
@@ -39,11 +39,11 @@
 <meta name="twitter:image" content="https://img-blog.csdnimg.cn/img_convert/1ddbdfdeaf7de89d47f44b1cc3a9f935.png">
 
 
-<link rel="canonical" href="https://771592594.github.io/xiaoyue/2021/08/08/%E5%B9%B6%E5%8F%91Bug%E7%9A%84%E6%A0%B9%E6%BA%90-%E5%8F%AF%E8%A7%81%E6%80%A7%E3%80%81%E5%8E%9F%E5%AD%90%E6%80%A7%E5%92%8C%E6%9C%89%E5%BA%8F%E6%80%A7%E9%97%AE%E9%A2%98/">
+<link rel="canonical" href="https://771592594.github.io/xiaoyue/2021/08/08/Java-%E5%B9%B6%E5%8F%91Bug%E7%9A%84%E6%A0%B9%E6%BA%90-%E5%8F%AF%E8%A7%81%E6%80%A7%E3%80%81%E5%8E%9F%E5%AD%90%E6%80%A7%E5%92%8C%E6%9C%89%E5%BA%8F%E6%80%A7%E9%97%AE%E9%A2%98/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;771592594.github.io&#x2F;xiaoyue&#x2F;2021&#x2F;08&#x2F;08&#x2F;%E5%B9%B6%E5%8F%91Bug%E7%9A%84%E6%A0%B9%E6%BA%90-%E5%8F%AF%E8%A7%81%E6%80%A7%E3%80%81%E5%8E%9F%E5%AD%90%E6%80%A7%E5%92%8C%E6%9C%89%E5%BA%8F%E6%80%A7%E9%97%AE%E9%A2%98&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;08&#x2F;08&#x2F;并发Bug的根源-可见性、原子性和有序性问题&#x2F;&quot;,&quot;title&quot;:&quot;并发Bug的根源-可见性、原子性和有序性问题&quot;}</script>
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;771592594.github.io&#x2F;xiaoyue&#x2F;2021&#x2F;08&#x2F;08&#x2F;Java-%E5%B9%B6%E5%8F%91Bug%E7%9A%84%E6%A0%B9%E6%BA%90-%E5%8F%AF%E8%A7%81%E6%80%A7%E3%80%81%E5%8E%9F%E5%AD%90%E6%80%A7%E5%92%8C%E6%9C%89%E5%BA%8F%E6%80%A7%E9%97%AE%E9%A2%98&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;08&#x2F;08&#x2F;Java-并发Bug的根源-可见性、原子性和有序性问题&#x2F;&quot;,&quot;title&quot;:&quot;并发Bug的根源-可见性、原子性和有序性问题&quot;}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
 <title>并发Bug的根源-可见性、原子性和有序性问题 | xiaoyue</title>
@@ -206,7 +206,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://771592594.github.io/xiaoyue/2021/08/08/%E5%B9%B6%E5%8F%91Bug%E7%9A%84%E6%A0%B9%E6%BA%90-%E5%8F%AF%E8%A7%81%E6%80%A7%E3%80%81%E5%8E%9F%E5%AD%90%E6%80%A7%E5%92%8C%E6%9C%89%E5%BA%8F%E6%80%A7%E9%97%AE%E9%A2%98/">
+    <link itemprop="mainEntityOfPage" href="https://771592594.github.io/xiaoyue/2021/08/08/Java-%E5%B9%B6%E5%8F%91Bug%E7%9A%84%E6%A0%B9%E6%BA%90-%E5%8F%AF%E8%A7%81%E6%80%A7%E3%80%81%E5%8E%9F%E5%AD%90%E6%80%A7%E5%92%8C%E6%9C%89%E5%BA%8F%E6%80%A7%E9%97%AE%E9%A2%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/xiaoyue/images/avatar.png">
@@ -383,8 +383,8 @@
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/xiaoyue/2021/08/16/%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F%E7%9A%84%E7%90%86%E8%A7%A3%E4%B8%8E%E5%BA%94%E7%94%A8/" rel="next" title="装饰器模式的理解与应用">
-                  装饰器模式的理解与应用 <i class="fa fa-chevron-right"></i>
+                <a href="/xiaoyue/2021/08/16/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F%E7%9A%84%E7%90%86%E8%A7%A3%E4%B8%8E%E5%BA%94%E7%94%A8/" rel="next" title="设计模式-装饰器模式的理解与应用">
+                  设计模式-装饰器模式的理解与应用 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
