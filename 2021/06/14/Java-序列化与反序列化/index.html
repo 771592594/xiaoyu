@@ -24,7 +24,7 @@
 <meta name="description" content="前言Java 可以在内存中创建可复用的对象，但是一旦程序结束这些对象就会被清除。如果我们想要将对象持久化到硬盘里 或 者通过网络发送给其他人，就需要将对象转化为可存储可传输的形式，这个过程就叫作序列化(Serialization) ；而将序列化后的数据恢复成内存中的对象的过程就叫作反序列化(Deserialization) 。 本文主要讲述序列化与反序列化的概念，不同的序列化方式的应用以及优劣分析">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java-序列化与反序列化">
-<meta property="og:url" content="https://771592594.github.io/xiaoyue/2021/06/14/Java-%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96(%E5%AE%8C)/index.html">
+<meta property="og:url" content="https://771592594.github.io/xiaoyue/2021/06/14/Java-%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/index.html">
 <meta property="og:site_name" content="xiaoyue">
 <meta property="og:description" content="前言Java 可以在内存中创建可复用的对象，但是一旦程序结束这些对象就会被清除。如果我们想要将对象持久化到硬盘里 或 者通过网络发送给其他人，就需要将对象转化为可存储可传输的形式，这个过程就叫作序列化(Serialization) ；而将序列化后的数据恢复成内存中的对象的过程就叫作反序列化(Deserialization) 。 本文主要讲述序列化与反序列化的概念，不同的序列化方式的应用以及优劣分析">
 <meta property="og:locale" content="zh_CN">
@@ -37,11 +37,11 @@
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://771592594.github.io/xiaoyue/2021/06/14/Java-%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96(%E5%AE%8C)/">
+<link rel="canonical" href="https://771592594.github.io/xiaoyue/2021/06/14/Java-%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;771592594.github.io&#x2F;xiaoyue&#x2F;2021&#x2F;06&#x2F;14&#x2F;Java-%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96(%E5%AE%8C)&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;06&#x2F;14&#x2F;Java-序列化与反序列化(完)&#x2F;&quot;,&quot;title&quot;:&quot;Java-序列化与反序列化&quot;}</script>
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;771592594.github.io&#x2F;xiaoyue&#x2F;2021&#x2F;06&#x2F;14&#x2F;Java-%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;06&#x2F;14&#x2F;Java-序列化与反序列化&#x2F;&quot;,&quot;title&quot;:&quot;Java-序列化与反序列化&quot;}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
 <title>Java-序列化与反序列化 | xiaoyue</title>
@@ -204,7 +204,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://771592594.github.io/xiaoyue/2021/06/14/Java-%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96(%E5%AE%8C)/">
+    <link itemprop="mainEntityOfPage" href="https://771592594.github.io/xiaoyue/2021/06/14/Java-%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/xiaoyue/images/avatar.png">
@@ -345,12 +345,12 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/xiaoyue/2021/06/12/Java-%E7%BA%BF%E7%A8%8B%E6%B1%A0%E8%AF%A6%E8%A7%A3(%E5%AE%8C)/" rel="prev" title="Java-线程池详解">
+                <a href="/xiaoyue/2021/06/12/Java-%E7%BA%BF%E7%A8%8B%E6%B1%A0%E8%AF%A6%E8%A7%A3/" rel="prev" title="Java-线程池详解">
                   <i class="fa fa-chevron-left"></i> Java-线程池详解
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/xiaoyue/2021/06/15/Java-%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%8C%85%E8%A3%85%E7%B1%BB(%E5%AE%8C)/" rel="next" title="Java-基本类型与包装类">
+                <a href="/xiaoyue/2021/06/15/Java-%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%8C%85%E8%A3%85%E7%B1%BB/" rel="next" title="Java-基本类型与包装类">
                   Java-基本类型与包装类 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>

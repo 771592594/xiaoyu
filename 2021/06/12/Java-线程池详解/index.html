@@ -24,7 +24,7 @@
 <meta name="description" content="为什么使用线程池线程是一种贵重的系统资源，每次创建和销毁都需要较大的开销，如果不对线程进行统一的管理，程序的效率和稳定性都会由很大的影响。 下面看一个案例，在这个案例中用户每次请求都会创建一个线程来处理任务。 1234@GetMapping(&quot;&#x2F;threadTest&quot;)public void threadTest() &amp;#123;    new Thread(() -&gt;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java-线程池详解">
-<meta property="og:url" content="https://771592594.github.io/xiaoyue/2021/06/12/Java-%E7%BA%BF%E7%A8%8B%E6%B1%A0%E8%AF%A6%E8%A7%A3(%E5%AE%8C)/index.html">
+<meta property="og:url" content="https://771592594.github.io/xiaoyue/2021/06/12/Java-%E7%BA%BF%E7%A8%8B%E6%B1%A0%E8%AF%A6%E8%A7%A3/index.html">
 <meta property="og:site_name" content="xiaoyue">
 <meta property="og:description" content="为什么使用线程池线程是一种贵重的系统资源，每次创建和销毁都需要较大的开销，如果不对线程进行统一的管理，程序的效率和稳定性都会由很大的影响。 下面看一个案例，在这个案例中用户每次请求都会创建一个线程来处理任务。 1234@GetMapping(&quot;&#x2F;threadTest&quot;)public void threadTest() &amp;#123;    new Thread(() -&gt;">
 <meta property="og:locale" content="zh_CN">
@@ -41,11 +41,11 @@
 <meta name="twitter:image" content="https://img-blog.csdnimg.cn/20201204153353483.png?x-oss-process=,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzc0MjM1NA==,size_16,color_FFFFFF,t_70">
 
 
-<link rel="canonical" href="https://771592594.github.io/xiaoyue/2021/06/12/Java-%E7%BA%BF%E7%A8%8B%E6%B1%A0%E8%AF%A6%E8%A7%A3(%E5%AE%8C)/">
+<link rel="canonical" href="https://771592594.github.io/xiaoyue/2021/06/12/Java-%E7%BA%BF%E7%A8%8B%E6%B1%A0%E8%AF%A6%E8%A7%A3/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;771592594.github.io&#x2F;xiaoyue&#x2F;2021&#x2F;06&#x2F;12&#x2F;Java-%E7%BA%BF%E7%A8%8B%E6%B1%A0%E8%AF%A6%E8%A7%A3(%E5%AE%8C)&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;06&#x2F;12&#x2F;Java-线程池详解(完)&#x2F;&quot;,&quot;title&quot;:&quot;Java-线程池详解&quot;}</script>
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;771592594.github.io&#x2F;xiaoyue&#x2F;2021&#x2F;06&#x2F;12&#x2F;Java-%E7%BA%BF%E7%A8%8B%E6%B1%A0%E8%AF%A6%E8%A7%A3&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;06&#x2F;12&#x2F;Java-线程池详解&#x2F;&quot;,&quot;title&quot;:&quot;Java-线程池详解&quot;}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
 <title>Java-线程池详解 | xiaoyue</title>
@@ -208,7 +208,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://771592594.github.io/xiaoyue/2021/06/12/Java-%E7%BA%BF%E7%A8%8B%E6%B1%A0%E8%AF%A6%E8%A7%A3(%E5%AE%8C)/">
+    <link itemprop="mainEntityOfPage" href="https://771592594.github.io/xiaoyue/2021/06/12/Java-%E7%BA%BF%E7%A8%8B%E6%B1%A0%E8%AF%A6%E8%A7%A3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/xiaoyue/images/avatar.png">
@@ -466,7 +466,7 @@
             <div class="post-nav-item">
             </div>
             <div class="post-nav-item">
-                <a href="/xiaoyue/2021/06/14/Java-%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96(%E5%AE%8C)/" rel="next" title="Java-序列化与反序列化">
+                <a href="/xiaoyue/2021/06/14/Java-%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="next" title="Java-序列化与反序列化">
                   Java-序列化与反序列化 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>

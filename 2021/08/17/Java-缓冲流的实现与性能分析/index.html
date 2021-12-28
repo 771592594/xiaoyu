@@ -24,7 +24,7 @@
 <meta name="description" content="前言在使用IO流时，我经常会习惯性地包装一层缓存流，因为上网的案例都是这么写的。例如，向文件写入一串文本时，我会创建一个 FileOutputStream，然后再用 BufferedOutputStream 进行包装。 12BufferedOutputStream os &#x3D; new BufferedOutputStream(new FileOutputStream(&quot;xx&quot;))">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java-缓冲流的实现与性能分析">
-<meta property="og:url" content="https://771592594.github.io/xiaoyue/2021/08/17/Java-%E7%BC%93%E5%86%B2%E6%B5%81%E7%9A%84%E5%AE%9E%E7%8E%B0%E4%B8%8E%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90(%E5%AE%8C)/index.html">
+<meta property="og:url" content="https://771592594.github.io/xiaoyue/2021/08/17/Java-%E7%BC%93%E5%86%B2%E6%B5%81%E7%9A%84%E5%AE%9E%E7%8E%B0%E4%B8%8E%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/index.html">
 <meta property="og:site_name" content="xiaoyue">
 <meta property="og:description" content="前言在使用IO流时，我经常会习惯性地包装一层缓存流，因为上网的案例都是这么写的。例如，向文件写入一串文本时，我会创建一个 FileOutputStream，然后再用 BufferedOutputStream 进行包装。 12BufferedOutputStream os &#x3D; new BufferedOutputStream(new FileOutputStream(&quot;xx&quot;))">
 <meta property="og:locale" content="zh_CN">
@@ -38,11 +38,11 @@
 <meta name="twitter:image" content="https://img-blog.csdnimg.cn/img_convert/1de181ec32e11f4b2d12aae8acd49824.png">
 
 
-<link rel="canonical" href="https://771592594.github.io/xiaoyue/2021/08/17/Java-%E7%BC%93%E5%86%B2%E6%B5%81%E7%9A%84%E5%AE%9E%E7%8E%B0%E4%B8%8E%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90(%E5%AE%8C)/">
+<link rel="canonical" href="https://771592594.github.io/xiaoyue/2021/08/17/Java-%E7%BC%93%E5%86%B2%E6%B5%81%E7%9A%84%E5%AE%9E%E7%8E%B0%E4%B8%8E%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;771592594.github.io&#x2F;xiaoyue&#x2F;2021&#x2F;08&#x2F;17&#x2F;Java-%E7%BC%93%E5%86%B2%E6%B5%81%E7%9A%84%E5%AE%9E%E7%8E%B0%E4%B8%8E%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90(%E5%AE%8C)&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;08&#x2F;17&#x2F;Java-缓冲流的实现与性能分析(完)&#x2F;&quot;,&quot;title&quot;:&quot;Java-缓冲流的实现与性能分析&quot;}</script>
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;771592594.github.io&#x2F;xiaoyue&#x2F;2021&#x2F;08&#x2F;17&#x2F;Java-%E7%BC%93%E5%86%B2%E6%B5%81%E7%9A%84%E5%AE%9E%E7%8E%B0%E4%B8%8E%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;08&#x2F;17&#x2F;Java-缓冲流的实现与性能分析&#x2F;&quot;,&quot;title&quot;:&quot;Java-缓冲流的实现与性能分析&quot;}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
 <title>Java-缓冲流的实现与性能分析 | xiaoyue</title>
@@ -205,7 +205,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://771592594.github.io/xiaoyue/2021/08/17/Java-%E7%BC%93%E5%86%B2%E6%B5%81%E7%9A%84%E5%AE%9E%E7%8E%B0%E4%B8%8E%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90(%E5%AE%8C)/">
+    <link itemprop="mainEntityOfPage" href="https://771592594.github.io/xiaoyue/2021/08/17/Java-%E7%BC%93%E5%86%B2%E6%B5%81%E7%9A%84%E5%AE%9E%E7%8E%B0%E4%B8%8E%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/xiaoyue/images/avatar.png">
@@ -439,12 +439,12 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/xiaoyue/2021/08/16/%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F%E7%9A%84%E7%90%86%E8%A7%A3%E4%B8%8E%E5%BA%94%E7%94%A8(%E5%AE%8C)/" rel="prev" title="装饰器模式的理解与应用">
+                <a href="/xiaoyue/2021/08/16/%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F%E7%9A%84%E7%90%86%E8%A7%A3%E4%B8%8E%E5%BA%94%E7%94%A8/" rel="prev" title="装饰器模式的理解与应用">
                   <i class="fa fa-chevron-left"></i> 装饰器模式的理解与应用
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/xiaoyue/2021/08/29/Java-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%85%B3%E9%97%AD%E6%B5%81(%E5%AE%8C)/" rel="next" title="Java-为什么要关闭流">
+                <a href="/xiaoyue/2021/08/29/Java-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%85%B3%E9%97%AD%E6%B5%81/" rel="next" title="Java-为什么要关闭流">
                   Java-为什么要关闭流 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>

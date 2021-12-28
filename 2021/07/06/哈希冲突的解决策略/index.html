@@ -24,7 +24,7 @@
 <meta name="description" content="前言哈希表（Hash table，也叫散列表），是根据 Key (关键码) 直接进行访问元素的数据结构。它通过把 Key 映射到表中一个位置来访问元素，以提高查找效率。哈希函数是指将 Key 映射为哈希表中某一存储位置的函数。 所谓哈希冲突（也叫哈希碰撞），就是多个 Key 计算出的哈希地址相同，这些哈希地址相同的 Key 称为同义词。为了保证哈希表的可用性，发生哈希冲突时，我们不能直接替换掉原有">
 <meta property="og:type" content="article">
 <meta property="og:title" content="哈希冲突的解决策略">
-<meta property="og:url" content="https://771592594.github.io/xiaoyue/2021/07/06/%E5%93%88%E5%B8%8C%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E7%AD%96%E7%95%A5(%E5%AE%8C)/index.html">
+<meta property="og:url" content="https://771592594.github.io/xiaoyue/2021/07/06/%E5%93%88%E5%B8%8C%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E7%AD%96%E7%95%A5/index.html">
 <meta property="og:site_name" content="xiaoyue">
 <meta property="og:description" content="前言哈希表（Hash table，也叫散列表），是根据 Key (关键码) 直接进行访问元素的数据结构。它通过把 Key 映射到表中一个位置来访问元素，以提高查找效率。哈希函数是指将 Key 映射为哈希表中某一存储位置的函数。 所谓哈希冲突（也叫哈希碰撞），就是多个 Key 计算出的哈希地址相同，这些哈希地址相同的 Key 称为同义词。为了保证哈希表的可用性，发生哈希冲突时，我们不能直接替换掉原有">
 <meta property="og:locale" content="zh_CN">
@@ -36,11 +36,11 @@
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://771592594.github.io/xiaoyue/2021/07/06/%E5%93%88%E5%B8%8C%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E7%AD%96%E7%95%A5(%E5%AE%8C)/">
+<link rel="canonical" href="https://771592594.github.io/xiaoyue/2021/07/06/%E5%93%88%E5%B8%8C%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E7%AD%96%E7%95%A5/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;771592594.github.io&#x2F;xiaoyue&#x2F;2021&#x2F;07&#x2F;06&#x2F;%E5%93%88%E5%B8%8C%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E7%AD%96%E7%95%A5(%E5%AE%8C)&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;07&#x2F;06&#x2F;哈希冲突的解决策略(完)&#x2F;&quot;,&quot;title&quot;:&quot;哈希冲突的解决策略&quot;}</script>
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;771592594.github.io&#x2F;xiaoyue&#x2F;2021&#x2F;07&#x2F;06&#x2F;%E5%93%88%E5%B8%8C%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E7%AD%96%E7%95%A5&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;07&#x2F;06&#x2F;哈希冲突的解决策略&#x2F;&quot;,&quot;title&quot;:&quot;哈希冲突的解决策略&quot;}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
 <title>哈希冲突的解决策略 | xiaoyue</title>
@@ -203,7 +203,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://771592594.github.io/xiaoyue/2021/07/06/%E5%93%88%E5%B8%8C%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E7%AD%96%E7%95%A5(%E5%AE%8C)/">
+    <link itemprop="mainEntityOfPage" href="https://771592594.github.io/xiaoyue/2021/07/06/%E5%93%88%E5%B8%8C%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E7%AD%96%E7%95%A5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/xiaoyue/images/avatar.png">
@@ -358,12 +358,12 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/xiaoyue/2021/07/06/Java-%E8%AF%A6%E8%A7%A3ThreadLocal(%E5%AE%8C)/" rel="prev" title="Java-详解ThreadLocal">
+                <a href="/xiaoyue/2021/07/06/Java-%E8%AF%A6%E8%A7%A3ThreadLocal/" rel="prev" title="Java-详解ThreadLocal">
                   <i class="fa fa-chevron-left"></i> Java-详解ThreadLocal
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/xiaoyue/2021/07/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8D%95%E9%93%BE%E8%A1%A8(%E5%AE%8C)/" rel="next" title="数据结构-单链表">
+                <a href="/xiaoyue/2021/07/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8D%95%E9%93%BE%E8%A1%A8/" rel="next" title="数据结构-单链表">
                   数据结构-单链表 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>

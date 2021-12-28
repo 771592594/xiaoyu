@@ -24,7 +24,7 @@
 <meta name="description" content="前言在讲任何技术之前，首先我们要知道为什么使用要使用它。 锁是并发编程中不可或缺的技术，我们通过对代码或方法加锁，保证程序能够按我们所想地运行。 在单机应用中，使用 Java 自带的 synchronized 或 JUC 就足以处理并发冲突;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Redis-分布式锁的原理和应用">
-<meta property="og:url" content="https://771592594.github.io/xiaoyue/2021/09/19/Redis-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8%EF%BC%88%E5%AE%8C%EF%BC%89/index.html">
+<meta property="og:url" content="https://771592594.github.io/xiaoyue/2021/09/19/Redis-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/index.html">
 <meta property="og:site_name" content="xiaoyue">
 <meta property="og:description" content="前言在讲任何技术之前，首先我们要知道为什么使用要使用它。 锁是并发编程中不可或缺的技术，我们通过对代码或方法加锁，保证程序能够按我们所想地运行。 在单机应用中，使用 Java 自带的 synchronized 或 JUC 就足以处理并发冲突;">
 <meta property="og:locale" content="zh_CN">
@@ -38,11 +38,11 @@
 <meta name="twitter:image" content="https://img-blog.csdnimg.cn/img_convert/a4f3ba79c19abcd37f02b00a93558ffa.png">
 
 
-<link rel="canonical" href="https://771592594.github.io/xiaoyue/2021/09/19/Redis-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8%EF%BC%88%E5%AE%8C%EF%BC%89/">
+<link rel="canonical" href="https://771592594.github.io/xiaoyue/2021/09/19/Redis-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;771592594.github.io&#x2F;xiaoyue&#x2F;2021&#x2F;09&#x2F;19&#x2F;Redis-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8%EF%BC%88%E5%AE%8C%EF%BC%89&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;09&#x2F;19&#x2F;Redis-分布式锁的原理和应用（完）&#x2F;&quot;,&quot;title&quot;:&quot;Redis-分布式锁的原理和应用&quot;}</script>
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;771592594.github.io&#x2F;xiaoyue&#x2F;2021&#x2F;09&#x2F;19&#x2F;Redis-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;09&#x2F;19&#x2F;Redis-分布式锁的原理和应用&#x2F;&quot;,&quot;title&quot;:&quot;Redis-分布式锁的原理和应用&quot;}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
 <title>Redis-分布式锁的原理和应用 | xiaoyue</title>
@@ -205,7 +205,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://771592594.github.io/xiaoyue/2021/09/19/Redis-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8%EF%BC%88%E5%AE%8C%EF%BC%89/">
+    <link itemprop="mainEntityOfPage" href="https://771592594.github.io/xiaoyue/2021/09/19/Redis-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/xiaoyue/images/avatar.png">
@@ -371,7 +371,7 @@
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/xiaoyue/2021/10/06/Java-%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E8%A6%81%E5%8D%A0%E7%94%A8%E5%A4%9A%E5%B0%91%E5%86%85%E5%AD%98(%E5%AE%8C)/" rel="next" title="Java-一个对象要占用多少内存">
+                <a href="/xiaoyue/2021/10/06/Java-%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E8%A6%81%E5%8D%A0%E7%94%A8%E5%A4%9A%E5%B0%91%E5%86%85%E5%AD%98/" rel="next" title="Java-一个对象要占用多少内存">
                   Java-一个对象要占用多少内存 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>

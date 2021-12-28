@@ -24,7 +24,7 @@
 <meta name="description" content="前言最近公司的几个外包到期了，我接手了他们的代码后，发现他们总喜欢在循环中对做等值查询，例如：下面这段根据人员出勤记录反查人员信息的代码： 12345private void uploadAttendance(List&lt;RecognitionPO&gt; recognitionList) &amp;#123;    for (RecognitionPO recognition : recogniti">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java-一个对象要占用多少内存">
-<meta property="og:url" content="https://771592594.github.io/xiaoyue/2021/10/06/Java-%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E8%A6%81%E5%8D%A0%E7%94%A8%E5%A4%9A%E5%B0%91%E5%86%85%E5%AD%98(%E5%AE%8C)/index.html">
+<meta property="og:url" content="https://771592594.github.io/xiaoyue/2021/10/06/Java-%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E8%A6%81%E5%8D%A0%E7%94%A8%E5%A4%9A%E5%B0%91%E5%86%85%E5%AD%98/index.html">
 <meta property="og:site_name" content="xiaoyue">
 <meta property="og:description" content="前言最近公司的几个外包到期了，我接手了他们的代码后，发现他们总喜欢在循环中对做等值查询，例如：下面这段根据人员出勤记录反查人员信息的代码： 12345private void uploadAttendance(List&lt;RecognitionPO&gt; recognitionList) &amp;#123;    for (RecognitionPO recognition : recogniti">
 <meta property="og:locale" content="zh_CN">
@@ -39,11 +39,11 @@
 <meta name="twitter:image" content="https://img-blog.csdnimg.cn/img_convert/52f415ea9ddc0a957cf4d4ef476adeb3.png">
 
 
-<link rel="canonical" href="https://771592594.github.io/xiaoyue/2021/10/06/Java-%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E8%A6%81%E5%8D%A0%E7%94%A8%E5%A4%9A%E5%B0%91%E5%86%85%E5%AD%98(%E5%AE%8C)/">
+<link rel="canonical" href="https://771592594.github.io/xiaoyue/2021/10/06/Java-%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E8%A6%81%E5%8D%A0%E7%94%A8%E5%A4%9A%E5%B0%91%E5%86%85%E5%AD%98/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;771592594.github.io&#x2F;xiaoyue&#x2F;2021&#x2F;10&#x2F;06&#x2F;Java-%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E8%A6%81%E5%8D%A0%E7%94%A8%E5%A4%9A%E5%B0%91%E5%86%85%E5%AD%98(%E5%AE%8C)&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;10&#x2F;06&#x2F;Java-一个对象要占用多少内存(完)&#x2F;&quot;,&quot;title&quot;:&quot;Java-一个对象要占用多少内存&quot;}</script>
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;771592594.github.io&#x2F;xiaoyue&#x2F;2021&#x2F;10&#x2F;06&#x2F;Java-%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E8%A6%81%E5%8D%A0%E7%94%A8%E5%A4%9A%E5%B0%91%E5%86%85%E5%AD%98&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;10&#x2F;06&#x2F;Java-一个对象要占用多少内存&#x2F;&quot;,&quot;title&quot;:&quot;Java-一个对象要占用多少内存&quot;}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
 <title>Java-一个对象要占用多少内存 | xiaoyue</title>
@@ -206,7 +206,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://771592594.github.io/xiaoyue/2021/10/06/Java-%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E8%A6%81%E5%8D%A0%E7%94%A8%E5%A4%9A%E5%B0%91%E5%86%85%E5%AD%98(%E5%AE%8C)/">
+    <link itemprop="mainEntityOfPage" href="https://771592594.github.io/xiaoyue/2021/10/06/Java-%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E8%A6%81%E5%8D%A0%E7%94%A8%E5%A4%9A%E5%B0%91%E5%86%85%E5%AD%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/xiaoyue/images/avatar.png">
@@ -403,12 +403,12 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/xiaoyue/2021/09/19/Redis-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8%EF%BC%88%E5%AE%8C%EF%BC%89/" rel="prev" title="Redis-分布式锁的原理和应用">
+                <a href="/xiaoyue/2021/09/19/Redis-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/" rel="prev" title="Redis-分布式锁的原理和应用">
                   <i class="fa fa-chevron-left"></i> Redis-分布式锁的原理和应用
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/xiaoyue/2021/10/10/Maven-%E4%BE%9D%E8%B5%96%E5%86%B2%E7%AA%81%E9%97%AE%E9%A2%98(%E5%AE%8C)/" rel="next" title="Maven-依赖冲突问题">
+                <a href="/xiaoyue/2021/10/10/Maven-%E4%BE%9D%E8%B5%96%E5%86%B2%E7%AA%81%E9%97%AE%E9%A2%98/" rel="next" title="Maven-依赖冲突问题">
                   Maven-依赖冲突问题 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
