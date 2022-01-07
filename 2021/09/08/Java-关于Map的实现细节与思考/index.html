@@ -29,7 +29,7 @@
 <meta property="og:description" content="HashMap的容量永远是二的幂一、HashMap 内部维护一个哈希表 Node&lt;K,V&gt;[] table， 哈希表的容量永远是二的幂。这是基于两个事实得出的结论：  哈希表的初始容量永远是二的幂  HashMap 会在第一次插入元素时，会对 table 其进行初始化，初始化的容量通过 tableSizeFor() 方法计算得到 。这个方法会返回一个 不小于当前容量且是二的幂的数。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-09-08T13:57:38.000Z">
-<meta property="article:modified_time" content="2021-11-06T00:04:24.168Z">
+<meta property="article:modified_time" content="2022-01-07T12:48:17.201Z">
 <meta property="article:author" content="xiaoyue">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="哈希">
@@ -234,7 +234,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-11-06 08:04:24" itemprop="dateModified" datetime="2021-11-06T08:04:24+08:00">2021-11-06</time>
+        <time title="修改时间：2022-01-07 20:48:17" itemprop="dateModified" datetime="2022-01-07T20:48:17+08:00">2022-01-07</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -254,7 +254,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>2k</span>
+      <span>2.1k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -290,15 +290,17 @@
 <p>$$<br>i\ =\ (capacity- 1) \ and \ hash<br>$$<br><strong>为了保证散列结果的均匀分布，哈希表的容量必须为2的幂，因为只有 2的幂 - 1 才能得到全1的二进制数，只有全1的二进制数和随机的哈希值做与运算才能保证结果是 [0, capacity - 1] 中的任何数。</strong></p>
 <p>假设哈希表的长度不是二的幂，比如10，它的二进制是1010，1010与任何数做与运算的结果都是 <code>?0?0</code>，能够插入的位置只有以下4种可能：0(0000)、2(0010)、8(1000)、10(1010)。</p>
 <p>这样哈希冲突的概率非常的高，会形成长链表，严重影响查询效率。</p>
-<h1 id="并发容器的键值不能为null"><a href="#并发容器的键值不能为null" class="headerlink" title="并发容器的键值不能为null"></a>并发容器的键值不能为null</h1><p><strong>如果允许并发Map的键值为null，那么在多线程情况下，我们使用时 <code>get()</code> 方法得到一个 null 时，该如何判断是不存在该key  还是 存在值为null的映射呢？</strong></p>
-<p>在单线程使用时，我们可以通过 <code>containsKey()</code> 来判断；但是在多线程情况下，其他线程随时可能增删  KEY，该方法只能反映 key 在调用的时间点是否存在。<strong>因此为了避免歧义，设计者直接禁止 KEY 和 VALUE 为 null。</strong></p>
-<p>举个例子：我们想要执行这样的逻辑：如果从Map中根据 key 拿到 null 值并且这个key 存在，则执行业务逻辑。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcurrentMapTest</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> ConcurrentHashMap map = <span class="keyword">new</span> ConcurrentHashMap();</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Object value = map.get(<span class="string">&quot;key&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (value == <span class="keyword">null</span> &amp;&amp; map.containsKey(<span class="string">&quot;key&quot;</span>)) &#123;</span><br><span class="line">            <span class="comment">// 执行业务逻辑</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1 id="并发容器的键值不能为null"><a href="#并发容器的键值不能为null" class="headerlink" title="并发容器的键值不能为null"></a>并发容器的键值不能为null</h1><p>Java中几乎所有的并发 Map 都不允许键值对为null（SynchronizedMap 是个例外），这么设计是为什么呢？</p>
+<p><strong>这么设计的原因是为了避免歧义。</strong>假设并发Map允许键值为null，那么在多线程情况下，使用时 <code>get()</code> 方法得到一个 null 时，我们要如何判断是该 key 不存在，还是存在值为null 的键值对呢？</p>
+<p>在单线程使用时，我们可以通过 <code>containsKey()</code> 方法来判断键值对是否存在；但是在多线程情况下，其他线程随时可能增删  key，因此该方法只能反映 key 在调用的时间点是否存在。</p>
+<p>举个例子，假设 ConcurrentHashMap 允许键值为null，我们希望在 Map 在找到值为 null 的键值对时，执行业务逻辑。这个需求理论上应该这么写：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcurrentMapTest</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> ConcurrentHashMap map = <span class="keyword">new</span> ConcurrentHashMap();</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">(String key)</span> </span>&#123;</span><br><span class="line">        Object value = map.get(key);</span><br><span class="line">        <span class="keyword">if</span> (value == <span class="keyword">null</span> &amp;&amp; map.containsKey(key)) &#123;</span><br><span class="line">            <span class="comment">// 执行业务逻辑</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>如果允许键值为null，那么在多线程情况下这段代码并不能像我们想的那样执行，因为存在着这样一个可能性：</p>
-<p>线程一调用 <code>get()</code> 方法，此时不存在 key，所以得到了 null，然后时间片结束切换到线程二。</p>
-<p>线程二执行其他方法时，向Map中插入了这个key，然后切换回线程一。</p>
-<p>线程一此时执行 if 语句，发现 key 是存在的，就执行了业务逻辑，这与我们期望的并不一致的。</p>
+<p><strong>但是，这段代码在多线程情况下并不能像我们想的那样执行</strong>。因为存在着这样一个可能性：</p>
+<p>线程一调用 <code>get()</code> 方法，此时不存在 key，所以得到了 null，if 第一个条件通过，然后时间片结束切换到线程二。</p>
+<p>线程二执行业务时，向 Map 中插入了这个 key 的键值对，然后切换回线程一。</p>
+<p>线程一执行 <code>containsKey()</code> 方法，此时节点存在，if 的两个条件全部满足，就执行了业务逻辑，这与我们期望的并不一致的。</p>
+<p><strong>因此为了避免歧义，设计者直接禁止 key 和 value 为 null。</strong></p>
 
     </div>
 
@@ -381,7 +383,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">2:29</span>
+    <span title="站点阅读时长">2:30</span>
   </span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
