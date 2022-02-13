@@ -21,37 +21,29 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
 
 <script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;771592594.github.io&quot;,&quot;root&quot;:&quot;&#x2F;xiaoyue&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;xiaoyue&#x2F;images&quot;,&quot;scheme&quot;:&quot;Gemini&quot;,&quot;version&quot;:&quot;8.5.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;width&quot;:300,&quot;display&quot;:&quot;always&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:true,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:true,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;}}</script><script src="/xiaoyue/js/config.js"></script>
-<meta name="description" content="前言在开发过程中，我们经常会使用Maven引入第三方的Jar包，这些包又依赖于其他的包，这样难免会间接地引入同一包的不同版本，产生依赖冲突。那么Maven是如何解决这种依赖冲突的呢？ 依赖冲突的处理原则首先，我们要了解以下Maven处理依赖冲突的两大原则：">
+<meta name="description" content="前言计数排序（Counting sort）是一种稳定的非比较的排序算法，于1954年由 Harold H. Seward 提出，它能以O(n)的时间复杂度对一定范围内的数据进行排序。计数排序使用一个额外的数组C，数组C的第i个元素是待排序数组A中值等于i的元素的个数，根据数组C来将数组A的元素排到正确的位置。 算法实现简易版">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Maven-依赖冲突问题">
-<meta property="og:url" content="https://771592594.github.io/xiaoyue/2021/10/10/Maven-%E4%BE%9D%E8%B5%96%E5%86%B2%E7%AA%81%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:title" content="算法-计数排序">
+<meta property="og:url" content="https://771592594.github.io/xiaoyue/2022/02/13/%E7%AE%97%E6%B3%95-%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F/index.html">
 <meta property="og:site_name" content="xiaoyue">
-<meta property="og:description" content="前言在开发过程中，我们经常会使用Maven引入第三方的Jar包，这些包又依赖于其他的包，这样难免会间接地引入同一包的不同版本，产生依赖冲突。那么Maven是如何解决这种依赖冲突的呢？ 依赖冲突的处理原则首先，我们要了解以下Maven处理依赖冲突的两大原则：">
+<meta property="og:description" content="前言计数排序（Counting sort）是一种稳定的非比较的排序算法，于1954年由 Harold H. Seward 提出，它能以O(n)的时间复杂度对一定范围内的数据进行排序。计数排序使用一个额外的数组C，数组C的第i个元素是待排序数组A中值等于i的元素的个数，根据数组C来将数组A的元素排到正确的位置。 算法实现简易版">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/b62005b6aac042c18f6b57c7250b9a57.png?x-oss-process=/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/0e0f4870134e4ede87b3956d75852bbd.png?x-oss-process=/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/7af3a040a4a14eb5a25b8d2fdb59fa6e.png?x-oss-process=/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/10ec9248468543789e40f8d0c7dce37b.png?x-oss-process=/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/8a450d3f04664bd08eb41f7a2f171f83.png?x-oss-process=/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/0e0f4870134e4ede87b3956d75852bbd.png?x-oss-process=/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/f8661d345c264357b2ed4566ff513844.png?x-oss-process=/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16">
-<meta property="article:published_time" content="2021-10-10T00:05:45.000Z">
-<meta property="article:modified_time" content="2021-11-26T13:27:16.970Z">
+<meta property="article:published_time" content="2022-02-13T06:08:39.000Z">
+<meta property="article:modified_time" content="2022-02-13T10:40:03.911Z">
 <meta property="article:author" content="xiaoyue">
-<meta property="article:tag" content="Java">
-<meta property="article:tag" content="Maven">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="排序">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://img-blog.csdnimg.cn/b62005b6aac042c18f6b57c7250b9a57.png?x-oss-process=/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16">
 
 
-<link rel="canonical" href="https://771592594.github.io/xiaoyue/2021/10/10/Maven-%E4%BE%9D%E8%B5%96%E5%86%B2%E7%AA%81%E9%97%AE%E9%A2%98/">
+<link rel="canonical" href="https://771592594.github.io/xiaoyue/2022/02/13/%E7%AE%97%E6%B3%95-%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;771592594.github.io&#x2F;xiaoyue&#x2F;2021&#x2F;10&#x2F;10&#x2F;Maven-%E4%BE%9D%E8%B5%96%E5%86%B2%E7%AA%81%E9%97%AE%E9%A2%98&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;10&#x2F;10&#x2F;Maven-依赖冲突问题&#x2F;&quot;,&quot;title&quot;:&quot;Maven-依赖冲突问题&quot;}</script>
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;771592594.github.io&#x2F;xiaoyue&#x2F;2022&#x2F;02&#x2F;13&#x2F;%E7%AE%97%E6%B3%95-%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F&#x2F;&quot;,&quot;path&quot;:&quot;2022&#x2F;02&#x2F;13&#x2F;算法-计数排序&#x2F;&quot;,&quot;title&quot;:&quot;算法-计数排序&quot;}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
-<title>Maven-依赖冲突问题 | xiaoyue</title>
+<title>算法-计数排序 | xiaoyue</title>
   
 
 
@@ -131,7 +123,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BE%9D%E8%B5%96%E5%86%B2%E7%AA%81%E7%9A%84%E5%A4%84%E7%90%86%E5%8E%9F%E5%88%99"><span class="nav-number">2.</span> <span class="nav-text">依赖冲突的处理原则</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BE%9D%E8%B5%96%E5%86%B2%E7%AA%81%E9%97%AE%E9%A2%98"><span class="nav-number">3.</span> <span class="nav-text">依赖冲突问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E4%BE%9D%E8%B5%96%E5%86%B2%E7%AA%81"><span class="nav-number">4.</span> <span class="nav-text">如何处理依赖冲突</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.</span> <span class="nav-text">算法实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E6%98%93%E7%89%88"><span class="nav-number">2.1.</span> <span class="nav-text">简易版</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4%E7%89%88"><span class="nav-number">2.2.</span> <span class="nav-text">完整版</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B1%80%E9%99%90%E6%80%A7"><span class="nav-number">3.</span> <span class="nav-text">局限性</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -211,7 +203,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://771592594.github.io/xiaoyue/2021/10/10/Maven-%E4%BE%9D%E8%B5%96%E5%86%B2%E7%AA%81%E9%97%AE%E9%A2%98/">
+    <link itemprop="mainEntityOfPage" href="https://771592594.github.io/xiaoyue/2022/02/13/%E7%AE%97%E6%B3%95-%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/xiaoyue/images/avatar.png">
@@ -224,7 +216,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Maven-依赖冲突问题
+          算法-计数排序
         </h1>
 
         <div class="post-meta-container">
@@ -234,16 +226,10 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2021-10-10 08:05:45" itemprop="dateCreated datePublished" datetime="2021-10-10T08:05:45+08:00">2021-10-10</time>
+      <time title="创建时间：2022-02-13 14:08:39 / 修改时间：18:40:03" itemprop="dateCreated datePublished" datetime="2022-02-13T14:08:39+08:00">2022-02-13</time>
     </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-11-26 21:27:16" itemprop="dateModified" datetime="2021-11-26T21:27:16+08:00">2021-11-26</time>
-      </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
@@ -262,7 +248,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>946</span>
+      <span>1.3k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -280,41 +266,28 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在开发过程中，我们经常会使用Maven引入第三方的Jar包，这些包又依赖于其他的包，这样难免会间接地引入同一包的不同版本，产生依赖冲突。那么Maven是如何解决这种依赖冲突的呢？</p>
-<h1 id="依赖冲突的处理原则"><a href="#依赖冲突的处理原则" class="headerlink" title="依赖冲突的处理原则"></a>依赖冲突的处理原则</h1><p>首先，我们要了解以下Maven处理依赖冲突的两大原则：</p>
-<p><strong>一、路径最短原则</strong></p>
-<p><strong>Maven的依赖是树状结构的，当依赖冲突时，离根最近的包会被引入。</strong></p>
-<p>在下图中，根路径到两个版本的A包的路径分别为：</p>
-<p>ROOT==&gt;A-1.0 </p>
-<p>ROOT==&gt;B-1.0==&gt;A-2.0</p>
-<p>由此可以见A-1.0离根最近，因此它会被引入</p>
-<p><img src="https://img-blog.csdnimg.cn/b62005b6aac042c18f6b57c7250b9a57.png?x-oss-process=/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16"></p>
-<p><strong>二、优先声明原则</strong></p>
-<p><strong>当冲突的包到路径的举例相同时，会选择最先声明的包</strong></p>
-<p>在下图中，根路径到两个版本的A包的路径分别为：</p>
-<p>ROOT==&gt;A-1.0==&gt;C-1.0</p>
-<p>ROOT==&gt;B-1.0==&gt;C-2.0</p>
-<p>虽然两个版本的C到根的距离是相同的，但是依赖C-1.0的包A先被声明，所以实际会引入C-1.0</p>
-<p><img src="https://img-blog.csdnimg.cn/0e0f4870134e4ede87b3956d75852bbd.png?x-oss-process=/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16"></p>
-<h1 id="依赖冲突问题"><a href="#依赖冲突问题" class="headerlink" title="依赖冲突问题"></a>依赖冲突问题</h1><p>虽然Maven能够自动帮我们解决依赖冲突并选择其中一个版本引入，但是每个版本的包都存在或大或小的差异，这些差异可能会导致程序运行时报错，这就是我们平时所说的依赖冲突。依赖冲突通常表现为运行时抛出的以下异常：</p>
-<ul>
-<li><p>java.lang.NoSuchMethodError</p>
-</li>
-<li><p>java.lang.ClassNotFoundException</p>
-</li>
-<li><p>java.lang.NoClassDefFoundError</p>
-</li>
-</ul>
-<p>举个例子：我们调用B包提供的 <code>BClass.foo()</code> 方法，这个方法又使用到了 A-2.0 中新出的 <code>AClass</code> 类。但是我们在项目中同时引入了A-1.0 和 A-2.0，根据路径最短原则实际会使用A-1.0。这会导致运行时找不到 <code>AClass</code> 类，因此抛出 <code>NoClassDefFoundError</code>。</p>
-<p><img src="https://img-blog.csdnimg.cn/7af3a040a4a14eb5a25b8d2fdb59fa6e.png?x-oss-process=/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16"></p>
-<h1 id="如何处理依赖冲突"><a href="#如何处理依赖冲突" class="headerlink" title="如何处理依赖冲突"></a>如何处理依赖冲突</h1><p>在 <code>IDEA</code> 中使用 <code>Maven Helper</code> 插件，来查找冲突的包。例如，在下图中<code>C:1.0</code>被标记为红色，说明这个包存在冲突。</p>
-<p><img src="https://img-blog.csdnimg.cn/10ec9248468543789e40f8d0c7dce37b.png?x-oss-process=/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16"></p>
-<p>点击冲突的C包，可以看到项目中引入了 1.0 和 2.0  两个版本，分别被A包和B包依赖。</p>
-<p><img src="https://img-blog.csdnimg.cn/8a450d3f04664bd08eb41f7a2f171f83.png?x-oss-process=/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16"></p>
-<p>这种情况下根到 <code>C:1.0</code> 和 <code>C:2.0</code> 的距离相同，按照优先声明原则，Maven根据选择了1.0 版本。</p>
-<p><img src="https://img-blog.csdnimg.cn/0e0f4870134e4ede87b3956d75852bbd.png?x-oss-process=/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16"></p>
-<p>如果我们想要使用 2.0 版本，只需右键点击 <code>C:1.0</code> 点击Exclude 将其排除即可。</p>
-<p><img src="https://img-blog.csdnimg.cn/f8661d345c264357b2ed4566ff513844.png?x-oss-process=/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16"></p>
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p><strong>计数排序（Counting sort）</strong>是一种<strong>稳定的非比较的排序算法</strong>，于1954年由 Harold H. Seward 提出，它能以<strong>O(n)<strong>的时间复杂度对</strong>一定范围内</strong>的数据进行排序。计数排序使用一个额外的数组C，数组C的第i个元素是待排序数组A中值等于i的元素的个数，根据数组C来将数组A的元素排到正确的位置。</p>
+<h1 id="算法实现"><a href="#算法实现" class="headerlink" title="算法实现"></a>算法实现</h1><h2 id="简易版"><a href="#简易版" class="headerlink" title="简易版"></a>简易版</h2><ol>
+<li>遍历原数组A，找出排序key的最大值max和最小值min</li>
+<li>统计数组A中每个元素e出现的次数，存入数组C的第(e-min)项</li>
+<li>顺序遍历数组C，通过下标 i + min 生成对应元素，添加到新数组中</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">count_sort</span>(<span class="params">nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="type">List</span>[<span class="built_in">int</span>]:</span></span><br><span class="line">    mininum, maxinum = <span class="built_in">min</span>(nums), <span class="built_in">max</span>(nums)</span><br><span class="line">    length = maxinum - mininum + <span class="number">1</span></span><br><span class="line">    count: <span class="type">List</span>[<span class="built_in">int</span>] = [<span class="number">0</span>] * length</span><br><span class="line">    <span class="comment"># 统计每个元素出现的次数</span></span><br><span class="line">    <span class="keyword">for</span> num <span class="keyword">in</span> nums:</span><br><span class="line">        count[num - mininum] += <span class="number">1</span></span><br><span class="line">    ret: <span class="type">List</span>[<span class="built_in">int</span>] = []</span><br><span class="line">    <span class="comment"># 根据每个元素的计数生成有序的数组</span></span><br><span class="line">    <span class="keyword">for</span> i, c <span class="keyword">in</span> <span class="built_in">enumerate</span>(count):</span><br><span class="line">        <span class="keyword">while</span> c:</span><br><span class="line">            ret.append(i + mininum)</span><br><span class="line">            c -= <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> ret</span><br></pre></td></tr></table></figure>
+
+<h2 id="完整版"><a href="#完整版" class="headerlink" title="完整版"></a>完整版</h2><p>简易版的代码虽然实现了计数排序的功能，但是根据计数直接生成结果的方式，只能对整数序列排序，无法对复杂对象进行排序。因此这个实现方式还要改进一下，需要根据计数找到原数组中的对象。改进后的算法如下：</p>
+<ol>
+<li>遍历原数组A，找出排序key的最大值max和最小值min</li>
+<li>统计数组A中每个元素e出现的次数，存入数组C的第(e-min)项</li>
+<li>对数组C的值进行累加，根据累加后的值可以找到该下标对应元素的排序后的位置</li>
+<li>倒序遍历数组A（确保稳定性），从数组C中找到每个元素排序后的位置</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">count_sort</span>(<span class="params">nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="type">List</span>[<span class="built_in">int</span>]:</span></span><br><span class="line">    mininum, maxinum = <span class="built_in">min</span>(nums), <span class="built_in">max</span>(nums)</span><br><span class="line">    length = maxinum - mininum + <span class="number">1</span></span><br><span class="line">    count: <span class="type">List</span>[<span class="built_in">int</span>] = [<span class="number">0</span>] * length</span><br><span class="line">    ret: <span class="type">List</span>[<span class="built_in">int</span>] = [<span class="literal">None</span>] * <span class="built_in">len</span>(nums)</span><br><span class="line">    <span class="comment"># 统计计数</span></span><br><span class="line">    <span class="keyword">for</span> num <span class="keyword">in</span> nums:</span><br><span class="line">        count[num - mininum] += <span class="number">1</span></span><br><span class="line">    <span class="comment"># 计数累加</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(length):</span><br><span class="line">        <span class="keyword">if</span> i == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        count[i] += count[i - <span class="number">1</span>]</span><br><span class="line">    <span class="comment"># 倒序遍历, 通过计数确定元素排序后的位置</span></span><br><span class="line">    <span class="keyword">for</span> num <span class="keyword">in</span> <span class="built_in">reversed</span>(nums):</span><br><span class="line">        ret[count[num - mininum] - <span class="number">1</span>] = num</span><br><span class="line">        count[num - mininum] -= <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> ret</span><br></pre></td></tr></table></figure>
+
+<h1 id="局限性"><a href="#局限性" class="headerlink" title="局限性"></a>局限性</h1><p>计数排序有很好的性能，但是平时我们却很少用到，原因是它的思想与桶排序类似，对待排序的数据有较高的要求：</p>
+<ol>
+<li>排序使用的Key必须能够用非负整数表示</li>
+<li>待排序的数组最好在一个不大的范围内均匀分布；如果上下限差距过大，会浪费大量的内存</li>
+</ol>
 
     </div>
 
@@ -342,22 +315,19 @@
 </div>
 
           <div class="post-tags">
-              <a href="/xiaoyue/tags/Java/" rel="tag"><i class="fa fa-tag"></i> Java</a>
-              <a href="/xiaoyue/tags/Maven/" rel="tag"><i class="fa fa-tag"></i> Maven</a>
+              <a href="/xiaoyue/tags/%E7%AE%97%E6%B3%95/" rel="tag"><i class="fa fa-tag"></i> 算法</a>
+              <a href="/xiaoyue/tags/%E6%8E%92%E5%BA%8F/" rel="tag"><i class="fa fa-tag"></i> 排序</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/xiaoyue/2021/10/06/Java-%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E8%A6%81%E5%8D%A0%E7%94%A8%E5%A4%9A%E5%B0%91%E5%86%85%E5%AD%98/" rel="prev" title="Java-一个对象要占用多少内存">
-                  <i class="fa fa-chevron-left"></i> Java-一个对象要占用多少内存
+                <a href="/xiaoyue/2022/01/19/Mybatis-%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6%E4%B8%AD%E7%9A%84%E8%A3%85%E9%A5%B0%E5%99%A8/" rel="prev" title="Mybatis-缓存机制中的装饰器">
+                  <i class="fa fa-chevron-left"></i> Mybatis-缓存机制中的装饰器
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/xiaoyue/2021/10/11/Java-%E9%94%81%E7%B2%92%E5%BA%A6%E4%B8%8E%E6%AD%BB%E9%94%81%E9%97%AE%E9%A2%98/" rel="next" title="Java-锁粒度与死锁问题">
-                  Java-锁粒度与死锁问题 <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>
