@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/xiaoyue/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/xiaoyue/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/xiaoyue/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/xiaoyue/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/xiaoyue/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;771592594.github.io&quot;,&quot;root&quot;:&quot;&#x2F;xiaoyue&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;xiaoyue&#x2F;images&quot;,&quot;scheme&quot;:&quot;Gemini&quot;,&quot;version&quot;:&quot;8.5.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;width&quot;:300,&quot;display&quot;:&quot;always&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:true,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:true,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;}}</script><script src="/xiaoyue/js/config.js"></script>
+<meta name="description" content="前言上周我入职了新公司，负责内部的财务流水核算系统。看历史的需求时，我发现一个有意思的需求，大概的内容是：公司的流水记录都存储在数据库中，系统要根据用户指定的规则对流水记录进行筛选。但是筛选的规则是由用户动态配置的，因此无法直接在代码逻辑中写死。那么我们要如何实现呢？ 在 JavaScript 和 Python 等脚本语言中，一般都提供一个 eval(expression) 方法来执行动态语句。我">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java-使用Groovy执行动态脚本">
+<meta property="og:url" content="https://771592594.github.io/xiaoyue/2022/02/19/Java-%E4%BD%BF%E7%94%A8Groovy%E6%89%A7%E8%A1%8C%E5%8A%A8%E6%80%81%E8%84%9A%E6%9C%AC/index.html">
+<meta property="og:site_name" content="xiaoyue">
+<meta property="og:description" content="前言上周我入职了新公司，负责内部的财务流水核算系统。看历史的需求时，我发现一个有意思的需求，大概的内容是：公司的流水记录都存储在数据库中，系统要根据用户指定的规则对流水记录进行筛选。但是筛选的规则是由用户动态配置的，因此无法直接在代码逻辑中写死。那么我们要如何实现呢？ 在 JavaScript 和 Python 等脚本语言中，一般都提供一个 eval(expression) 方法来执行动态语句。我">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-02-19T10:04:11.000Z">
+<meta property="article:modified_time" content="2022-02-20T04:36:06.362Z">
+<meta property="article:author" content="xiaoyue">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Groovy">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://771592594.github.io/xiaoyue/2022/02/19/Java-%E4%BD%BF%E7%94%A8Groovy%E6%89%A7%E8%A1%8C%E5%8A%A8%E6%80%81%E8%84%9A%E6%9C%AC/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;771592594.github.io&#x2F;xiaoyue&#x2F;2022&#x2F;02&#x2F;19&#x2F;Java-%E4%BD%BF%E7%94%A8Groovy%E6%89%A7%E8%A1%8C%E5%8A%A8%E6%80%81%E8%84%9A%E6%9C%AC&#x2F;&quot;,&quot;path&quot;:&quot;2022&#x2F;02&#x2F;19&#x2F;Java-使用Groovy执行动态脚本&#x2F;&quot;,&quot;title&quot;:&quot;Java-使用Groovy执行动态脚本&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>Java-使用Groovy执行动态脚本 | xiaoyue</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/xiaoyue/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/xiaoyue/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">xiaoyue</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">keep folish, keep hungry</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/xiaoyue/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/xiaoyue/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/xiaoyue/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/xiaoyue/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/xiaoyue/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Groovy%E6%89%A7%E8%A1%8C%E5%8A%A8%E6%80%81%E5%91%BD%E4%BB%A4"><span class="nav-number">2.</span> <span class="nav-text">使用Groovy执行动态命令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="nav-number">3.</span> <span class="nav-text">常见问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6%E5%A4%B1%E6%95%88"><span class="nav-number">3.1.</span> <span class="nav-text">缓存机制失效</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%8D%95%E4%BE%8BGroovyClassLoader%E8%A7%A3%E6%9E%90%E5%AF%BC%E8%87%B4OOM"><span class="nav-number">3.2.</span> <span class="nav-text">使用单例GroovyClassLoader解析导致OOM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91%E6%83%85%E5%86%B5%E4%B8%8BScript%E8%AE%A1%E7%AE%97%E9%94%99%E8%AF%AF"><span class="nav-number">3.3.</span> <span class="nav-text">并发情况下Script计算错误</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">使用总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="xiaoyue"
+      src="/xiaoyue/images/avatar.png">
+  <p class="site-author-name" itemprop="name">xiaoyue</p>
+  <div class="site-description" itemprop="description">分享技术与生活</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/xiaoyue/archives/">
+        
+          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/xiaoyue/categories/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/xiaoyue/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://github.com/771592594" title="https:&#x2F;&#x2F;github.com&#x2F;771592594" rel="noopener" target="_blank">GitHub</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=419485668&auto=1&height=66"></iframe>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://771592594.github.io/xiaoyue/2022/02/19/Java-%E4%BD%BF%E7%94%A8Groovy%E6%89%A7%E8%A1%8C%E5%8A%A8%E6%80%81%E8%84%9A%E6%9C%AC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/xiaoyue/images/avatar.png">
+      <meta itemprop="name" content="xiaoyue">
+      <meta itemprop="description" content="分享技术与生活">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiaoyue">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java-使用Groovy执行动态脚本
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-02-19 18:04:11" itemprop="dateCreated datePublished" datetime="2022-02-19T18:04:11+08:00">2022-02-19</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2022-02-20 12:36:06" itemprop="dateModified" datetime="2022-02-20T12:36:06+08:00">2022-02-20</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/xiaoyue/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" itemprop="url" rel="index"><span itemprop="name">技术分享</span></a>
+        </span>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.5k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>4 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>上周我入职了新公司，负责内部的财务流水核算系统。看历史的需求时，我发现一个有意思的需求，大概的内容是：公司的流水记录都存储在数据库中，系统要根据用户指定的规则对流水记录进行筛选。但是筛选的规则是由用户动态配置的，因此无法直接在代码逻辑中写死。那么我们要如何实现呢？</p>
+<p>在 JavaScript 和 Python 等脚本语言中，一般都提供一个 <code>eval(expression)</code> 方法来执行动态语句。我们是否也可以在 Java 中调用某个脚本语言来执行动态语句呢？</p>
+<p>答案是肯定的，我们可以 Groovy 语言来实现这个功能。</p>
+<blockquote>
+<p>Groovy是一门基于 JVM 动态语言，它结合了Python、Ruby和Smalltalk的许多强大的特性，能够与 Java 代码很好地结合，也能用于扩展现有代码。</p>
+</blockquote>
+<p>下面就由我来介绍一下，Java中使用Groovy的方式以及过程中可能会遇到的坑。</p>
+<h1 id="使用Groovy执行动态命令"><a href="#使用Groovy执行动态命令" class="headerlink" title="使用Groovy执行动态命令"></a>使用Groovy执行动态命令</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 根据脚本内容检查对象是否合法</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> o                     对象</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> scriptText            groovy脚本</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span>                      true或false</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">check</span><span class="params">(Journal o, String scriptText)</span> </span>&#123;</span><br><span class="line">    GroovyClassLoader groovyClassLoader = <span class="keyword">new</span> GroovyClassLoader();</span><br><span class="line">    Class scriptClass = groovyClassLoader.parseClass(scriptText);</span><br><span class="line">    Script script;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        script = (Script) scriptClass.newInstance();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (InstantiationException | IllegalAccessException e) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</span><br><span class="line">    &#125;</span><br><span class="line">    Binding binding = <span class="keyword">new</span> Binding();</span><br><span class="line">    binding.setVariable(<span class="string">&quot;it&quot;</span>, o);</span><br><span class="line">    script.setBinding(binding);</span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">boolean</span>) script.run();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    Journal journal = <span class="keyword">new</span> Journal();</span><br><span class="line">    journal.setFee(<span class="number">20</span>);</span><br><span class="line">    String scriptText = <span class="string">&quot;it.fee &gt; 10 &amp;&amp; it.fee &lt; 50&quot;</span>;</span><br><span class="line">    System.out.println(check(journal, scriptText));		<span class="comment">// true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h1><h2 id="缓存机制失效"><a href="#缓存机制失效" class="headerlink" title="缓存机制失效"></a>缓存机制失效</h2><p>因为解析脚本是一个耗时的操作，所以 <code>GroovyClassLoader</code> 对象内部设置了两个缓存来提高性能:</p>
+<p><code>sourceCache</code>: 维护文件名与类的映射，<code>parseClass()</code> 会读写该缓存（如果没有指定文件名，会根据脚本内容的MD5值自动生成文件名）</p>
+<p><code>classCache</code>: 维护类名与类的映射，<code>parseClass()</code> 会将解析的类放到该缓存中，<code>loadClass()</code> 会从该缓存中读取类</p>
+<p><strong>但是直接解析文本的 <code>parseClass()</code> 方法不会使用缓存机制，而是每次都会生成新的Class，性能会非常差</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Class <span class="title">parseClass</span><span class="params">(String text)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> parseClass(text, <span class="string">&quot;Script_&quot;</span> + EncodingGroovyMethods.md5(text) + <span class="string">&quot;.groovy&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> Class <span class="title">parseClass</span><span class="params">(<span class="keyword">final</span> String text, <span class="keyword">final</span> String fileName)</span> </span>&#123;</span><br><span class="line">    GroovyCodeSource gcs = VMPluginFactory.getPlugin()</span><br><span class="line">        .doPrivileged(() -&gt; <span class="keyword">new</span> GroovyCodeSource(text, fileName, <span class="string">&quot;/groovy/script&quot;</span>));</span><br><span class="line">    gcs.setCachable(<span class="keyword">false</span>);</span><br><span class="line">    <span class="keyword">return</span> parseClass(gcs);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用建议：手动对生成的Class做缓存，以根据脚本内容的MD5为Key，避免频繁解析相同的内容。</p>
+<ul>
+<li>为什么以脚本的MD5为Key做缓存。答：脚本内容可能会很长，占有大量的内存，因此使用MD5算法取摘要。</li>
+<li>为什么缓存 <code>Class</code>，而不是 <code>Script</code> 实例。答：<code>Script</code> 有线程安全问题。</li>
+</ul>
+<h2 id="使用单例GroovyClassLoader解析导致OOM"><a href="#使用单例GroovyClassLoader解析导致OOM" class="headerlink" title="使用单例GroovyClassLoader解析导致OOM"></a>使用单例GroovyClassLoader解析导致OOM</h2><p><code>parseClass()</code> 解析脚本时，会将创建的 Class 对象会放到内部的缓存中，但是缓存没有淘汰策略。</p>
+<p>如果使用单例的 <code>GroovyClassLoader</code> 对象，会始终存在着这么一条引用链：groovyClassLoader-&gt;cache-&gt;class，导致解析创建的 Class 对象无法被回收。在解析一定数量的脚本后，会出现内存溢出。</p>
+<p>使用建议: 每次使用时，在方法中创建新的 <code>GroovyClassLoader</code> 对象，确保解析生成的 Class 对象能够被回收。</p>
+<h2 id="并发情况下Script计算错误"><a href="#并发情况下Script计算错误" class="headerlink" title="并发情况下Script计算错误"></a>并发情况下Script计算错误</h2><p>Script 需要 <code>Binding</code> 对象来为脚本绑定变量，这个操作不是线程安全的，在并发的情况下后面的操作会覆盖前面的，会导致计算错误。</p>
+<p>使用建议：不要在多线程中共享 <code>Script</code> 对象 </p>
+<h1 id="使用总结"><a href="#使用总结" class="headerlink" title="使用总结"></a>使用总结</h1><ul>
+<li><p>使用 <code>parseClass()</code> 时，要对生成的 <code>Class</code> 做缓存，以根据脚本内容的MD5为Key，避免频繁解析相同的内容。</p>
+</li>
+<li><p>每次使用时，在方法中创建新的 <code>GroovyClassLoader</code> 对象，确保解析生成的 <code>Class</code> 对象能够被回收。</p>
+</li>
+<li><p>不要在多线程中共享 <code>Script</code> 对象</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>如果觉得有所帮助，不妨请作者喝杯奶茶</div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/xiaoyue/images/wechatpay.png" alt="xiaoyue 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/xiaoyue/images/alipay.png" alt="xiaoyue 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/xiaoyue/tags/Java/" rel="tag"><i class="fa fa-tag"></i> Java</a>
+              <a href="/xiaoyue/tags/Groovy/" rel="tag"><i class="fa fa-tag"></i> Groovy</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/xiaoyue/2022/02/13/%E7%AE%97%E6%B3%95-%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F/" rel="prev" title="算法-计数排序">
+                  <i class="fa fa-chevron-left"></i> 算法-计数排序
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xiaoyue</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">106k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">3:13</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script size="150" alpha="0.3" zIndex="-2" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+<script src="/xiaoyue/js/comments.js"></script><script src="/xiaoyue/js/utils.js"></script><script src="/xiaoyue/js/motion.js"></script><script src="/xiaoyue/js/next-boot.js"></script>
+
+  
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{&quot;enable&quot;:true,&quot;tags&quot;:&quot;none&quot;,&quot;js&quot;:{&quot;url&quot;:&quot;https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;npm&#x2F;mathjax@3.1.4&#x2F;es5&#x2F;tex-mml-chtml.js&quot;,&quot;integrity&quot;:&quot;sha256-ncNI9OXOS5Ek4tzVYiOMmN&#x2F;KKCPZ6V0Cpv2P&#x2F;zHntiA&#x3D;&quot;}}</script>
+<script src="/xiaoyue/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
