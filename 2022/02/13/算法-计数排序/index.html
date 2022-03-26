@@ -28,12 +28,16 @@
 <meta property="og:site_name" content="xiaoyue">
 <meta property="og:description" content="前言计数排序（Counting sort）是一种稳定的非比较的排序算法，于1954年由 Harold H. Seward 提出。它能以O(n)的时间复杂度对一定范围内的数据进行排序。计数排序使用一个额外的数组C，数组C的第i个元素是待排序数组A中值等于i的元素的个数，根据数组C来将数组A的元素排到正确的位置。   算法实现">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/fe6da3694f924bbc812ab8d0ee6b1ee7.gif">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/bd73cfa167fd4d578e1bcac09b0c33dc.gif">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/e2d8469ed45a49df96aaf6e02d26ec74.gif">
 <meta property="article:published_time" content="2022-02-13T06:08:39.000Z">
-<meta property="article:modified_time" content="2022-03-26T02:28:25.160Z">
+<meta property="article:modified_time" content="2022-03-26T03:58:15.765Z">
 <meta property="article:author" content="xiaoyue">
 <meta property="article:tag" content="算法">
 <meta property="article:tag" content="排序">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/fe6da3694f924bbc812ab8d0ee6b1ee7.gif">
 
 
 <link rel="canonical" href="https://771592594.github.io/xiaoyue/2022/02/13/%E7%AE%97%E6%B3%95-%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F/">
@@ -123,7 +127,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.</span> <span class="nav-text">算法实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E6%98%93%E7%89%88"><span class="nav-number">2.1.</span> <span class="nav-text">简易版</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4%E7%89%88"><span class="nav-number">2.2.</span> <span class="nav-text">完整版</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B1%80%E9%99%90%E6%80%A7"><span class="nav-number">3.</span> <span class="nav-text">局限性</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.</span> <span class="nav-text">算法实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E6%98%93%E7%89%88"><span class="nav-number">2.1.</span> <span class="nav-text">简易版</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4%E7%89%88"><span class="nav-number">2.2.</span> <span class="nav-text">完整版</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E5%8A%A8%E7%94%BB"><span class="nav-number">3.</span> <span class="nav-text">算法动画</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B1%80%E9%99%90%E6%80%A7"><span class="nav-number">4.</span> <span class="nav-text">局限性</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -234,7 +238,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2022-03-26 10:28:25" itemprop="dateModified" datetime="2022-03-26T10:28:25+08:00">2022-03-26</time>
+        <time title="修改时间：2022-03-26 11:58:15" itemprop="dateModified" datetime="2022-03-26T11:58:15+08:00">2022-03-26</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -261,7 +265,7 @@
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>2 分钟</span>
+      <span>3 分钟</span>
     </span>
 </div>
 
@@ -292,6 +296,12 @@
 </ol>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">count_sort</span>(<span class="params">nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="type">List</span>[<span class="built_in">int</span>]:</span></span><br><span class="line">    mininum, maxinum = <span class="built_in">min</span>(nums), <span class="built_in">max</span>(nums)</span><br><span class="line">    length = maxinum - mininum + <span class="number">1</span></span><br><span class="line">    count: <span class="type">List</span>[<span class="built_in">int</span>] = [<span class="number">0</span>] * length</span><br><span class="line">    ret: <span class="type">List</span>[<span class="built_in">int</span>] = [<span class="literal">None</span>] * <span class="built_in">len</span>(nums)</span><br><span class="line">    <span class="comment"># 统计计数</span></span><br><span class="line">    <span class="keyword">for</span> num <span class="keyword">in</span> nums:</span><br><span class="line">        count[num - mininum] += <span class="number">1</span></span><br><span class="line">    <span class="comment"># 计数累加</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(length):</span><br><span class="line">        <span class="keyword">if</span> i == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        count[i] += count[i - <span class="number">1</span>]</span><br><span class="line">    <span class="comment"># 倒序遍历, 通过计数确定元素排序后的位置</span></span><br><span class="line">    <span class="keyword">for</span> num <span class="keyword">in</span> <span class="built_in">reversed</span>(nums):</span><br><span class="line">        idx = num - mininum</span><br><span class="line">        <span class="comment"># 确定元素排序后的位置</span></span><br><span class="line">        ret[count[idx] - <span class="number">1</span>] = num</span><br><span class="line">        <span class="comment"># 元素计数减一</span></span><br><span class="line">        count[num - mininum] -= <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> ret</span><br></pre></td></tr></table></figure>
 
+<h1 id="算法动画"><a href="#算法动画" class="headerlink" title="算法动画"></a>算法动画</h1><p>1-统计元素个数</p>
+<p><img src="https://img-blog.csdnimg.cn/fe6da3694f924bbc812ab8d0ee6b1ee7.gif"></p>
+<p>2-计数累加</p>
+<p><img src="https://img-blog.csdnimg.cn/bd73cfa167fd4d578e1bcac09b0c33dc.gif"></p>
+<p>3-根据计数确定排序后的位置</p>
+<p><img src="https://img-blog.csdnimg.cn/e2d8469ed45a49df96aaf6e02d26ec74.gif"></p>
 <h1 id="局限性"><a href="#局限性" class="headerlink" title="局限性"></a>局限性</h1><p>计数排序有很好的性能，但是平时我们却很少用到，原因是它的思想与桶排序类似，对待排序的数据有较高的要求：</p>
 <ol>
 <li>排序使用的Key必须能够用非负整数表示</li>
