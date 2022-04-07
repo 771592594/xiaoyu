@@ -21,33 +21,29 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
 
 <script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;771592594.github.io&quot;,&quot;root&quot;:&quot;&#x2F;xiaoyue&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;xiaoyue&#x2F;images&quot;,&quot;scheme&quot;:&quot;Gemini&quot;,&quot;version&quot;:&quot;8.5.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;width&quot;:300,&quot;display&quot;:&quot;always&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:true,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:true,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;}}</script><script src="/xiaoyue/js/config.js"></script>
-<meta name="description" content="前言计数排序（Counting sort）是一种稳定的非比较的排序算法，于1954年由 Harold H. Seward 提出。它能以O(n)的时间复杂度对一定范围内的数据进行排序。计数排序使用一个额外的数组C，数组C的第i个元素是待排序数组A中值等于i的元素的个数，根据数组C来将数组A的元素排到正确的位置。   算法实现">
+<meta name="description" content="前言桶排序（Bucket sort）是一个非比较的外部排序算法，工作的原理是将数组中的元素分到有限数量的桶里。每个桶再个别排序（可以使用其他的排序算法，也可以递归使用桶排序进行排序）。当要被排序的数组内的数值是均匀分配的时候，桶排序使用线性时间O(N)。 算法实现桶排序以下列程序进行：">
 <meta property="og:type" content="article">
-<meta property="og:title" content="算法-计数排序">
-<meta property="og:url" content="https://771592594.github.io/xiaoyue/2022/02/13/%E7%AE%97%E6%B3%95-%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F/index.html">
+<meta property="og:title" content="算法-桶排序">
+<meta property="og:url" content="https://771592594.github.io/xiaoyue/2022/02/13/%E7%AE%97%E6%B3%95-%E6%A1%B6%E6%8E%92%E5%BA%8F/index.html">
 <meta property="og:site_name" content="xiaoyue">
-<meta property="og:description" content="前言计数排序（Counting sort）是一种稳定的非比较的排序算法，于1954年由 Harold H. Seward 提出。它能以O(n)的时间复杂度对一定范围内的数据进行排序。计数排序使用一个额外的数组C，数组C的第i个元素是待排序数组A中值等于i的元素的个数，根据数组C来将数组A的元素排到正确的位置。   算法实现">
+<meta property="og:description" content="前言桶排序（Bucket sort）是一个非比较的外部排序算法，工作的原理是将数组中的元素分到有限数量的桶里。每个桶再个别排序（可以使用其他的排序算法，也可以递归使用桶排序进行排序）。当要被排序的数组内的数值是均匀分配的时候，桶排序使用线性时间O(N)。 算法实现桶排序以下列程序进行：">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/fe6da3694f924bbc812ab8d0ee6b1ee7.gif">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/bd73cfa167fd4d578e1bcac09b0c33dc.gif">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/e2d8469ed45a49df96aaf6e02d26ec74.gif">
-<meta property="article:published_time" content="2022-02-13T06:08:39.000Z">
-<meta property="article:modified_time" content="2022-04-07T11:32:41.892Z">
+<meta property="article:published_time" content="2022-02-13T06:02:21.000Z">
+<meta property="article:modified_time" content="2022-04-07T12:32:34.212Z">
 <meta property="article:author" content="xiaoyue">
 <meta property="article:tag" content="算法">
 <meta property="article:tag" content="排序">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://img-blog.csdnimg.cn/fe6da3694f924bbc812ab8d0ee6b1ee7.gif">
 
 
-<link rel="canonical" href="https://771592594.github.io/xiaoyue/2022/02/13/%E7%AE%97%E6%B3%95-%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F/">
+<link rel="canonical" href="https://771592594.github.io/xiaoyue/2022/02/13/%E7%AE%97%E6%B3%95-%E6%A1%B6%E6%8E%92%E5%BA%8F/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;771592594.github.io&#x2F;xiaoyue&#x2F;2022&#x2F;02&#x2F;13&#x2F;%E7%AE%97%E6%B3%95-%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F&#x2F;&quot;,&quot;path&quot;:&quot;2022&#x2F;02&#x2F;13&#x2F;算法-计数排序&#x2F;&quot;,&quot;title&quot;:&quot;算法-计数排序&quot;}</script>
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;771592594.github.io&#x2F;xiaoyue&#x2F;2022&#x2F;02&#x2F;13&#x2F;%E7%AE%97%E6%B3%95-%E6%A1%B6%E6%8E%92%E5%BA%8F&#x2F;&quot;,&quot;path&quot;:&quot;2022&#x2F;02&#x2F;13&#x2F;算法-桶排序&#x2F;&quot;,&quot;title&quot;:&quot;算法-桶排序&quot;}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
-<title>算法-计数排序 | xiaoyue</title>
+<title>算法-桶排序 | xiaoyue</title>
   
 
 
@@ -127,7 +123,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.</span> <span class="nav-text">算法实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E6%98%93%E7%89%88"><span class="nav-number">2.1.</span> <span class="nav-text">简易版</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%8C%E5%85%A8%E7%89%88"><span class="nav-number">2.2.</span> <span class="nav-text">完全版</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E5%8A%A8%E7%94%BB"><span class="nav-number">3.</span> <span class="nav-text">算法动画</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">4.</span> <span class="nav-text">使用场景</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.</span> <span class="nav-text">算法实现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E5%8A%A8%E7%94%BB"><span class="nav-number">3.</span> <span class="nav-text">算法动画</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">4.</span> <span class="nav-text">使用场景</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -207,7 +203,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://771592594.github.io/xiaoyue/2022/02/13/%E7%AE%97%E6%B3%95-%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F/">
+    <link itemprop="mainEntityOfPage" href="https://771592594.github.io/xiaoyue/2022/02/13/%E7%AE%97%E6%B3%95-%E6%A1%B6%E6%8E%92%E5%BA%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/xiaoyue/images/avatar.png">
@@ -220,7 +216,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          算法-计数排序
+          算法-桶排序
         </h1>
 
         <div class="post-meta-container">
@@ -231,14 +227,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2022-02-13 14:08:39" itemprop="dateCreated datePublished" datetime="2022-02-13T14:08:39+08:00">2022-02-13</time>
+      <time title="创建时间：2022-02-13 14:02:21" itemprop="dateCreated datePublished" datetime="2022-02-13T14:02:21+08:00">2022-02-13</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2022-04-07 19:32:41" itemprop="dateModified" datetime="2022-04-07T19:32:41+08:00">2022-04-07</time>
+        <time title="修改时间：2022-04-07 20:32:34" itemprop="dateModified" datetime="2022-04-07T20:32:34+08:00">2022-04-07</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -258,14 +254,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>1.4k</span>
+      <span>811</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>3 分钟</span>
+      <span>1 分钟</span>
     </span>
 </div>
 
@@ -276,44 +272,28 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p><strong>计数排序（Counting sort）</strong>是一种<strong>稳定的非比较的排序算法</strong>，于1954年由 Harold H. Seward 提出。它能以<strong>O(n)<strong>的时间复杂度对</strong>一定范围内</strong>的数据进行排序。计数排序使用一个额外的数组C，数组C的第i个元素是待排序数组A中值等于i的元素的个数，根据数组C来将数组A的元素排到正确的位置。</p>
-<span id="more"></span>
-
-<h1 id="算法实现"><a href="#算法实现" class="headerlink" title="算法实现"></a>算法实现</h1><h2 id="简易版"><a href="#简易版" class="headerlink" title="简易版"></a>简易版</h2><ol>
-<li>遍历原数组A，找出排序key的最大值max和最小值min</li>
-<li>统计数组A中每个元素e出现的次数，存入数组C的第(e-min)项</li>
-<li>顺序遍历数组C，通过下标 i + min 生成对应元素，添加到新数组中</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">count_sort</span>(<span class="params">nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="type">List</span>[<span class="built_in">int</span>]:</span></span><br><span class="line">    mininum, maxinum = <span class="built_in">min</span>(nums), <span class="built_in">max</span>(nums)</span><br><span class="line">    length = maxinum - mininum + <span class="number">1</span></span><br><span class="line">    count: <span class="type">List</span>[<span class="built_in">int</span>] = [<span class="number">0</span>] * length</span><br><span class="line">    <span class="comment"># 统计每个元素出现的次数</span></span><br><span class="line">    <span class="keyword">for</span> num <span class="keyword">in</span> nums:</span><br><span class="line">        count[num - mininum] += <span class="number">1</span></span><br><span class="line">    ret: <span class="type">List</span>[<span class="built_in">int</span>] = []</span><br><span class="line">    <span class="comment"># 根据每个元素的计数生成有序的数组</span></span><br><span class="line">    <span class="keyword">for</span> i, c <span class="keyword">in</span> <span class="built_in">enumerate</span>(count):</span><br><span class="line">        <span class="keyword">while</span> c:</span><br><span class="line">            ret.append(i + mininum)</span><br><span class="line">            c -= <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> ret</span><br></pre></td></tr></table></figure>
-
-<p>简易版的代码通过根据计数直接生成结果的方式实现了计数排序的功能，这种实现方式存在两个问题：</p>
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p><strong>桶排序（Bucket sort）</strong>是一个非比较的外部排序算法，工作的原理是将数组中的元素分到有限数量的桶里。每个桶再个别排序（可以使用其他的排序算法，也可以递归使用桶排序进行排序）。当要被排序的数组内的数值是均匀分配的时候，桶排序使用线性时间O(N)。</p>
+<h1 id="算法实现"><a href="#算法实现" class="headerlink" title="算法实现"></a>算法实现</h1><p>桶排序以下列程序进行：</p>
 <ol>
-<li>只能对整数序列排序，无法对复杂对象进行排序</li>
-<li>通过生成的方式都到排序结果，根本没有稳定性</li>
+<li>设置一个定量的数组当作空桶子。</li>
+<li>寻访序列，并且把项目一个一个放到对应的桶子去。</li>
+<li>对每个不是空的桶子进行排序。</li>
+<li>从不是空的桶子里把项目再放回原来的序列中。</li>
 </ol>
-<p>因此这个实现方式还要改进一下，需要根据计数找到原数组中的对象。</p>
-<h2 id="完全版"><a href="#完全版" class="headerlink" title="完全版"></a>完全版</h2><p>改进后的完全版的算法如下：</p>
-<ol>
-<li>遍历原数组A，找出排序key的最大值max和最小值min</li>
-<li>统计数组A中每个元素e出现的次数，存入数组C的第(e-min)项</li>
-<li>对数组C的值进行累加。累加后C[i]表示数组A排序后小于等于的A[i]的元素个数。</li>
-<li>数组A中元素num，在数组C中对应的索引idx为(num-mininum)，排序后的位置为C[idx] - 1</li>
-<li>倒序遍历数组A（倒序确保稳定性），从数组C中找到每个元素排序后的位置</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">count_sort</span>(<span class="params">nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="type">List</span>[<span class="built_in">int</span>]:</span></span><br><span class="line">    mininum, maxinum = <span class="built_in">min</span>(nums), <span class="built_in">max</span>(nums)</span><br><span class="line">    length = maxinum - mininum + <span class="number">1</span></span><br><span class="line">    count: <span class="type">List</span>[<span class="built_in">int</span>] = [<span class="number">0</span>] * length</span><br><span class="line">    ret: <span class="type">List</span>[<span class="built_in">int</span>] = [<span class="literal">None</span>] * <span class="built_in">len</span>(nums)</span><br><span class="line">    <span class="comment"># 统计计数</span></span><br><span class="line">    <span class="keyword">for</span> num <span class="keyword">in</span> nums:</span><br><span class="line">        count[num - mininum] += <span class="number">1</span></span><br><span class="line">    <span class="comment"># 计数累加</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(length):</span><br><span class="line">        <span class="keyword">if</span> i == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        count[i] += count[i - <span class="number">1</span>]</span><br><span class="line">    <span class="comment"># 倒序遍历, 通过计数确定元素排序后的位置</span></span><br><span class="line">    <span class="keyword">for</span> num <span class="keyword">in</span> <span class="built_in">reversed</span>(nums):</span><br><span class="line">        idx = num - mininum</span><br><span class="line">        <span class="comment"># 确定元素排序后的位置</span></span><br><span class="line">        ret[count[idx] - <span class="number">1</span>] = num</span><br><span class="line">        <span class="comment"># 元素计数减一</span></span><br><span class="line">        count[num - mininum] -= <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> ret</span><br></pre></td></tr></table></figure>
+<p><strong>具体建立多少个桶，如何确定桶的区间范围，有很多不同的方式，由实际情况去定义</strong></p>
+<p>这里假设当前所有数据都是0-99之间整数，我们设置10个桶，第i个桶存放 [ i *10, (i + 1) * 10 - 1] 之间的数据</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bucket_sort</span>(<span class="params">arr: <span class="type">List</span>[<span class="built_in">int</span>]</span>):</span></span><br><span class="line">    buckets = [[] <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>)]</span><br><span class="line">    <span class="comment"># 根据元素所在的区间将元素分配到对应桶中</span></span><br><span class="line">    <span class="keyword">for</span> num <span class="keyword">in</span> arr:</span><br><span class="line">        bucket_idx = num // <span class="number">10</span></span><br><span class="line">        buckets[bucket_idx].append(num)</span><br><span class="line">    <span class="comment"># 在桶的内部进行排序</span></span><br><span class="line">    <span class="keyword">for</span> bucket <span class="keyword">in</span> buckets:</span><br><span class="line">        bucket.sort()</span><br><span class="line">    <span class="comment"># 排序结果扁平化</span></span><br><span class="line">    result = <span class="built_in">sum</span>(buckets, [])</span><br><span class="line">    <span class="comment"># 将排序结果放回原数组中</span></span><br><span class="line">    <span class="keyword">for</span> idx, num <span class="keyword">in</span> <span class="built_in">enumerate</span>(result):</span><br><span class="line">        arr[idx] = num</span><br></pre></td></tr></table></figure>
 
-<h1 id="算法动画"><a href="#算法动画" class="headerlink" title="算法动画"></a>算法动画</h1><p>1-统计元素个数</p>
-<p><img src="https://img-blog.csdnimg.cn/fe6da3694f924bbc812ab8d0ee6b1ee7.gif"></p>
-<p>2-计数累加</p>
-<p><img src="https://img-blog.csdnimg.cn/bd73cfa167fd4d578e1bcac09b0c33dc.gif"></p>
-<p>3-根据计数确定排序后的位置</p>
-<p><img src="https://img-blog.csdnimg.cn/e2d8469ed45a49df96aaf6e02d26ec74.gif"></p>
-<h1 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h1><p>计数排序有很好的性能，但是平时我们却很少用到，原因它对待排序的数据有较高的要求：</p>
+<h1 id="算法动画"><a href="#算法动画" class="headerlink" title="算法动画"></a>算法动画</h1><h1 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h1><p>桶排序看起来简单而又高效，但实际用的并不多，因为它对排序的数据有较高的要求:</p>
 <ol>
 <li>排序使用的Key必须能够用非负整数表示</li>
-<li>待排序的数组最好在一个不大的范围内均匀分布；如果上下限差距过大，会浪费大量的内存</li>
+<li>待排序的数组最好在一定的范围内均匀分布</li>
 </ol>
-<p>如果排序的数据能够满足上面的要求，那么计算排序是一个很好的选择。</p>
+<p>只要待排序的数据满足上面的条件，桶排序可以用较少的内存空间实现大量数据的排序，因此它通常作为外部排序（即：大文件的排序。数据无法一次装入内存，需要在内存和外部存储器之间进行多次数据交换），例如：</p>
+<ol>
+<li>对全国的高考生的总成绩进行排序</li>
+<li>对多个日志文件进行合并，合并后的日志按时间排序</li>
+</ol>
 
     </div>
 
@@ -349,13 +329,13 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/xiaoyue/2022/02/13/%E7%AE%97%E6%B3%95-%E6%A1%B6%E6%8E%92%E5%BA%8F/" rel="prev" title="算法-桶排序">
-                  <i class="fa fa-chevron-left"></i> 算法-桶排序
+                <a href="/xiaoyue/2022/01/19/Mybatis-%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6%E4%B8%AD%E7%9A%84%E8%A3%85%E9%A5%B0%E5%99%A8/" rel="prev" title="Mybatis-缓存机制中的装饰器">
+                  <i class="fa fa-chevron-left"></i> Mybatis-缓存机制中的装饰器
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/xiaoyue/2022/02/19/Java-%E4%BD%BF%E7%94%A8Groovy%E6%89%A7%E8%A1%8C%E5%8A%A8%E6%80%81%E8%84%9A%E6%9C%AC/" rel="next" title="Java-使用Groovy执行动态脚本">
-                  Java-使用Groovy执行动态脚本 <i class="fa fa-chevron-right"></i>
+                <a href="/xiaoyue/2022/02/13/%E7%AE%97%E6%B3%95-%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F/" rel="next" title="算法-计数排序">
+                  算法-计数排序 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
