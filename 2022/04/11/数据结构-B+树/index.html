@@ -21,37 +21,33 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
 
 <script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;771592594.github.io&quot;,&quot;root&quot;:&quot;&#x2F;xiaoyu&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;xiaoyu&#x2F;images&quot;,&quot;scheme&quot;:&quot;Gemini&quot;,&quot;version&quot;:&quot;8.5.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;width&quot;:300,&quot;display&quot;:&quot;always&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:true,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:true,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;}}</script><script src="/xiaoyu/js/config.js"></script>
-<meta name="description" content="前言在开发过程中，我们经常会使用Maven引入第三方的Jar包，这些包又依赖于其他的包，这样难免会间接地引入同一包的不同版本，产生依赖冲突。那么Maven是如何解决这种依赖冲突的呢？ 依赖冲突的处理原则首先，我们要了解以下Maven处理依赖冲突的两大原则：">
+<meta name="description" content="前言B+树是一种平衡的多叉树，通常用于实现”数据库”和”文件系统”的索引。我们所熟知的 innodb 存储引擎的索引就是基于B+树来实现的。为了更好地理解它的索引机制，我花了几天地时间学习了 B+ 树，并且成功地实现了一个基于内存的B+树，在此做一个简单的分享和总结。 数据结构B+树中有个概念叫”阶”，它表示节点能够记录的关键字的最大个数。例如：3阶的B+树每个节点最多记录3个关键字。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Maven-依赖冲突问题">
-<meta property="og:url" content="https://771592594.github.io/xiaoyu/2021/10/10/Maven-%E4%BE%9D%E8%B5%96%E5%86%B2%E7%AA%81%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:title" content="数据结构-B+树">
+<meta property="og:url" content="https://771592594.github.io/xiaoyu/2022/04/11/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-B+%E6%A0%91/index.html">
 <meta property="og:site_name" content="xiaoyu">
-<meta property="og:description" content="前言在开发过程中，我们经常会使用Maven引入第三方的Jar包，这些包又依赖于其他的包，这样难免会间接地引入同一包的不同版本，产生依赖冲突。那么Maven是如何解决这种依赖冲突的呢？ 依赖冲突的处理原则首先，我们要了解以下Maven处理依赖冲突的两大原则：">
+<meta property="og:description" content="前言B+树是一种平衡的多叉树，通常用于实现”数据库”和”文件系统”的索引。我们所熟知的 innodb 存储引擎的索引就是基于B+树来实现的。为了更好地理解它的索引机制，我花了几天地时间学习了 B+ 树，并且成功地实现了一个基于内存的B+树，在此做一个简单的分享和总结。 数据结构B+树中有个概念叫”阶”，它表示节点能够记录的关键字的最大个数。例如：3阶的B+树每个节点最多记录3个关键字。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/b62005b6aac042c18f6b57c7250b9a57.png?x-oss-process=/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/0e0f4870134e4ede87b3956d75852bbd.png?x-oss-process=/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/7af3a040a4a14eb5a25b8d2fdb59fa6e.png?x-oss-process=/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/10ec9248468543789e40f8d0c7dce37b.png?x-oss-process=/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/8a450d3f04664bd08eb41f7a2f171f83.png?x-oss-process=/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/0e0f4870134e4ede87b3956d75852bbd.png?x-oss-process=/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/f8661d345c264357b2ed4566ff513844.png?x-oss-process=/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16">
-<meta property="article:published_time" content="2021-10-10T00:05:45.000Z">
-<meta property="article:modified_time" content="2021-11-26T13:27:16.970Z">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/33e090ab07ba4c22aadcda864db55454.png?x-oss-process=/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/d0fc0a0d556d45b3b842fb9a2418eeda.png?x-oss-process=/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/ebd400871584494b90792c589e41df82.png?x-oss-process=/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16">
+<meta property="article:published_time" content="2022-04-11T15:12:19.000Z">
+<meta property="article:modified_time" content="2022-04-17T02:48:23.908Z">
 <meta property="article:author" content="xiaoyu">
-<meta property="article:tag" content="Java">
-<meta property="article:tag" content="Maven">
+<meta property="article:tag" content="数据结构">
+<meta property="article:tag" content="B+树">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://img-blog.csdnimg.cn/b62005b6aac042c18f6b57c7250b9a57.png?x-oss-process=/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/33e090ab07ba4c22aadcda864db55454.png?x-oss-process=/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16">
 
 
-<link rel="canonical" href="https://771592594.github.io/xiaoyu/2021/10/10/Maven-%E4%BE%9D%E8%B5%96%E5%86%B2%E7%AA%81%E9%97%AE%E9%A2%98/">
+<link rel="canonical" href="https://771592594.github.io/xiaoyu/2022/04/11/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-B+%E6%A0%91/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;771592594.github.io&#x2F;xiaoyu&#x2F;2021&#x2F;10&#x2F;10&#x2F;Maven-%E4%BE%9D%E8%B5%96%E5%86%B2%E7%AA%81%E9%97%AE%E9%A2%98&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;10&#x2F;10&#x2F;Maven-依赖冲突问题&#x2F;&quot;,&quot;title&quot;:&quot;Maven-依赖冲突问题&quot;}</script>
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;771592594.github.io&#x2F;xiaoyu&#x2F;2022&#x2F;04&#x2F;11&#x2F;%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-B+%E6%A0%91&#x2F;&quot;,&quot;path&quot;:&quot;2022&#x2F;04&#x2F;11&#x2F;数据结构-B+树&#x2F;&quot;,&quot;title&quot;:&quot;数据结构-B+树&quot;}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
-<title>Maven-依赖冲突问题 | xiaoyu</title>
+<title>数据结构-B+树 | xiaoyu</title>
   
 
 
@@ -131,7 +127,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BE%9D%E8%B5%96%E5%86%B2%E7%AA%81%E7%9A%84%E5%A4%84%E7%90%86%E5%8E%9F%E5%88%99"><span class="nav-number">2.</span> <span class="nav-text">依赖冲突的处理原则</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BE%9D%E8%B5%96%E5%86%B2%E7%AA%81%E9%97%AE%E9%A2%98"><span class="nav-number">3.</span> <span class="nav-text">依赖冲突问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E4%BE%9D%E8%B5%96%E5%86%B2%E7%AA%81"><span class="nav-number">4.</span> <span class="nav-text">如何处理依赖冲突</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">2.</span> <span class="nav-text">数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8A%82%E7%82%B9%E7%9A%84%E5%85%B1%E6%80%A7"><span class="nav-number">2.1.</span> <span class="nav-text">节点的共性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%B6%E5%AD%90%E8%8A%82%E7%82%B9%E7%9A%84%E7%89%B9%E6%80%A7"><span class="nav-number">2.2.</span> <span class="nav-text">叶子节点的特性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E8%8A%82%E7%82%B9%E7%9A%84%E7%89%B9%E6%80%A7"><span class="nav-number">2.3.</span> <span class="nav-text">索引节点的特性</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C"><span class="nav-number">3.</span> <span class="nav-text">操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%92%E5%85%A5"><span class="nav-number">3.1.</span> <span class="nav-text">插入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E6%89%BE"><span class="nav-number">3.2.</span> <span class="nav-text">查找</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A0%E9%99%A4"><span class="nav-number">3.3.</span> <span class="nav-text">删除</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -211,7 +207,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://771592594.github.io/xiaoyu/2021/10/10/Maven-%E4%BE%9D%E8%B5%96%E5%86%B2%E7%AA%81%E9%97%AE%E9%A2%98/">
+    <link itemprop="mainEntityOfPage" href="https://771592594.github.io/xiaoyu/2022/04/11/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-B+%E6%A0%91/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/xiaoyu/images/avatar.png">
@@ -224,7 +220,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Maven-依赖冲突问题
+          数据结构-B+树
         </h1>
 
         <div class="post-meta-container">
@@ -235,14 +231,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2021-10-10 08:05:45" itemprop="dateCreated datePublished" datetime="2021-10-10T08:05:45+08:00">2021-10-10</time>
+      <time title="创建时间：2022-04-11 23:12:19" itemprop="dateCreated datePublished" datetime="2022-04-11T23:12:19+08:00">2022-04-11</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-11-26 21:27:16" itemprop="dateModified" datetime="2021-11-26T21:27:16+08:00">2021-11-26</time>
+        <time title="修改时间：2022-04-17 10:48:23" itemprop="dateModified" datetime="2022-04-17T10:48:23+08:00">2022-04-17</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -262,7 +258,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>946</span>
+      <span>524</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -280,42 +276,33 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在开发过程中，我们经常会使用Maven引入第三方的Jar包，这些包又依赖于其他的包，这样难免会间接地引入同一包的不同版本，产生依赖冲突。那么Maven是如何解决这种依赖冲突的呢？</p>
-<h1 id="依赖冲突的处理原则"><a href="#依赖冲突的处理原则" class="headerlink" title="依赖冲突的处理原则"></a>依赖冲突的处理原则</h1><p>首先，我们要了解以下Maven处理依赖冲突的两大原则：</p>
-<p><strong>一、路径最短原则</strong></p>
-<p><strong>Maven的依赖是树状结构的，当依赖冲突时，离根最近的包会被引入。</strong></p>
-<p>在下图中，根路径到两个版本的A包的路径分别为：</p>
-<p>ROOT==&gt;A-1.0 </p>
-<p>ROOT==&gt;B-1.0==&gt;A-2.0</p>
-<p>由此可以见A-1.0离根最近，因此它会被引入</p>
-<p><img src="https://img-blog.csdnimg.cn/b62005b6aac042c18f6b57c7250b9a57.png?x-oss-process=/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16"></p>
-<p><strong>二、优先声明原则</strong></p>
-<p><strong>当冲突的包到路径的举例相同时，会选择最先声明的包</strong></p>
-<p>在下图中，根路径到两个版本的A包的路径分别为：</p>
-<p>ROOT==&gt;A-1.0==&gt;C-1.0</p>
-<p>ROOT==&gt;B-1.0==&gt;C-2.0</p>
-<p>虽然两个版本的C到根的距离是相同的，但是依赖C-1.0的包A先被声明，所以实际会引入C-1.0</p>
-<p><img src="https://img-blog.csdnimg.cn/0e0f4870134e4ede87b3956d75852bbd.png?x-oss-process=/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16"></p>
-<h1 id="依赖冲突问题"><a href="#依赖冲突问题" class="headerlink" title="依赖冲突问题"></a>依赖冲突问题</h1><p>虽然Maven能够自动帮我们解决依赖冲突并选择其中一个版本引入，但是每个版本的包都存在或大或小的差异，这些差异可能会导致程序运行时报错，这就是我们平时所说的依赖冲突。依赖冲突通常表现为运行时抛出的以下异常：</p>
-<ul>
-<li><p>java.lang.NoSuchMethodError</p>
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>B+树是一种平衡的多叉树，通常用于实现”数据库”和”文件系统”的索引。我们所熟知的 innodb 存储引擎的索引就是基于B+树来实现的。为了更好地理解它的索引机制，我花了几天地时间学习了 B+ 树，并且成功地实现了一个基于内存的B+树，在此做一个简单的分享和总结。</p>
+<h1 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h1><p>B+树中有个概念叫”阶”，它表示节点能够记录的关键字的最大个数。例如：3阶的B+树每个节点最多记录3个关键字。</p>
+<p>这是一颗3阶的B+树，从图中我们可以看出叶子节点和非叶子节（后文称为**”索引节点”**）点的结构是不同的，所以我们需要先了解两种节点。</p>
+<p><img src="https://img-blog.csdnimg.cn/33e090ab07ba4c22aadcda864db55454.png?x-oss-process=/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16"></p>
+<h2 id="节点的共性"><a href="#节点的共性" class="headerlink" title="节点的共性"></a>节点的共性</h2><p>叶子节点和索引节点都满足一下性质：</p>
+<ol>
+<li>对于阶为 M 的B+树，节点至多保存 M 个 <strong>有序排列</strong> 的关键字</li>
+<li>对于阶为 M 的B+树，非根节点的叶子节点至少有 <code>ceil(M)</code> 个关键字</li>
+</ol>
+<h2 id="叶子节点的特性"><a href="#叶子节点的特性" class="headerlink" title="叶子节点的特性"></a>叶子节点的特性</h2><p><img src="https://img-blog.csdnimg.cn/d0fc0a0d556d45b3b842fb9a2418eeda.png?x-oss-process=/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16"></p>
+<p>叶子节点满足以下性质：</p>
+<ol>
+<li>叶子节点维护关键字与数据的映射关系</li>
+<li>叶子节点都在B+树的同一层，next 指针指向比它大的下一个叶子节点，以此形成一条有序的链表</li>
+</ol>
+<h2 id="索引节点的特性"><a href="#索引节点的特性" class="headerlink" title="索引节点的特性"></a>索引节点的特性</h2><p><img src="https://img-blog.csdnimg.cn/ebd400871584494b90792c589e41df82.png?x-oss-process=/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16"></p>
+<ol>
+<li><p>索引节点维护关键字与孩子节点的映射关系</p>
 </li>
-<li><p>java.lang.ClassNotFoundException</p>
+<li><p>孩子节点 Ci 中所有的任意的 Key 都满足<br>$$<br>Key &lt;= Keyi<br>$$</p>
 </li>
-<li><p>java.lang.NoClassDefFoundError</p>
+<li><p>索引节点有 n 个关键字，就必有 n 个孩子</p>
 </li>
-</ul>
-<p>举个例子：我们调用B包提供的 <code>BClass.foo()</code> 方法，这个方法又使用到了 A-2.0 中新出的 <code>AClass</code> 类。但是我们在项目中同时引入了A-1.0 和 A-2.0，根据路径最短原则实际会使用A-1.0。这会导致运行时找不到 <code>AClass</code> 类，因此抛出 <code>NoClassDefFoundError</code>。</p>
-<p><img src="https://img-blog.csdnimg.cn/7af3a040a4a14eb5a25b8d2fdb59fa6e.png?x-oss-process=/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16"></p>
-<h1 id="如何处理依赖冲突"><a href="#如何处理依赖冲突" class="headerlink" title="如何处理依赖冲突"></a>如何处理依赖冲突</h1><p>在 <code>IDEA</code> 中使用 <code>Maven Helper</code> 插件，来查找冲突的包。例如，在下图中<code>C:1.0</code>被标记为红色，说明这个包存在冲突。</p>
-<p><img src="https://img-blog.csdnimg.cn/10ec9248468543789e40f8d0c7dce37b.png?x-oss-process=/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16"></p>
-<p>点击冲突的C包，可以看到项目中引入了 1.0 和 2.0  两个版本，分别被A包和B包依赖。</p>
-<p><img src="https://img-blog.csdnimg.cn/8a450d3f04664bd08eb41f7a2f171f83.png?x-oss-process=/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16"></p>
-<p>这种情况下根到 <code>C:1.0</code> 和 <code>C:2.0</code> 的距离相同，按照优先声明原则，Maven根据选择了1.0 版本。</p>
-<p><img src="https://img-blog.csdnimg.cn/0e0f4870134e4ede87b3956d75852bbd.png?x-oss-process=/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16"></p>
-<p>如果我们想要使用 2.0 版本，只需右键点击 <code>C:1.0</code> 点击Exclude 将其排除即可。</p>
-<p><img src="https://img-blog.csdnimg.cn/f8661d345c264357b2ed4566ff513844.png?x-oss-process=/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16"></p>
-
+<li><p>若索引节点为根节点，则至少有 2 个关键字</p>
+</li>
+</ol>
+<h1 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h1><h2 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h2><h2 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h2><h2 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h2>
     </div>
 
     
@@ -342,22 +329,19 @@
 </div>
 
           <div class="post-tags">
-              <a href="/xiaoyu/tags/Java/" rel="tag"><i class="fa fa-tag"></i> Java</a>
-              <a href="/xiaoyu/tags/Maven/" rel="tag"><i class="fa fa-tag"></i> Maven</a>
+              <a href="/xiaoyu/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag"><i class="fa fa-tag"></i> 数据结构</a>
+              <a href="/xiaoyu/tags/B-%E6%A0%91/" rel="tag"><i class="fa fa-tag"></i> B+树</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/xiaoyu/2021/10/06/Java-%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E8%A6%81%E5%8D%A0%E7%94%A8%E5%A4%9A%E5%B0%91%E5%86%85%E5%AD%98/" rel="prev" title="Java-一个对象要占用多少内存">
-                  <i class="fa fa-chevron-left"></i> Java-一个对象要占用多少内存
+                <a href="/xiaoyu/2022/04/10/2021%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/" rel="prev" title="2021年度总结">
+                  <i class="fa fa-chevron-left"></i> 2021年度总结
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/xiaoyu/2021/10/11/Java-%E9%94%81%E7%B2%92%E5%BA%A6%E4%B8%8E%E6%AD%BB%E9%94%81%E9%97%AE%E9%A2%98/" rel="next" title="Java-锁粒度与死锁问题">
-                  Java-锁粒度与死锁问题 <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>
