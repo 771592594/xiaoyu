@@ -135,7 +135,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/xiaoyu/archives/">
         
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">29</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -189,6 +189,111 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://771592594.github.io/xiaoyu/2021/08/08/Java-%E5%B9%B6%E5%8F%91Bug%E7%9A%84%E6%A0%B9%E6%BA%90-%E5%8F%AF%E8%A7%81%E6%80%A7%E3%80%81%E5%8E%9F%E5%AD%90%E6%80%A7%E5%92%8C%E6%9C%89%E5%BA%8F%E6%80%A7%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/xiaoyu/images/avatar.png">
+      <meta itemprop="name" content="xiaoyu">
+      <meta itemprop="description" content="分享技术与生活">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiaoyu">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/xiaoyu/2021/08/08/Java-%E5%B9%B6%E5%8F%91Bug%E7%9A%84%E6%A0%B9%E6%BA%90-%E5%8F%AF%E8%A7%81%E6%80%A7%E3%80%81%E5%8E%9F%E5%AD%90%E6%80%A7%E5%92%8C%E6%9C%89%E5%BA%8F%E6%80%A7%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">Java-并发Bug的根源-可见性、原子性和有序性问题</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-08-08 07:38:37" itemprop="dateCreated datePublished" datetime="2021-08-08T07:38:37+08:00">2021-08-08</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-12-28 12:27:57" itemprop="dateModified" datetime="2021-12-28T12:27:57+08:00">2021-12-28</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/xiaoyu/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" itemprop="url" rel="index"><span itemprop="name">技术分享</span></a>
+        </span>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>4.9k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>12 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="并发背后的故事"><a href="#并发背后的故事" class="headerlink" title="并发背后的故事"></a>并发背后的故事</h1><p>这些年来，我们的 CPU、内存、IO设备 都在不断地朝着更快的方向迭代。但是在这个过程中，有一个核心矛盾却一直存在：三者之间的速度差异。用形象地方式来说就是：在程序运行时，CPU是天上一天，内存是地上一年（假设CPU 执行一条指令需要一天，那么内存读写就得等上一年）；内存与IO的差异就更大了，内存是天上一天，IO是地上十年。</p>
+<p>程序中的大部分语句都是需要访问内存的，有些甚至还要访问IO。根据木桶理论（一只木桶所能装的水取决于它的最短板），程序的整体运行效率取决于它最慢的读写IO设备。</p>
+<p>为了合理利用CPU的高性能，平衡三者的速度差异，计算机体系结构、操作系统、编译程序都做出了贡献，主要体现为：</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/xiaoyu/2021/08/08/Java-%E5%B9%B6%E5%8F%91Bug%E7%9A%84%E6%A0%B9%E6%BA%90-%E5%8F%AF%E8%A7%81%E6%80%A7%E3%80%81%E5%8E%9F%E5%AD%90%E6%80%A7%E5%92%8C%E6%9C%89%E5%BA%8F%E6%80%A7%E9%97%AE%E9%A2%98/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
