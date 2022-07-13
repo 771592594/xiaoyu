@@ -28,15 +28,15 @@
 <meta property="og:site_name" content="xiaoyu">
 <meta property="og:description" content="前言在大学的教课书告诉我们，一个算法的优劣是通过它的复杂度来评判的。算法复杂度分为时间复杂度和空间复杂度：时间复杂度是指执行算法所需要的计算工作量；而空间复杂度是指执行这个算法所需要的内存空间。 复杂度一般使用大O表示法来表述，括号中一般使用 n 来表示数据规模。如果输入的数据为数组、字符串或集合，那么 n 代表它们的元素个数或长度，如果输入的数据为一个数字，那么 n 代表的数字大小。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/8627a29bd50fd9d2e4008302d538a7bc.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/8627a29bd50fd9d2e4008302d538a7bc.png">
+<meta property="og:image" content="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E7%AE%97%E6%B3%95-%E6%B5%85%E8%B0%88%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E4%B8%8E%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/1.png">
+<meta property="og:image" content="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E7%AE%97%E6%B3%95-%E6%B5%85%E8%B0%88%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E4%B8%8E%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/1.png">
 <meta property="article:published_time" content="2021-06-20T03:03:52.000Z">
-<meta property="article:modified_time" content="2022-02-13T10:39:08.610Z">
+<meta property="article:modified_time" content="2022-07-13T14:07:29.872Z">
 <meta property="article:author" content="xiaoyu">
 <meta property="article:tag" content="算法">
 <meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://img-blog.csdnimg.cn/img_convert/8627a29bd50fd9d2e4008302d538a7bc.png">
+<meta name="twitter:image" content="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E7%AE%97%E6%B3%95-%E6%B5%85%E8%B0%88%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E4%B8%8E%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/1.png">
 
 
 <link rel="canonical" href="https://771592594.github.io/xiaoyu/2021/06/20/%E7%AE%97%E6%B3%95-%E6%B5%85%E8%B0%88%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E4%B8%8E%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/">
@@ -237,7 +237,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2022-02-13 18:39:08" itemprop="dateModified" datetime="2022-02-13T18:39:08+08:00">2022-02-13</time>
+        <time title="修改时间：2022-07-13 22:07:29" itemprop="dateModified" datetime="2022-07-13T22:07:29+08:00">2022-07-13</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -320,7 +320,7 @@
 
 <p>我们画出上面算法的递归树，根据递归树可知，我们计算fib(5)之前，需要计算fib(4)和fib(3)，计算fib(4)需要计算fib(3)和fib(2)；计算fib(3)又需要计算fib(2)和fib(1)；计算fib(2)需要计算fib(1)和fib(0)。</p>
 <p>由此可以看出，每一层的节点展开后，要计算的节点树是原来的两倍。如果递归树有n层，那么要计算的节点个数最多为 2<sup>n</sup>-1（满二叉树的节点个数），因此斐波那契数列递归算法的时间复杂度是2的指数级的，也就是O(2<sup>n</sup>)。</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/8627a29bd50fd9d2e4008302d538a7bc.png"></p>
+<p><img src="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E7%AE%97%E6%B3%95-%E6%B5%85%E8%B0%88%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E4%B8%8E%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/1.png"></p>
 <p>最后提一下，计算递归算法时间复杂度的利器：<strong>主定理 Master Theorem</strong>。任何分治和递归的算法都可以通过主定理来计算。</p>
 <h1 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h1><p>空间复杂度就比较简单了，可以直接根据算法中使用的额外变量就可以判断；如果是递归算法，则是递归栈的最大深度。如果在一个递归算法中使用了额外的对象，那么空间复杂度就是栈的最大深度和额外对象空间之间的较大者。</p>
 <h2 id="非递归算法的空间复杂度"><a href="#非递归算法的空间复杂度" class="headerlink" title="非递归算法的空间复杂度"></a>非递归算法的空间复杂度</h2><p>这是一个交换数组元素的方法，它只使用了一个额外变量t，所以空间复杂度是常量级的，即：O(1)</p>
@@ -333,7 +333,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fib</span>(<span class="params">n: <span class="built_in">int</span></span>):</span></span><br><span class="line">    <span class="keyword">if</span> n &lt; <span class="number">2</span>:</span><br><span class="line">        <span class="keyword">return</span> n</span><br><span class="line">    arr = [<span class="number">0</span>, <span class="number">1</span>]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, n+<span class="number">1</span>):</span><br><span class="line">        arr.append(arr[i-<span class="number">1</span>]  + arr[i-<span class="number">2</span>]) </span><br><span class="line">    <span class="keyword">return</span> arr[n]</span><br></pre></td></tr></table></figure>
 
 <h2 id="递归算法的空间复杂度"><a href="#递归算法的空间复杂度" class="headerlink" title="递归算法的空间复杂度"></a>递归算法的空间复杂度</h2><p>递归算法的空间复杂度是栈的最大深度，我们还是以斐波那契数列进行讲解。在递归树中，fib(5)子树的最大深度为5，而fib(2)子树 的最大深度为2。可以看出栈的最大深度是与数据大小成线性关系的，所以它的空间复杂度为O(n)。</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/8627a29bd50fd9d2e4008302d538a7bc.png"></p>
+<p><img src="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E7%AE%97%E6%B3%95-%E6%B5%85%E8%B0%88%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E4%B8%8E%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/1.png"></p>
 
     </div>
 
