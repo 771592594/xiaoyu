@@ -28,25 +28,25 @@
 <meta property="og:site_name" content="xiaoyu">
 <meta property="og:description" content="前言B+树是一种平衡的多叉树，通常用于实现”数据库”和”文件系统”的索引。我们所熟知的 innodb 存储引擎的索引就是使用B+树来实现的。为了更好地理解它的索引机制，我花了几天地时间学习了 B+ 树，并且成功地实现了一个基于内存的B+树，在此做一个简单的分享和总结。 如何学习B+树前置准备">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/19a434ee8aa34d2c8864a6362ecfd3f6.png?x-oss-process=/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16">
-<meta property="og:image" content="https://files.catbox.moe/9kq22a.png">
-<meta property="og:image" content="https://files.catbox.moe/jdmmrl.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/199cf9aebaba4c13ac8edda22a8aad60.gif">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/b0b369c6f8df477d9022e5b9209247b1.gif">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/6b5f5cfcdec44604af5d1b4e53e230f4.gif">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/0d114d6153924c51a1fd6ce1cfa4a125.gif">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/35402baaf7c64ba4bb34ef7bb92a9677.gif">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/0068cc312d4d45c896b067c9e84de71d.gif">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/23aefc2e748443528b12136c5c1fcc0c.gif">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/6b7bbc6acdc84bdc8a2a77e36284c0dd.gif">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/a0d53b96014c4ccaab85101de3a4ef07.gif">
+<meta property="og:image" content="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-B%2B%E6%A0%91/0.png">
+<meta property="og:image" content="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-B%2B%E6%A0%91/1.png">
+<meta property="og:image" content="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-B%2B%E6%A0%91/2.png">
+<meta property="og:image" content="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-B%2B%E6%A0%91/3.gif">
+<meta property="og:image" content="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-B%2B%E6%A0%91/4.gif">
+<meta property="og:image" content="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-B%2B%E6%A0%91/5.gif">
+<meta property="og:image" content="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-B%2B%E6%A0%91/6.gif">
+<meta property="og:image" content="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-B%2B%E6%A0%91/7.gif">
+<meta property="og:image" content="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-B%2B%E6%A0%91/8.gif">
+<meta property="og:image" content="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-B%2B%E6%A0%91/9.gif">
+<meta property="og:image" content="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-B%2B%E6%A0%91/10.gif">
+<meta property="og:image" content="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-B%2B%E6%A0%91/11.gif">
 <meta property="article:published_time" content="2022-04-17T15:12:19.000Z">
-<meta property="article:modified_time" content="2022-06-18T12:22:44.954Z">
+<meta property="article:modified_time" content="2022-07-13T14:47:36.913Z">
 <meta property="article:author" content="xiaoyu">
 <meta property="article:tag" content="数据结构">
 <meta property="article:tag" content="B+树">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://img-blog.csdnimg.cn/19a434ee8aa34d2c8864a6362ecfd3f6.png?x-oss-process=/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16">
+<meta name="twitter:image" content="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-B%2B%E6%A0%91/0.png">
 
 
 <link rel="canonical" href="https://771592594.github.io/xiaoyu/2022/04/17/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-B+%E6%A0%91/">
@@ -247,7 +247,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2022-06-18 20:22:44" itemprop="dateModified" datetime="2022-06-18T20:22:44+08:00">2022-06-18</time>
+        <time title="修改时间：2022-07-13 22:47:36" itemprop="dateModified" datetime="2022-07-13T22:47:36+08:00">2022-07-13</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -303,7 +303,7 @@
 <h1 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h1><p><strong>B+树相较于普通的树，它的特别之处在于：所有的数据都保存在叶子节点中，非叶子节点只保存指向孩子节点的指针（因此也被叫作内部节点）</strong></p>
 <p><strong>B+树中有个概念叫”阶”，它表示每个节点能够记录的关键字的最大个数。</strong></p>
 <p>例如：下图是一颗3阶的B+树，它的每个节点最多记录3个关键字。</p>
-<p><img src="https://img-blog.csdnimg.cn/19a434ee8aa34d2c8864a6362ecfd3f6.png?x-oss-process=/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16"></p>
+<p><img src="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-B%2B%E6%A0%91/0.png" alt="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-B%2B%E6%A0%91/0.png"></p>
 <h2 id="非叶子节点（内部节点）"><a href="#非叶子节点（内部节点）" class="headerlink" title="非叶子节点（内部节点）"></a>非叶子节点（内部节点）</h2><p>内部节点的作用是维护关键字与孩子指针的映射关系，它满足以下性质：</p>
 <ol>
 <li>对于阶为 M 的B+树，非节点至多保存 M 个 <strong>有序排列</strong> 的关键字</li>
@@ -311,17 +311,17 @@
 <li>节点中任意的关键字 Ki 都必须是它的孩子节点 Ci 中最大/最小的关键字</li>
 <li>内部节点有 n 个关键字，就必有 n 个孩子；若根节点为内部节点，则至少有 2 个关键字</li>
 </ol>
-<p><img src="https://files.catbox.moe/9kq22a.png"></p>
+<p><img src="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-B%2B%E6%A0%91/1.png"></p>
 <h2 id="叶子节点"><a href="#叶子节点" class="headerlink" title="叶子节点"></a>叶子节点</h2><p>叶子节点的作用是维护关键字与数据的映射关系，它满足以下性质：</p>
 <ol>
 <li>对于阶为 M 的B+树，叶子节点至多保存 M 个 <strong>有序排列</strong> 的关键字</li>
 <li>叶子节点都在B+树的同一层，它的 next 指针指向比它大的下一个叶子节点，以此形成一条有序的链表（Key1&lt;Key2&lt;…&lt;KeyM&lt;KeyM+1&lt;KeyM+2）</li>
 </ol>
-<p><img src="https://files.catbox.moe/jdmmrl.png"></p>
+<p><img src="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-B%2B%E6%A0%91/2.png"></p>
 <h1 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h1><p>下面我使用3阶的B+树进行查询/插入/删除的演示</p>
 <h2 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h2><p>在讲B+树的等值查询之前，我们回顾一下二叉搜索树的查询。</p>
 <p>二叉搜索树是从根节点开始访问，将查询的关键字与当前节点的关键字进行比较，如果比当前节点小则访问左孩子；如果比当前节点大，则访问右孩子。重复此过程，直到找到关键字所在的节点或者到达空指针为止。</p>
-<p><img src="https://img-blog.csdnimg.cn/199cf9aebaba4c13ac8edda22a8aad60.gif"></p>
+<p><img src="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-B%2B%E6%A0%91/3.gif"></p>
 <p>虽然B+树是多叉树且数据只保存在底层的叶子节点中，但它的查询原理和二叉搜索树十分相似。</p>
 <p>B+树的查询也是从根节点开始访问，通过顺序查询/二分查询的方式，将节点中的关键字与查询的关键字进行比较</p>
 <ol>
@@ -332,7 +332,7 @@
 <p>第一次访问 [4, 9] 节点，3比4小，所以接下来访问第0个孩子，也就是[2, 4]节点</p>
 <p>第二次访问 [2, 4]节点，3比2大但比4小，所以接下来第1个孩子，也就是[3, 4]节点</p>
 <p>第三次访问[3, 4] 节点，该节点是叶子节点，从节点中可以找到3对应的数据</p>
-<p><img src="https://img-blog.csdnimg.cn/b0b369c6f8df477d9022e5b9209247b1.gif"></p>
+<p><img src="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-B%2B%E6%A0%91/4.gif"></p>
 <h2 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h2><p>在B+树中插入关键字时，需要注意以下几点：</p>
 <ul>
 <li>插入的操作全部都在叶子节点上进行，且不能破坏关键字自小而大的顺序</li>
@@ -352,10 +352,10 @@
 <p>第一次插入&lt;1, A&gt;，由于节点中没有关键字，所以直接插入数据</p>
 <p>第二次插入&lt;3, C&gt;，因为关键字3比1大，所以插入到1后面</p>
 <p>第三次插入&lt;2, B&gt;，因为关键字2比1大且比3小，所以插入到1和3的中间</p>
-<p><img src="https://img-blog.csdnimg.cn/6b5f5cfcdec44604af5d1b4e53e230f4.gif"></p>
+<p><img src="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-B%2B%E6%A0%91/5.gif"></p>
 <p><strong>案例2：向非根节点插入，插入的关键字比原有关键字都大</strong></p>
 <p>在B+树中插入&lt;9, I&gt;后，父亲节点和祖父节点就需要更新关键字</p>
-<p><img src="https://img-blog.csdnimg.cn/0d114d6153924c51a1fd6ce1cfa4a125.gif"></p>
+<p><img src="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-B%2B%E6%A0%91/6.gif"></p>
 <p><strong>二. 插入节点的关键字个数等于阶数</strong></p>
 <p>当节点关键字个数已经超过了阶数，需要通过分裂节点修复B+树的性质，根节点和非根节点的分裂步骤有少许的不同，下面通过两个案例讲解。</p>
 <p><strong>案例1：根节点的分裂</strong></p>
@@ -366,7 +366,7 @@
 <li>将原节点与新节点收为内部节点的孩子</li>
 <li>将原节点与新节点的最大的关键字添加到内部节点中</li>
 </ol>
-<p><img src="https://img-blog.csdnimg.cn/35402baaf7c64ba4bb34ef7bb92a9677.gif"></p>
+<p><img src="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-B%2B%E6%A0%91/7.gif"></p>
 <p><strong>案例2：非根节点的分裂</strong></p>
 <p>非根节点的父节点就是它的内部节点，因此在分裂时不需要创建内部节点这一步</p>
 <p>非根节点的分裂步骤：</p>
@@ -376,7 +376,7 @@
 <li>将新节点最大的关键字添加到父节点</li>
 <li>更新父祖节点的关键字</li>
 </ol>
-<p><img src="https://img-blog.csdnimg.cn/0068cc312d4d45c896b067c9e84de71d.gif"></p>
+<p><img src="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-B%2B%E6%A0%91/8.gif"></p>
 <h2 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h2><p>在B+树中删除关键字时，需要注意以下几点：</p>
 <ul>
 <li>删除的操作全部都在叶子节点上进行，且不能破坏关键字自小而大的顺序</li>
@@ -387,11 +387,11 @@
 </ul>
 <p>下面我同几个案例来展现这些场景：</p>
 <p>案例1：直接删除</p>
-<p><img src="https://img-blog.csdnimg.cn/23aefc2e748443528b12136c5c1fcc0c.gif"></p>
+<p><img src="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-B%2B%E6%A0%91/9.gif"></p>
 <p>案例2：删除-合并（根替换）</p>
-<p><img src="https://img-blog.csdnimg.cn/6b7bbc6acdc84bdc8a2a77e36284c0dd.gif"></p>
+<p><img src="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-B%2B%E6%A0%91/10.gif"></p>
 <p>案例3：删除-合并-分裂</p>
-<p><img src="https://img-blog.csdnimg.cn/a0d53b96014c4ccaab85101de3a4ef07.gif"></p>
+<p><img src="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-B%2B%E6%A0%91/11.gif"></p>
 <h1 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h1><p>这是我自己实现的B+树源码，如有不足欢迎指点。</p>
 <p><a target="_blank" rel="noopener" href="https://gitee.com/wcz999/b-plus-tree-in-memory">B+Tree in memory: A java implements of B+Tree based on memory (gitee.com)</a></p>
 <h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a target="_blank" rel="noopener" href="https://github.com/jiaguofang/b-plus-tree.git">https://github.com/jiaguofang/b-plus-tree.git</a></p>

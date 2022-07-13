@@ -28,22 +28,22 @@
 <meta property="og:site_name" content="xiaoyu">
 <meta property="og:description" content="前言首先我们来看一下维基百科对 堆 的定义：  堆（英语：Heap）是计算机科学中的一种特别的完全二叉树。若是满足以下特性，即可称为堆：“给定堆中任意节点P和C，若P是C的父节点，那么P的值会小于等于（或大于等于）C的值”。若父节点的值恒小于等于子节点的值，此堆称为最小堆（min heap）；反之，若父节点的值恒大于等于子节点的值，此堆称为最大堆（max heap）  简而言之，堆是一颗 完全二叉">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/e468fb0ea8f749f49372fed2d23f7ef3.png?x-oss-process=/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/274fb1f0b62849d2a7c08c110027f934.png?x-oss-process=/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/de068db6dc7b4e76a649e396309000fe.png?x-oss-process=/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/35e604fa0a7b420ba2f35830c189c9a9.gif">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/40284fe7e44f43a7819bd37fc1e0cc80.gif">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/b68f3e833e4f4d649cc62b351b7d9a17.gif">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/eae6ce40121d481799b429f80aec4c24.gif">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/712d04ab2aba492c9bd722363287836d.gif">
+<meta property="og:image" content="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%A0%86/0.png">
+<meta property="og:image" content="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%A0%86/1.png">
+<meta property="og:image" content="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%A0%86/2.png">
+<meta property="og:image" content="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%A0%86/3.gif">
+<meta property="og:image" content="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%A0%86/4.gif">
+<meta property="og:image" content="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%A0%86/5.gif">
+<meta property="og:image" content="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%A0%86/6.gif">
+<meta property="og:image" content="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%A0%86/7.gif">
 <meta property="article:published_time" content="2021-08-04T11:17:43.000Z">
-<meta property="article:modified_time" content="2022-02-13T10:40:24.789Z">
+<meta property="article:modified_time" content="2022-07-13T14:50:45.732Z">
 <meta property="article:author" content="xiaoyu">
-<meta property="article:tag" content="算法">
 <meta property="article:tag" content="数据结构">
+<meta property="article:tag" content="算法">
 <meta property="article:tag" content="排序">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://img-blog.csdnimg.cn/e468fb0ea8f749f49372fed2d23f7ef3.png?x-oss-process=/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16">
+<meta name="twitter:image" content="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%A0%86/0.png">
 
 
 <link rel="canonical" href="https://771592594.github.io/xiaoyu/2021/08/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%A0%86/">
@@ -244,7 +244,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2022-02-13 18:40:24" itemprop="dateModified" datetime="2022-02-13T18:40:24+08:00">2022-02-13</time>
+        <time title="修改时间：2022-07-13 22:50:45" itemprop="dateModified" datetime="2022-07-13T22:50:45+08:00">2022-07-13</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -288,13 +288,13 @@
 </blockquote>
 <p>简而言之，堆是一颗 <strong>完全二叉树</strong>，可以细分为最小堆和最大堆。</p>
 <p><strong>最小堆</strong>：每个节点的值都 <strong>不小于</strong> 父节点的堆叫做 <strong>最小堆（小根堆）</strong>，根节点为堆的最小值 </p>
-<p><img src="https://img-blog.csdnimg.cn/e468fb0ea8f749f49372fed2d23f7ef3.png?x-oss-process=/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16"></p>
+<p><img src="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%A0%86/0.png"></p>
 <hr>
 <p><strong>大根堆</strong>：每个节点的值都 <strong>不大于</strong> 父节点的堆叫做 <strong>最大堆（大根堆）</strong>，根节点为堆的最大值</p>
-<p><img src="https://img-blog.csdnimg.cn/274fb1f0b62849d2a7c08c110027f934.png?x-oss-process=/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16"></p>
+<p><img src="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%A0%86/1.png"></p>
 <hr>
 <p>由于完全二叉树节点的编号存在着一定规律：假设根节点的编号为 <code>i</code>，那么左孩子的编号为 <code>2i + 1</code>，右孩子编号为 <code>2i + 2</code>， 父节点的编号为 <code>(i - 1) / 2</code>，<strong>因此我们可以通过数组来模拟堆的数据结构</strong>。</p>
-<p><img src="https://img-blog.csdnimg.cn/de068db6dc7b4e76a649e396309000fe.png?x-oss-process=/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5a615pyIeGlhb3l1ZQ==,size_20,color_FFFFFF,t_70,g_se,x_16"></p>
+<p><img src="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%A0%86/2.png"></p>
 <h1 id="堆的基本操作"><a href="#堆的基本操作" class="headerlink" title="堆的基本操作"></a>堆的基本操作</h1><h2 id="创建堆"><a href="#创建堆" class="headerlink" title="创建堆"></a>创建堆</h2><p><strong>给定一个数组，我们要如何将其转化为堆结构呢？</strong></p>
 <p>首先我们要知道堆的两个重要操作： <strong>上浮</strong> &amp; <strong>下沉</strong> 。无论是创建、插入、删除还是排序，我们都需要用到这两个操作。</p>
 <p><strong>上浮</strong>：如果当前节点的值比父节点小，则将它与父节点交换；若交换后仍存在更大的父节点，则重复上述操作。</p>
@@ -304,16 +304,16 @@
 <p>上浮堆化：<strong>顺序遍历</strong> 数组，上浮所有比父节点小的节点<strong>（插入排序的思想）</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">heapify</span>(<span class="params">arr</span>):</span></span><br><span class="line">    <span class="keyword">for</span> idx <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(arr)):</span><br><span class="line">        upward(arr, idx)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">upward</span>(<span class="params">heap: <span class="built_in">list</span>, idx: <span class="built_in">int</span></span>):</span></span><br><span class="line">    parent = (idx - <span class="number">1</span>) &gt;&gt; <span class="number">1</span></span><br><span class="line">    <span class="comment"># 如果当前节点值大于父节点，则与其交换</span></span><br><span class="line">    <span class="keyword">if</span> idx &gt; <span class="number">0</span> <span class="keyword">and</span> heap[idx] &lt; heap[parent]:</span><br><span class="line">        heap[idx], heap[parent] = heap[parent], heap[idx]</span><br><span class="line">        upward(heap, parent)</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://img-blog.csdnimg.cn/35e604fa0a7b420ba2f35830c189c9a9.gif"></p>
+<p><img src="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%A0%86/3.gif"></p>
 <hr>
 <p>下沉堆化：<strong>逆序遍历</strong> 数组，下沉所有比子节点小的节点<strong>（因为最后一层都是叶子节点，所以可以从倒数第二层的最后一个节点开始逆序遍历）</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">first_node_idx_in_last_level</span>(<span class="params">n: <span class="built_in">int</span></span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    获取最后一层的第一个节点的索引</span></span><br><span class="line"><span class="string">    在完全二叉树中，最后一层第一个节点的索引为不大于树总节点个数的最大的二的幂</span></span><br><span class="line"><span class="string">    实现方式：将树总节点个数的二进制最高位后面的所有位置1再加1，最后右移一位</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    n |= n &gt;&gt; <span class="number">1</span></span><br><span class="line">    n |= n &gt;&gt; <span class="number">2</span></span><br><span class="line">    n |= n &gt;&gt; <span class="number">4</span></span><br><span class="line">    n |= n &gt;&gt; <span class="number">8</span></span><br><span class="line">    n |= n &gt;&gt; <span class="number">16</span></span><br><span class="line">    <span class="keyword">return</span> (n + <span class="number">1</span>) &gt;&gt; <span class="number">1</span></span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">heapify</span>(<span class="params">arr</span>):</span></span><br><span class="line">    size = <span class="built_in">len</span>(nums)</span><br><span class="line">    <span class="comment"># 倒数第二层最后一个节点的索引</span></span><br><span class="line">    fromIdx = first_node_idx_in_last_level(size - <span class="number">1</span>) - <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(fromIdx, -<span class="number">1</span>, -<span class="number">1</span>):</span><br><span class="line">        sink(i, size)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sink</span>(<span class="params">idx: <span class="built_in">int</span>, size: <span class="built_in">int</span></span>):</span></span><br><span class="line">    maximum, left, right = idx, idx * <span class="number">2</span> + <span class="number">1</span>, idx * <span class="number">2</span> + <span class="number">2</span></span><br><span class="line">    <span class="comment"># 将当前节点与它最大的孩子节点进行交换，实现下沉操作</span></span><br><span class="line">    <span class="keyword">if</span> left &lt; size <span class="keyword">and</span> nums[left] &gt; nums[maximum]:</span><br><span class="line">        maximum = left</span><br><span class="line">    <span class="keyword">if</span> right &lt; size <span class="keyword">and</span> nums[right] &gt; nums[maximum]:</span><br><span class="line">        maximum = right</span><br><span class="line">    <span class="keyword">if</span> idx != maximum:</span><br><span class="line">        nums[idx], nums[maximum] = nums[maximum], nums[idx]</span><br><span class="line">        sink(maximum, size)</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://img-blog.csdnimg.cn/40284fe7e44f43a7819bd37fc1e0cc80.gif"></p>
+<p><img src="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%A0%86/4.gif"></p>
 <h2 id="插入节点"><a href="#插入节点" class="headerlink" title="插入节点"></a>插入节点</h2><p><strong>为了保证堆的有效性，堆一般将节点插入到末尾，然后进行上浮操作，保证堆的有效性。时间复杂度：O(logN)</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span>(<span class="params">heap: <span class="built_in">list</span>, num: <span class="built_in">int</span></span>):</span></span><br><span class="line">    heap.append(num)</span><br><span class="line">    upward(heap, <span class="built_in">len</span>(heap) - <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://img-blog.csdnimg.cn/b68f3e833e4f4d649cc62b351b7d9a17.gif"></p>
+<p><img src="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%A0%86/5.gif"></p>
 <h2 id="获取堆顶"><a href="#获取堆顶" class="headerlink" title="获取堆顶"></a>获取堆顶</h2><p>数组的第一个元素就是堆顶元素，所以可以直接通过数组下标获取</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">top</span>(<span class="params">heap: <span class="built_in">list</span></span>):</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">list</span>[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
 
@@ -328,7 +328,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">pop</span>(<span class="params">heap: <span class="built_in">list</span></span>):</span></span><br><span class="line">    value = heap[<span class="number">0</span>]</span><br><span class="line">    heap[<span class="number">0</span>] = heap[<span class="built_in">len</span>(heap) - <span class="number">1</span>]</span><br><span class="line">    heap.pop()</span><br><span class="line">    sink(heap, <span class="number">0</span>, <span class="built_in">len</span>(heap))</span><br><span class="line">    <span class="keyword">return</span> value</span><br></pre></td></tr></table></figure>
 
 <p>时间复杂度：O(logN)</p>
-<p><img src="https://img-blog.csdnimg.cn/eae6ce40121d481799b429f80aec4c24.gif"></p>
+<p><img src="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%A0%86/6.gif"></p>
 <h1 id="堆的应用"><a href="#堆的应用" class="headerlink" title="堆的应用"></a>堆的应用</h1><h2 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h2><p>利用堆顶存放最值的特性，我们可以通过下面的步骤实现对符合堆条件的数组进行排序：</p>
 <ol>
 <li>堆顶节点与 <strong>未排序的末尾节点</strong> 进行交换（被交换到末尾的堆顶节点视作已排序）</li>
@@ -339,7 +339,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sort</span>(<span class="params">heap</span>):</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(heap) - <span class="number">1</span>, -<span class="number">1</span>, -<span class="number">1</span>):</span><br><span class="line">        heap[<span class="number">0</span>], heap[i] = heap[i], heap[<span class="number">0</span>]</span><br><span class="line">        sink(heap, <span class="number">0</span>, i)</span><br></pre></td></tr></table></figure>
 
 <p>时间复杂度：O(NlogN)</p>
-<p><img src="https://img-blog.csdnimg.cn/712d04ab2aba492c9bd722363287836d.gif"></p>
+<p><img src="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%A0%86/7.gif"></p>
 <h2 id="Top-K-问题"><a href="#Top-K-问题" class="headerlink" title="Top K 问题"></a>Top K 问题</h2><p>题目链接：<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/kth-largest-element-in-an-array/">215. 数组中的第K个最大元素</a></p>
 <p>题目描述：给定整数数组 <code>nums</code> 和整数 <code>k</code>，请返回数组中第 <code>k</code> 大的元素。</p>
 <p>解题思路：创建一个最大堆，利用堆顶为最大节点的特性，进行K-1趟堆排序将前K-1大的节点排序到末尾后，堆顶就是第K大的节点。</p>
@@ -375,8 +375,8 @@
 </div>
 
           <div class="post-tags">
-              <a href="/xiaoyu/tags/%E7%AE%97%E6%B3%95/" rel="tag"><i class="fa fa-tag"></i> 算法</a>
               <a href="/xiaoyu/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag"><i class="fa fa-tag"></i> 数据结构</a>
+              <a href="/xiaoyu/tags/%E7%AE%97%E6%B3%95/" rel="tag"><i class="fa fa-tag"></i> 算法</a>
               <a href="/xiaoyu/tags/%E6%8E%92%E5%BA%8F/" rel="tag"><i class="fa fa-tag"></i> 排序</a>
           </div>
 
