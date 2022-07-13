@@ -28,15 +28,15 @@
 <meta property="og:site_name" content="xiaoyu">
 <meta property="og:description" content="前言我们在通过视频、书籍等途径学习 Java IO 时，都会被告知一件事：文件流和网络流使用完后要调用close()方法关闭。虽然我一直在生产中遵循这个要求，但也一直不知道为什么要这么做。 就在上个星期，老大在群里通知所有人：使用流后必须关闭。我想应该是有人不关流导致线上事故了吧。不过这也提醒了我这个知识盲区，正好乘此机会理清一下。 流不关闭会的后果">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/ebb1a97720d1401ae30f293b5b77e6ef.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/b8e0855e137b421e479caa87a24d98c9.png">
+<meta property="og:image" content="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/Java-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%85%B3%E9%97%AD%E6%B5%81/0.png">
+<meta property="og:image" content="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/Java-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%85%B3%E9%97%AD%E6%B5%81/1.png">
 <meta property="article:published_time" content="2021-08-29T07:47:11.000Z">
-<meta property="article:modified_time" content="2022-03-12T05:58:54.941Z">
+<meta property="article:modified_time" content="2022-07-13T14:22:12.979Z">
 <meta property="article:author" content="xiaoyu">
-<meta property="article:tag" content="IO">
 <meta property="article:tag" content="Java">
+<meta property="article:tag" content="IO">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://img-blog.csdnimg.cn/img_convert/ebb1a97720d1401ae30f293b5b77e6ef.png">
+<meta name="twitter:image" content="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/Java-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%85%B3%E9%97%AD%E6%B5%81/0.png">
 
 
 <link rel="canonical" href="https://771592594.github.io/xiaoyu/2021/08/29/Java-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%85%B3%E9%97%AD%E6%B5%81/">
@@ -237,7 +237,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2022-03-12 13:58:54" itemprop="dateModified" datetime="2022-03-12T13:58:54+08:00">2022-03-12</time>
+        <time title="修改时间：2022-07-13 22:22:12" itemprop="dateModified" datetime="2022-07-13T22:22:12+08:00">2022-07-13</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -282,9 +282,10 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">new</span> FileOutputStream(<span class="string">&quot;test.txt&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (FileNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            System.exit(<span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>最终的运行效果如下：可以看到程序抛出了 <code>FileNotFoundException</code>，原因是 <strong>Too many open files</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/ebb1a97720d1401ae30f293b5b77e6ef.png"></p>
+<p><img src="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/Java-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%85%B3%E9%97%AD%E6%B5%81/0.png"></p>
 <p><code>too many open files</code> 是 Linux 系统中常见的错误，字面意思是程序打开的文件数过多。不过这里指的不仅是文件，还包括打开的 socket，正在监听的端口等等。<strong>因为在Linux系统中万物皆文件。</strong></p>
-<h1 id="Too-many-open-files-问题排查"><a href="#Too-many-open-files-问题排查" class="headerlink" title="Too many open files 问题排查"></a>Too many open files 问题排查</h1><p>在程序运行时，我们通过 <code>lsof </code> 命令查看打开地文件，结果可以看到满屏的文件打开<img src="https://img-blog.csdnimg.cn/img_convert/b8e0855e137b421e479caa87a24d98c9.png"></p>
+<h1 id="Too-many-open-files-问题排查"><a href="#Too-many-open-files-问题排查" class="headerlink" title="Too many open files 问题排查"></a>Too many open files 问题排查</h1><p>在程序运行时，我们通过 <code>lsof </code> 命令查看打开文件，结果可以看到满屏的文件打开</p>
+<p><img src="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/Java-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%85%B3%E9%97%AD%E6%B5%81/1.png"></p>
 <p>使用 <code>wc -l</code> 命令统计行数，得到结果为 200020，确实打开了太开的句柄。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsof | grep &quot;test.txt&quot; | wc -l</span><br></pre></td></tr></table></figure>
 
@@ -330,8 +331,8 @@
 </div>
 
           <div class="post-tags">
-              <a href="/xiaoyu/tags/IO/" rel="tag"><i class="fa fa-tag"></i> IO</a>
               <a href="/xiaoyu/tags/Java/" rel="tag"><i class="fa fa-tag"></i> Java</a>
+              <a href="/xiaoyu/tags/IO/" rel="tag"><i class="fa fa-tag"></i> IO</a>
           </div>
 
         
