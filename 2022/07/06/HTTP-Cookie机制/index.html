@@ -21,18 +21,20 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
 
 <script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;771592594.github.io&quot;,&quot;root&quot;:&quot;&#x2F;xiaoyu&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;xiaoyu&#x2F;images&quot;,&quot;scheme&quot;:&quot;Gemini&quot;,&quot;version&quot;:&quot;8.5.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;width&quot;:300,&quot;display&quot;:&quot;always&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:true,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:true,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;}}</script><script src="/xiaoyu/js/config.js"></script>
-<meta name="description" content="Cookie是什么Cookie的属性如何设置&#x2F;修改Cookie父子域名如何共享Cookie">
+<meta name="description" content="Cookie是什么维基百科对Cookie的定义如下：  HTTP cookie，简称cookie，是在用户浏览网站时由网络服务器创建并由用户的网页浏览器存放在用户计算机或其他设备上的小文本文件。Cookie使Web服务器能够在用户的设备上存储状态信息（如添加到在线商店购物车中的商品）或跟踪用户的浏览活动（如保持登录状态或记录历史）  简单的概括以下：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HTTP-Cookie机制">
 <meta property="og:url" content="https://771592594.github.io/xiaoyu/2022/07/06/HTTP-Cookie%E6%9C%BA%E5%88%B6/index.html">
 <meta property="og:site_name" content="xiaoyu">
-<meta property="og:description" content="Cookie是什么Cookie的属性如何设置&#x2F;修改Cookie父子域名如何共享Cookie">
+<meta property="og:description" content="Cookie是什么维基百科对Cookie的定义如下：  HTTP cookie，简称cookie，是在用户浏览网站时由网络服务器创建并由用户的网页浏览器存放在用户计算机或其他设备上的小文本文件。Cookie使Web服务器能够在用户的设备上存储状态信息（如添加到在线商店购物车中的商品）或跟踪用户的浏览活动（如保持登录状态或记录历史）  简单的概括以下：">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/HTTP-Cookie%E6%9C%BA%E5%88%B6/0.jpg">
 <meta property="article:published_time" content="2022-07-06T14:08:22.000Z">
-<meta property="article:modified_time" content="2022-07-10T10:45:52.757Z">
+<meta property="article:modified_time" content="2022-09-24T12:21:31.665Z">
 <meta property="article:author" content="xiaoyu">
-<meta property="article:tag" content="博客">
+<meta property="article:tag" content="HTTP">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/HTTP-Cookie%E6%9C%BA%E5%88%B6/0.jpg">
 
 
 <link rel="canonical" href="https://771592594.github.io/xiaoyu/2022/07/06/HTTP-Cookie%E6%9C%BA%E5%88%B6/">
@@ -122,7 +124,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Cookie%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.</span> <span class="nav-text">Cookie是什么</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Cookie%E7%9A%84%E5%B1%9E%E6%80%A7"><span class="nav-number">2.</span> <span class="nav-text">Cookie的属性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%AE%BE%E7%BD%AE-%E4%BF%AE%E6%94%B9Cookie"><span class="nav-number">3.</span> <span class="nav-text">如何设置&#x2F;修改Cookie</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%88%B6%E5%AD%90%E5%9F%9F%E5%90%8D%E5%A6%82%E4%BD%95%E5%85%B1%E4%BA%ABCookie"><span class="nav-number">4.</span> <span class="nav-text">父子域名如何共享Cookie</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Cookie%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.</span> <span class="nav-text">Cookie是什么</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Cookie%E7%9A%84%E7%BB%93%E6%9E%84"><span class="nav-number">2.</span> <span class="nav-text">Cookie的结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%AE%BF%E9%97%AE-%E4%BF%AE%E6%94%B9Cookie"><span class="nav-number">3.</span> <span class="nav-text">如何访问&#x2F;修改Cookie</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%88%B6%E5%AD%90%E5%9F%9F%E5%90%8D%E5%A6%82%E4%BD%95%E5%85%B1%E4%BA%ABCookie"><span class="nav-number">4.</span> <span class="nav-text">父子域名如何共享Cookie</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -151,7 +153,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/xiaoyu/tags/">
           
-        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-count">27</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -233,7 +235,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2022-07-10 18:45:52" itemprop="dateModified" datetime="2022-07-10T18:45:52+08:00">2022-07-10</time>
+        <time title="修改时间：2022-09-24 20:21:31" itemprop="dateModified" datetime="2022-09-24T20:21:31+08:00">2022-09-24</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -253,14 +255,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>365</span>
+      <span>1.7k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>4 分钟</span>
     </span>
 </div>
 
@@ -271,8 +273,40 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h1 id="Cookie是什么"><a href="#Cookie是什么" class="headerlink" title="Cookie是什么"></a>Cookie是什么</h1><h1 id="Cookie的属性"><a href="#Cookie的属性" class="headerlink" title="Cookie的属性"></a>Cookie的属性</h1><h1 id="如何设置-修改Cookie"><a href="#如何设置-修改Cookie" class="headerlink" title="如何设置/修改Cookie"></a>如何设置/修改Cookie</h1><h1 id="父子域名如何共享Cookie"><a href="#父子域名如何共享Cookie" class="headerlink" title="父子域名如何共享Cookie"></a>父子域名如何共享Cookie</h1><blockquote>
-<p>我们注册域名的时候，注册的是父域名，也叫顶级域名，例如：example.com`</p>
+        <h1 id="Cookie是什么"><a href="#Cookie是什么" class="headerlink" title="Cookie是什么"></a>Cookie是什么</h1><p>维基百科对Cookie的定义如下：</p>
+<blockquote>
+<p><strong>HTTP cookie</strong>，简称<strong>cookie</strong>，是在用户浏览网站时由网络服务器创建并由用户的网页浏览器存放在用户计算机或其他设备上的小文本文件。Cookie使Web服务器能够在用户的设备上存储状态信息（如添加到在线商店购物车中的商品）或跟踪用户的浏览活动（如保持登录状态或记录历史）</p>
+</blockquote>
+<p>简单的概括以下：</p>
+<ol>
+<li>Cookie 是存储在浏览器用户设备上的小文本文件</li>
+<li>Cookie 的主要作用是保持用户状态和记录用户活动</li>
+</ol>
+<h1 id="Cookie的结构"><a href="#Cookie的结构" class="headerlink" title="Cookie的结构"></a>Cookie的结构</h1><p>我们可以在浏览器的控制台-应用程序(Application)-Cookie中查看当前页面所设置Cookie</p>
+<p><img src="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/HTTP-Cookie%E6%9C%BA%E5%88%B6/0.jpg"></p>
+<p>从上图可以看到，Cookie由一个名称（Name）、一个值（Value）和其它几个用于控制Cookie有效期、安全性、使用范围的可选属性组成，例如：Domain、Path、Expires、Max-Age、Secure、HttpOnly。</p>
+<p>下面分别介绍各个属性的作用：</p>
+<p><strong>作用域控制</strong></p>
+<p><code>Domain</code> 和 <code>Path</code> 属性定义了 Cookie 作用范围。它们分别告诉浏览器 Cookie 所属域名和路径。（Cookies只能设置在当前资源的顶级域及其子域上，如果服务器未指定cookie的Domain和Path，则它们默认为所请求资源的域和路径）</p>
+<p><strong>过期时间控制</strong></p>
+<p><code>Expires</code> 属性定义了浏览器应该删除cookie的时间，格式为Wdy, DD Mon YYYY HH:MM:SS GMT，或者Wdy, DD Mon YY HH:MM:SS GMT（其中YY大于或等于0并且小于等于69）</p>
+<p><code>Max-Age</code> 属性将cookie的过期时间设置为某一段时间之后（相对于浏览器接收cookie的时间而言）</p>
+<p><strong>安全控制</strong></p>
+<p><code>Secure</code> 属性旨在将 Cookie 加密，使浏览器仅通过安全/加密连接(HTTPS)使用 Cookie。</p>
+<p><code>HttpOnly</code> 要求浏览器不要通过 HTTP/HTTPS 以外的渠道使用cookie。这意味着无法通过客户端脚本语言（例如：JavaScript 调用 <code>document.cookie</code>）访问cookie，因此无法通过跨站点脚本攻击轻易窃取。</p>
+<h1 id="如何访问-修改Cookie"><a href="#如何访问-修改Cookie" class="headerlink" title="如何访问/修改Cookie"></a>如何访问/修改Cookie</h1><p>前端可以通过如下JavaScript代码设置或者修改Cookie的键值对和属性</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 只设置键值对，其他属性采用默认</span></span><br><span class="line"><span class="built_in">document</span>.cookie = <span class="string">&#x27;name=wcz&#x27;</span></span><br><span class="line"><span class="comment">// 设置键值对，同时指定作用的域名和路径(多个属性通过分号分隔)</span></span><br><span class="line"><span class="built_in">document</span>.cookie = <span class="string">&#x27;name=wcz;domain=wcz.com;path=/index.html&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>前端直接调用 document.cookie 拿到的是字符串</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="built_in">document</span>.cookie</span><br><span class="line"><span class="string">&#x27;name=wcz; age=21&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果要获取某个 Cookie 需要自己封装个解析 <code>document.cookie</code> 字符串方法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getCookie</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> cookies = <span class="built_in">document</span>.cookie.split(<span class="string">&#x27;; &#x27;</span>)</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> cookie <span class="keyword">of</span> cookies) &#123;</span><br><span class="line">        <span class="keyword">let</span> kv = cookie.split(<span class="string">&quot;=&quot;</span>)</span><br><span class="line">        <span class="keyword">if</span> (kv[<span class="number">0</span>] == name) &#123;</span><br><span class="line">            <span class="keyword">return</span> kv[<span class="number">1</span>]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="父子域名如何共享Cookie"><a href="#父子域名如何共享Cookie" class="headerlink" title="父子域名如何共享Cookie"></a>父子域名如何共享Cookie</h1><blockquote>
+<p>我们注册域名的时候，注册的是父域名，也叫顶级域名，例如：<code>example.com</code></p>
 <p>以顶级域名为后缀，可以免费生成任意个子域名，例如：<code>aaa.example.com</code>, <code>bbb.example.com</code></p>
 </blockquote>
 <p>可以在子域名的网站上设置父域名的Cookie。例如：在请求 <code>subdomain.example.com</code> 的响应中发送</p>
@@ -307,6 +341,9 @@
   </div>
 </div>
 
+          <div class="post-tags">
+              <a href="/xiaoyu/tags/HTTP/" rel="tag"><i class="fa fa-tag"></i> HTTP</a>
+          </div>
 
         
 
@@ -349,14 +386,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">111k</span>
+    <span title="站点总字数">113k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">4:38</span>
+    <span title="站点阅读时长">4:42</span>
   </span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
