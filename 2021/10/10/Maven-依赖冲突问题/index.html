@@ -36,7 +36,7 @@
 <meta property="og:image" content="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/Maven-%E4%BE%9D%E8%B5%96%E5%86%B2%E7%AA%81%E9%97%AE%E9%A2%98/5.png">
 <meta property="og:image" content="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/Maven-%E4%BE%9D%E8%B5%96%E5%86%B2%E7%AA%81%E9%97%AE%E9%A2%98/6.png">
 <meta property="article:published_time" content="2021-10-10T00:05:45.000Z">
-<meta property="article:modified_time" content="2023-04-28T02:44:25.728Z">
+<meta property="article:modified_time" content="2023-04-28T03:02:59.071Z">
 <meta property="article:author" content="xiaoyu">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="Maven">
@@ -242,7 +242,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2023-04-28 10:44:25" itemprop="dateModified" datetime="2023-04-28T10:44:25+08:00">2023-04-28</time>
+        <time title="修改时间：2023-04-28 11:02:59" itemprop="dateModified" datetime="2023-04-28T11:02:59+08:00">2023-04-28</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -262,14 +262,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>1.2k</span>
+      <span>1.9k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>3 分钟</span>
+      <span>5 分钟</span>
     </span>
 </div>
 
@@ -309,16 +309,25 @@
 <p><img src="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/Maven-%E4%BE%9D%E8%B5%96%E5%86%B2%E7%AA%81%E9%97%AE%E9%A2%98/2.png"></p>
 <p>在项目代码中我们会调用 <code>B:1.0</code> 包提供的 <code>BService.doB()</code> 方法，而这个方法又会调用 <code>C:2.0</code> 新增的 <code>CService.doC()</code> 方法。</p>
 <p>由于项目根POM到 <code>C:1.0</code> 的距离和到 <code>C:2.0</code> 的距离相同，根据<strong>优先声明原则</strong>，项目实际会使用 <code>A:1.0</code> 间接引入的 <code>C:1.0</code>，而 <code>CService.doC()</code> 在这个版本里是不存在的，因此  <code>BService.doB()</code> 的调用链路在运行时必然会报出 <code>NoSuchMethodError</code></p>
-<h1 id="如何处理依赖冲突"><a href="#如何处理依赖冲突" class="headerlink" title="如何处理依赖冲突"></a>如何处理依赖冲突</h1><h2 id="exclusion-排查依赖"><a href="#exclusion-排查依赖" class="headerlink" title="exclusion 排查依赖"></a>exclusion 排查依赖</h2><p>如果你是二方/三方包的用户，你可以使用 <code>exclusion</code> 标签排除冲突的依赖</p>
-<p>在 <code>IDEA</code> 中使用 <code>Maven Helper</code> 插件，来查找冲突的包。例如，在下图中<code>C:1.0</code>被标记为红色，说明这个包存在冲突。</p>
+<h1 id="如何处理依赖冲突"><a href="#如何处理依赖冲突" class="headerlink" title="如何处理依赖冲突"></a>如何处理依赖冲突</h1><h2 id="exclusion-排查依赖"><a href="#exclusion-排查依赖" class="headerlink" title="exclusion 排查依赖"></a>exclusion 排查依赖</h2><p>如果你是二方/三方包的用户，你可以使用 <code>exclusion</code> 标签排除冲突的依赖。</p>
+<p>在这个项目里我们需要 <code>C:2.0</code>，所以直接把 <code>A:1.0</code> 间接引入的 <code>C:1.0</code> 排除即可。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.xiaoyu<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>A<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">exclusions</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.xiaoyu<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>C<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">exclusions</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>随着项目引入的依赖也越来越多，冲突也会越来越多，为了方便直观地排除冲突依赖，我推荐使用在 <code>IDEA</code> 中使用 <code>Maven Helper</code> 插件，来查找冲突的包。</p>
+<p>例如，在下图中<code>C:1.0</code>被标记为红色，说明这个包存在冲突，当前采用的版本是1.0</p>
 <p><img src="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/Maven-%E4%BE%9D%E8%B5%96%E5%86%B2%E7%AA%81%E9%97%AE%E9%A2%98/3.png"></p>
-<p>点击冲突的C包，可以看到项目中引入了 1.0 和 2.0  两个版本，分别被A包和B包依赖。</p>
+<p>点击冲突的C包，可以看到项目中引入了 1.0 和 2.0  两个版本，分别被 <code>A:1.0</code> 和 <code>B:1.0</code> 依赖。</p>
 <p><img src="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/Maven-%E4%BE%9D%E8%B5%96%E5%86%B2%E7%AA%81%E9%97%AE%E9%A2%98/4.png"></p>
 <p>这种情况下根到 <code>C:1.0</code> 和 <code>C:2.0</code> 的距离相同，按照优先声明原则，Maven根据选择了1.0 版本。</p>
 <p><img src="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/Maven-%E4%BE%9D%E8%B5%96%E5%86%B2%E7%AA%81%E9%97%AE%E9%A2%98/5.png"></p>
-<p>如果我们想要使用 2.0 版本，只需右键点击 <code>C:1.0</code> 点击Exclude 将其排除即可。</p>
+<p>如果我们想要使用 2.0 版本，只需右键点击 <code>C:1.0</code> 点击Exclude 将其排除即可。（插件会自动帮我们在pom文件中添加 exclusion 标签）</p>
 <p><img src="https://wcz-blog.oss-cn-hangzhou.aliyuncs.com/Maven-%E4%BE%9D%E8%B5%96%E5%86%B2%E7%AA%81%E9%97%AE%E9%A2%98/6.png"></p>
-<h2 id="optional-排查依赖"><a href="#optional-排查依赖" class="headerlink" title="optional 排查依赖"></a>optional 排查依赖</h2><p>如果你是包的开发者，你可以使用 <code>optional </code> 标记依赖是否传递。</p>
+<h2 id="optional-排查依赖"><a href="#optional-排查依赖" class="headerlink" title="optional 排查依赖"></a>optional 排查依赖</h2><p>如果你是包的开发者，你也可以使用 <code>optional </code> 标签标记依赖是否传递。</p>
+<p>上面刚才的问题，我们也可以直接在 <code>A:1.0</code> 中将设置 <code>C:1.0</code> 的依赖 <code>optional=true</code>，阻断依赖的传递。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.xiaoyu<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>C<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">optional</span>&gt;</span>true<span class="tag">&lt;/<span class="name">optional</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
 
     </div>
 
@@ -394,14 +403,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">120k</span>
+    <span title="站点总字数">121k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">5:01</span>
+    <span title="站点阅读时长">5:02</span>
   </span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
