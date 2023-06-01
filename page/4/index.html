@@ -24,7 +24,7 @@
 <meta name="description" content="分享技术与生活">
 <meta property="og:type" content="website">
 <meta property="og:title" content="xiaoyu">
-<meta property="og:url" content="https://771592594.github.io/xiaoyu/tags/Mybatis/index.html">
+<meta property="og:url" content="https://771592594.github.io/xiaoyu/page/4/index.html">
 <meta property="og:site_name" content="xiaoyu">
 <meta property="og:description" content="分享技术与生活">
 <meta property="og:locale" content="zh_CN">
@@ -33,14 +33,14 @@
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://771592594.github.io/xiaoyu/tags/Mybatis/">
+<link rel="canonical" href="https://771592594.github.io/xiaoyu/page/4/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:false,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:&quot;&quot;,&quot;permalink&quot;:&quot;&quot;,&quot;path&quot;:&quot;tags&#x2F;Mybatis&#x2F;index.html&quot;,&quot;title&quot;:&quot;&quot;}</script>
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:true,&quot;isPost&quot;:false,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:&quot;&quot;,&quot;permalink&quot;:&quot;&quot;,&quot;path&quot;:&quot;page&#x2F;4&#x2F;index.html&quot;,&quot;title&quot;:&quot;&quot;}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
-<title>标签: Mybatis | xiaoyu</title>
+<title>xiaoyu</title>
   
 
 
@@ -188,50 +188,116 @@
 </noscript>
 
 
-    <div class="main-inner tag posts-collapse">
+    <div class="main-inner index posts-expand">
+
+    
 
 
+<div class="post-block">
   
   
-  
-  <div class="post-block">
-    <div class="post-content">
-      <div class="collection-title">
-        <h2 class="collection-header">Mybatis
-          <small>标签</small>
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://771592594.github.io/xiaoyu/2021/06/12/Java-%E7%BA%BF%E7%A8%8B%E6%B1%A0%E8%AF%A6%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/xiaoyu/images/avatar.png">
+      <meta itemprop="name" content="xiaoyu">
+      <meta itemprop="description" content="分享技术与生活">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiaoyu">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/xiaoyu/2021/06/12/Java-%E7%BA%BF%E7%A8%8B%E6%B1%A0%E8%AF%A6%E8%A7%A3/" class="post-title-link" itemprop="url">Java-线程池详解</a>
         </h2>
-      </div>
 
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-06-12 08:38:09" itemprop="dateCreated datePublished" datetime="2021-06-12T08:38:09+08:00">2021-06-12</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2022-07-13 22:28:38" itemprop="dateModified" datetime="2022-07-13T22:28:38+08:00">2022-07-13</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/xiaoyu/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" itemprop="url" rel="index"><span itemprop="name">技术分享</span></a>
+        </span>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>7.7k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>19 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="为什么使用线程池"><a href="#为什么使用线程池" class="headerlink" title="为什么使用线程池"></a>为什么使用线程池</h1><p>线程是一种贵重的系统资源，每次创建和销毁都需要较大的开销，如果不对线程进行统一的管理，程序的效率和稳定性都会由很大的影响。</p>
+<p>下面看一个案例，在这个案例中用户每次请求都会创建一个线程来处理任务。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/threadTest&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">threadTest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">new</span> Thread(() -&gt; System.out.println(<span class="string">&quot;处理任务&quot;</span>)).start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/xiaoyu/2021/06/12/Java-%E7%BA%BF%E7%A8%8B%E6%B1%A0%E8%AF%A6%E8%A7%A3/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
-    <div class="collection-year">
-      <span class="collection-header">2022</span>
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2022-01-19T13:11:57+08:00"
-              content="2022-01-19">
-          01-19
-        </time>
-      </div>
+    
+    
+    
 
-      <div class="post-title">
-          <a class="post-title-link" href="/xiaoyu/2022/01/19/Mybatis-%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6%E4%B8%AD%E7%9A%84%E8%A3%85%E9%A5%B0%E5%99%A8/" itemprop="url">
-            <span itemprop="name">Mybatis-缓存机制中的装饰器</span>
-          </a>
-      </div>
-
+    <footer class="post-footer">
+        <div class="post-eof"></div>
       
-    </header>
+    </footer>
   </article>
+</div>
 
-    </div>
-  </div>
-  
-  
-  
+
+
+
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/xiaoyu/page/3/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/xiaoyu/">1</a><span class="space">&hellip;</span><a class="page-number" href="/xiaoyu/page/3/">3</a><span class="page-number current">4</span>
+  </nav>
 
 </div>
   </main>
