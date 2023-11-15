@@ -21,28 +21,30 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
 
 <script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;771592594.github.io&quot;,&quot;root&quot;:&quot;&#x2F;xiaoyu&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;xiaoyu&#x2F;images&quot;,&quot;scheme&quot;:&quot;Gemini&quot;,&quot;version&quot;:&quot;8.5.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;width&quot;:300,&quot;display&quot;:&quot;always&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:true,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:true,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;}}</script><script src="/xiaoyu/js/config.js"></script>
-<meta name="description" content="前言2021年经历了很多事情，在这里做一个回顾和总结。（这篇年度总结本来是在今年过年的时候写的，但那时候光顾着玩，没想到拖延到了4月）   时间线">
+<meta name="description" content="如何在运行时获取泛型类型我们都知道Java的泛型是”伪泛型”，因为Java只会在编译时根据泛型对代码进行类型安全检查，而编译后代码中所有的泛型参数都会被擦除为Object。因此，即便声明了泛型，也无法使用T.class来获取泛型的类型（甚至无法通过编译）。 1234public static &lt;T&gt; T parse(String str) &amp;#123;    &#x2F;&#x2F; T.class 无法">
 <meta property="og:type" content="article">
-<meta property="og:title" content="2021年度总结">
-<meta property="og:url" content="https://771592594.github.io/xiaoyu/2022/04/10/2021%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:title" content="Java-如何在运行时获取泛型类型">
+<meta property="og:url" content="https://771592594.github.io/xiaoyu/2023/11/15/Java-%E5%A6%82%E4%BD%95%E5%9C%A8%E8%BF%90%E8%A1%8C%E6%97%B6%E8%8E%B7%E5%8F%96%E6%B3%9B%E5%9E%8B/index.html">
 <meta property="og:site_name" content="xiaoyu">
-<meta property="og:description" content="前言2021年经历了很多事情，在这里做一个回顾和总结。（这篇年度总结本来是在今年过年的时候写的，但那时候光顾着玩，没想到拖延到了4月）   时间线">
+<meta property="og:description" content="如何在运行时获取泛型类型我们都知道Java的泛型是”伪泛型”，因为Java只会在编译时根据泛型对代码进行类型安全检查，而编译后代码中所有的泛型参数都会被擦除为Object。因此，即便声明了泛型，也无法使用T.class来获取泛型的类型（甚至无法通过编译）。 1234public static &lt;T&gt; T parse(String str) &amp;#123;    &#x2F;&#x2F; T.class 无法">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-04-10T10:54:13.000Z">
-<meta property="article:modified_time" content="2022-04-29T11:28:51.261Z">
+<meta property="article:published_time" content="2023-11-15T13:28:27.000Z">
+<meta property="article:modified_time" content="2023-11-15T14:29:04.674Z">
 <meta property="article:author" content="xiaoyu">
-<meta property="article:tag" content="年度总结">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Kotlin">
+<meta property="article:tag" content="泛型">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://771592594.github.io/xiaoyu/2022/04/10/2021%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/">
+<link rel="canonical" href="https://771592594.github.io/xiaoyu/2023/11/15/Java-%E5%A6%82%E4%BD%95%E5%9C%A8%E8%BF%90%E8%A1%8C%E6%97%B6%E8%8E%B7%E5%8F%96%E6%B3%9B%E5%9E%8B/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;771592594.github.io&#x2F;xiaoyu&#x2F;2022&#x2F;04&#x2F;10&#x2F;2021%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93&#x2F;&quot;,&quot;path&quot;:&quot;2022&#x2F;04&#x2F;10&#x2F;2021年度总结&#x2F;&quot;,&quot;title&quot;:&quot;2021年度总结&quot;}</script>
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;771592594.github.io&#x2F;xiaoyu&#x2F;2023&#x2F;11&#x2F;15&#x2F;Java-%E5%A6%82%E4%BD%95%E5%9C%A8%E8%BF%90%E8%A1%8C%E6%97%B6%E8%8E%B7%E5%8F%96%E6%B3%9B%E5%9E%8B&#x2F;&quot;,&quot;path&quot;:&quot;2023&#x2F;11&#x2F;15&#x2F;Java-如何在运行时获取泛型&#x2F;&quot;,&quot;title&quot;:&quot;Java-如何在运行时获取泛型类型&quot;}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
-<title>2021年度总结 | xiaoyu</title>
+<title>Java-如何在运行时获取泛型类型 | xiaoyu</title>
   
 
 
@@ -122,7 +124,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E7%BA%BF"><span class="nav-number">2.</span> <span class="nav-text">时间线</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E6%9C%88"><span class="nav-number">2.1.</span> <span class="nav-text">2月</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5%E6%9C%88"><span class="nav-number">2.2.</span> <span class="nav-text">5月</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6%E6%9C%88"><span class="nav-number">2.3.</span> <span class="nav-text">6月</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10%E6%9C%88"><span class="nav-number">2.4.</span> <span class="nav-text">10月</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%9C%A8%E8%BF%90%E8%A1%8C%E6%97%B6%E8%8E%B7%E5%8F%96%E6%B3%9B%E5%9E%8B%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">如何在运行时获取泛型类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E5%8F%82%E6%95%B0%E4%BC%A0%E5%85%A5%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.1.</span> <span class="nav-text">通过参数传入类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8E%E5%AD%90%E7%B1%BB%E8%8E%B7%E5%8F%96%E7%88%B6%E7%B1%BB%E7%9A%84%E6%B3%9B%E5%9E%8B%E5%8F%82%E6%95%B0"><span class="nav-number">1.2.</span> <span class="nav-text">从子类获取父类的泛型参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#kotlin%E5%86%85%E8%81%94%E6%96%B9%E6%B3%95%E8%8E%B7%E5%8F%96%E6%B3%9B%E5%9E%8B"><span class="nav-number">1.3.</span> <span class="nav-text">kotlin内联方法获取泛型</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -202,7 +204,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://771592594.github.io/xiaoyu/2022/04/10/2021%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/">
+    <link itemprop="mainEntityOfPage" href="https://771592594.github.io/xiaoyu/2023/11/15/Java-%E5%A6%82%E4%BD%95%E5%9C%A8%E8%BF%90%E8%A1%8C%E6%97%B6%E8%8E%B7%E5%8F%96%E6%B3%9B%E5%9E%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/xiaoyu/images/avatar.png">
@@ -215,7 +217,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          2021年度总结
+          Java-如何在运行时获取泛型类型
         </h1>
 
         <div class="post-meta-container">
@@ -225,23 +227,17 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2022-04-10 18:54:13" itemprop="dateCreated datePublished" datetime="2022-04-10T18:54:13+08:00">2022-04-10</time>
+      <time title="创建时间：2023-11-15 21:28:27 / 修改时间：22:29:04" itemprop="dateCreated datePublished" datetime="2023-11-15T21:28:27+08:00">2023-11-15</time>
     </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2022-04-29 19:28:51" itemprop="dateModified" datetime="2022-04-29T19:28:51+08:00">2022-04-29</time>
-      </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/xiaoyu/categories/%E7%94%9F%E6%B4%BB%E5%88%86%E4%BA%AB/" itemprop="url" rel="index"><span itemprop="name">生活分享</span></a>
+          <a href="/xiaoyu/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" itemprop="url" rel="index"><span itemprop="name">技术分享</span></a>
         </span>
     </span>
 
@@ -253,14 +249,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>1.5k</span>
+      <span>2k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>4 分钟</span>
+      <span>5 分钟</span>
     </span>
 </div>
 
@@ -271,61 +267,30 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>2021年经历了很多事情，在这里做一个回顾和总结。（这篇年度总结本来是在今年过年的时候写的，但那时候光顾着玩，没想到拖延到了4月）</p>
-<span id="more"></span>
+        <h1 id="如何在运行时获取泛型类型"><a href="#如何在运行时获取泛型类型" class="headerlink" title="如何在运行时获取泛型类型"></a>如何在运行时获取泛型类型</h1><p>我们都知道Java的泛型是”伪泛型”，因为Java只会在编译时根据泛型对代码进行类型安全检查，而编译后代码中所有的泛型参数都会被擦除为Object。因此，即便声明了泛型<T>，也无法使用T.class来获取泛型的类型（甚至无法通过编译）。</T></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">T <span class="title">parse</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// T.class 无法通过编译</span></span><br><span class="line">    <span class="keyword">return</span> JSON.parseObject(str, T.class);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h1 id="时间线"><a href="#时间线" class="headerlink" title="时间线"></a>时间线</h1><h2 id="2月"><a href="#2月" class="headerlink" title="2月"></a>2月</h2><p><strong>从拱墅区的黄龙金茂悦小区搬家到西湖区的益乐新村南区</strong></p>
-<blockquote>
-<p>由于室友离开了，整租的房子只能违约中止合同了，赔了1.5个月的房租。</p>
-<p>58同城真是初生，看房子全是中介，收我500的中介费还给我介绍个城中村，住得我差点抑郁了。</p>
-<p>8平方米的房间，睡觉时脚都伸不直的，每天回家都像坐牢。我周末宁愿去公司，都不愿意呆在家里。</p>
-<p>为数不多的优点是：离公司近，20min通勤；相对便宜的房租(1K)；便利的交通，出门就是丰潭路地铁和公交车站</p>
-<p>但是让我选一次，我宁愿多花点钱也住个舒服的房子</p>
-</blockquote>
-<h2 id="5月"><a href="#5月" class="headerlink" title="5月"></a>5月</h2><p><strong>结束在杭州校宝在线的实习</strong></p>
-<blockquote>
-<p>虽然老大给我留了转正的坑位，但我还是选择离开实习了半年的公司。原因有3点：</p>
-<p>一. 压抑的生活。当初跟我一起来的实习生（包括我的室友）都走了，我在公司里没有能说话的人（部门的同事比我大了一圈，没啥共同语言），感觉非常的孤独。加上牢房般的出租屋，让我每天都过得暗无天日</p>
-<p>二. 有限的成长。当时做的项目是一个内部的运营系统，几乎全是CRUD的活，很难学到东西。实习期间虽然有安排导师，但是导师和我做的不是同一个业务，我们之间很少沟通。当然最大的问题还是我不够积极主动。虽然导师不太可能给我业务上的指导，但可以帮我做 code view，做好代码规范。</p>
-<p>三. 也许有更好的。之前离职的室友后来进来大厂月薪上万，而我被老大压了薪资，没有达到期望的薪资。于是，想要出去试试，看看能不能找到待遇更好的 工作。</p>
-</blockquote>
-<h2 id="6月"><a href="#6月" class="headerlink" title="6月"></a>6月</h2><p><strong>入职杭州宇泛智能</strong></p>
-<blockquote>
-<p>从校宝离职后，我找了1星期多的工作，只收到了一些小公司的offer，大公司连面试都不给。待遇也都比上家差，有些甚至还是单双休。找工作找得我快怀疑人生了。后来面了宇泛智能，面试官感觉不错（因为前面遇到的面试官甚至让我感觉不到的尊重），给的offer薪资与上家相同，我也累了，就选择入职了。</p>
-<p>公司是做物联网AIOT的，主打产品的考勤机/门禁和配套的Sass平台。</p>
-<p>我所在的部门是智慧工地部门，主要的工作是跟客户当地的监管部门做对接，将考勤数据上报到监管的平台。</p>
-<p>这份工作还是比较轻松的，我每天到点就跑了。</p>
-</blockquote>
-<p><strong>搬家到余杭区</strong></p>
-<blockquote>
-<p>离开了城中村后，就好像刑满释放了一般。</p>
-<p>这次不再吝啬，选择余杭万达附件的房租1900/月的公寓。有厨房/独卫/大床的20多平米大房间，住的确实舒服。</p>
-</blockquote>
-<p><strong>绍兴文理学院毕业</strong></p>
-<blockquote>
-<p>没有大多的实感，好像来过又好像没有来过。</p>
-<p>大学四年基本上是一个人窝在宿舍里开黑，虽然成绩还可以，也拿到过几次奖学金，但感觉少了点什么。</p>
-<p>也许是一段社团活动的经历，也许是跟小女友热恋的甜蜜，也许是参加竞赛的奋斗，也许是跟舍友欢乐的日常。</p>
-<p>我本可以做的更多，留下一些的美好回忆。我偶尔去想：如果选择做某件事，现在的我会不会更好。</p>
-<p>不过往事已成定局，最重要的是现在和未来。</p>
-</blockquote>
-<h2 id="10月"><a href="#10月" class="headerlink" title="10月"></a>10月</h2><p><strong>试用期通过，转正成功</strong></p>
-<blockquote>
-<p>虽然转正答辩之前非常的紧张害怕，ppt改了又改，但实际还是很顺利的，感觉只是走个过场罢了。</p>
-</blockquote>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>今年在租房上交了很多学费，买了3个教训：</p>
-<ol>
-<li>在外工作租房非常重要，宁愿多掏点钱也别住得糟心（远离58同城）。</li>
-<li>签合同的时候注意违约金，提前退租是要付违约金的。</li>
-<li>如果室友不稳定，选择合租，不要选择整租。</li>
-</ol>
-<p>对于初入职场的人，工作上要注意：</p>
-<ol>
-<li>跟同事搞好关系，如果公司里连个说话的人都没有，上班跟上坟没什么区别</li>
-<li>尽量去大点的平台，双休都没有的小公司线下面试都没有必要去</li>
-<li>对于应届生来说，学历和八股文才是面试最重要的东西</li>
-<li>试用期答辩只是一个形式，结果在一开始就定好了</li>
-</ol>
+<p>但是在一些场景中，我们需要知道运行时的泛型参数的类型，该怎么做呢？</p>
+<p>下面以反序列化的场景为例，介绍运行时如何获取泛型类型的几种方法：</p>
+<h2 id="通过参数传入类型"><a href="#通过参数传入类型" class="headerlink" title="通过参数传入类型"></a>通过参数传入类型</h2><p>最简单的方式是通过参数传入泛型的类型。在下面的例子，我想通过fastjson将JSON字符串反序列化为对象，只需要将对象的类型通过参数传递给反序列化方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">T <span class="title">deserialize</span><span class="params">(String str, Class&lt;T&gt; clazz)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> JSON.parseObject(str, clazz);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Integer a = deserialize(<span class="string">&quot;1&quot;</span>, Integer.class);</span><br></pre></td></tr></table></figure>
+
+<p>虽然这种方法可以达到获取泛型的效果，但存在着一个限制：无法获取到嵌套的泛型的类型</p>
+<p>例如：我想将字符串反序列化为 <code>DataWrapper&lt;String&gt;</code> 对象，凭感觉写出来的代码应该是这样的，但是这段代码无法通过编译。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DataWrapper</span>&lt;<span class="type">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> T <span class="keyword">data</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">DataWrapper&lt;String&gt; result = deserialize(<span class="string">&quot;&#123;&#125;&quot;</span>, DataWrapper&lt;String&gt;.<span class="keyword">class</span>);  <span class="comment">// 编译失败</span></span><br></pre></td></tr></table></figure>
+
+<p>这是因为 <code>DataWrapper</code> 是一个 class，但是 <code>DataWrapper&lt;String&gt;</code> 并不是。因此这种方法无法解决嵌套泛型的反序列化问题。</p>
+<h2 id="从子类获取父类的泛型参数"><a href="#从子类获取父类的泛型参数" class="headerlink" title="从子类获取父类的泛型参数"></a>从子类获取父类的泛型参数</h2><p>那么还有其他的方式能获取嵌套的类型信息呢？当然有了，那就是利用继承机制从子类获取父类的泛型参数（Fastjosn，Jackson等反序列化库都是通过这种方式实现的）</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TypeReference</span>&lt;<span class="type">T</span>&gt;</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> &lt;T&gt; T deserialize(String str, TypeReference&lt;T&gt; typeReference) &#123;</span><br><span class="line">    Type superclass = typeReference.getClass().getGenericSuperclass();</span><br><span class="line">    ParameterizedType parameterizedType = (ParameterizedType) superclass;</span><br><span class="line">    <span class="keyword">return</span> JSON.parseObject(str, parameterizedType.getActualTypeArguments()[<span class="number">0</span>]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">TypeReference&lt;DataWrapper&lt;String&gt;&gt; typeReference = new TypeReference&lt;&gt;() &#123;&#125;;</span><br><span class="line">DataWrapper&lt;String&gt; result = deserialize(<span class="string">&quot;&#123;&#125;&quot;</span>, typeReference);</span><br></pre></td></tr></table></figure>
+
+<p>泛型类型擦除后，为什么使用这种方式能够在运行时获取泛型参数的类型呢？</p>
+<p>其实泛型类型擦除并不是真的将全部的类型信息都擦除，类型信息还是放在对应class的常量池中的。</p>
+<p>TODO</p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/937933/where-are-generic-types-stored-in-java-class-files/937999#937999">https://stackoverflow.com/questions/937933/where-are-generic-types-stored-in-java-class-files/937999#937999</a></p>
+<h2 id="kotlin内联方法获取泛型"><a href="#kotlin内联方法获取泛型" class="headerlink" title="kotlin内联方法获取泛型"></a>kotlin内联方法获取泛型</h2><p>在kotlin中还可以使用 inline 和 reified 关键字定义内联方法来获取泛型，代码如下：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">inline</span> <span class="function"><span class="keyword">fun</span> <span class="type">&lt;<span class="keyword">reified</span> T&gt;</span> <span class="title">deserialize</span><span class="params">(str: <span class="type">String</span>)</span></span>: T? &#123;</span><br><span class="line">    <span class="keyword">return</span> JSON.parseObject(str, T::<span class="keyword">class</span>.java);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> result: List&lt;<span class="built_in">Int</span>&gt;? = deserialize(<span class="string">&quot;[1,2,3]&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>这种方式声明的方法，会在编译时会将具体的类型插入到相应的字节码中替换掉 <code>T::class.java</code>，因此可以在运行时直接获取到参数对应的类型。</p>
 
     </div>
 
@@ -353,21 +318,20 @@
 </div>
 
           <div class="post-tags">
-              <a href="/xiaoyu/tags/%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/" rel="tag"><i class="fa fa-tag"></i> 年度总结</a>
+              <a href="/xiaoyu/tags/Java/" rel="tag"><i class="fa fa-tag"></i> Java</a>
+              <a href="/xiaoyu/tags/Kotlin/" rel="tag"><i class="fa fa-tag"></i> Kotlin</a>
+              <a href="/xiaoyu/tags/%E6%B3%9B%E5%9E%8B/" rel="tag"><i class="fa fa-tag"></i> 泛型</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/xiaoyu/2022/04/07/%E7%AE%97%E6%B3%95-%E6%A1%B6%E6%8E%92%E5%BA%8F/" rel="prev" title="算法-桶排序">
-                  <i class="fa fa-chevron-left"></i> 算法-桶排序
+                <a href="/xiaoyu/2023/10/18/Maven-(%E4%B8%80)%E9%87%8D%E6%96%B0%E8%AE%A4%E8%AF%86Maven/" rel="prev" title="Maven-(一)重新认识Maven">
+                  <i class="fa fa-chevron-left"></i> Maven-(一)重新认识Maven
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/xiaoyu/2022/04/17/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-B+%E6%A0%91/" rel="next" title="数据结构-B+树">
-                  数据结构-B+树 <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>
