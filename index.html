@@ -223,7 +223,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2023-11-15 21:28:27 / 修改时间：22:29:04" itemprop="dateCreated datePublished" datetime="2023-11-15T21:28:27+08:00">2023-11-15</time>
+      <time title="创建时间：2023-11-15 21:28:27 / 修改时间：22:39:26" itemprop="dateCreated datePublished" datetime="2023-11-15T21:28:27+08:00">2023-11-15</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -243,7 +243,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>2k</span>
+      <span>2.2k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -261,7 +261,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="如何在运行时获取泛型类型"><a href="#如何在运行时获取泛型类型" class="headerlink" title="如何在运行时获取泛型类型"></a>如何在运行时获取泛型类型</h1><p>我们都知道Java的泛型是”伪泛型”，因为Java只会在编译时根据泛型对代码进行类型安全检查，而编译后代码中所有的泛型参数都会被擦除为Object。因此，即便声明了泛型<t>，也无法使用T.class来获取泛型的类型（甚至无法通过编译）。</t></p>
+          <h1 id="如何在运行时获取泛型类型"><a href="#如何在运行时获取泛型类型" class="headerlink" title="如何在运行时获取泛型类型"></a>如何在运行时获取泛型类型</h1><p>我们都知道Java的泛型是”伪泛型”，因为Java只会在编译时根据泛型对代码进行类型安全检查，而编译后代码中所有的泛型参数都会被擦除为Object。因此，即便声明了泛型<t>，也无法使用 <code>T.class</code> 来获取泛型的类型（甚至无法通过编译）。</t></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">T <span class="title">parse</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// T.class 无法通过编译</span></span><br><span class="line">    <span class="keyword">return</span> JSON.parseObject(str, T.class);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>但是在一些场景中，我们需要知道运行时的泛型参数的类型，该怎么做呢？</p>
